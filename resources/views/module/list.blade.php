@@ -2,7 +2,7 @@
 @extends('layouts.mainLayout')
 
 {{-- Change Title --}}
-@section('title', 'UserRoleMapper | Role List')
+@section('title', 'UserRoleMapper | Module List')
 
 {{-- Content Start --}}
 @section('content')
@@ -14,13 +14,13 @@
             <nav class="page-breadcrumb mb-2 mb-md-0">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">List Role</li>
+                    <li class="breadcrumb-item active" aria-current="page">List Module</li>
                 </ol>
             </nav>
             <div class="d-flex align-items-center flex-wrap text-nowrap">
-                <a href="{{ route('role.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+                <a href="{{ route('module.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus"></i>
-                    Add Role
+                    Add Module
                 </a>
             </div>
         </div>
@@ -29,7 +29,7 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title">Role List</h6>
+                        <h6 class="card-title">Module List</h6>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
@@ -49,7 +49,7 @@
                                                 <input type="checkbox" class="form-check-input" id="formSwitch1">
                                             </div>
                                         </td>
-                                        <td><a href="{{ route('role.editForm') }}" type="button"
+                                        <td><a href="{{ route('module.editForm') }}" type="button"
                                                 class="btn btn-primary btn-icon">
                                                 <i data-feather="edit"></i>
                                             </a>
@@ -66,7 +66,7 @@
                                                 <input type="checkbox" class="form-check-input" id="formSwitch1">
                                             </div>
                                         </td>
-                                        <td><a href="{{ route('role.editForm') }}" type="button"
+                                        <td><a href="{{ route('module.editForm') }}" type="button"
                                                 class="btn btn-primary btn-icon">
                                                 <i data-feather="edit"></i>
                                             </a>
@@ -83,7 +83,7 @@
                                                 <input type="checkbox" class="form-check-input" id="formSwitch1">
                                             </div>
                                         </td>
-                                        <td><a href="{{ route('role.editForm') }}" type="button"
+                                        <td><a href="{{ route('module.editForm') }}" type="button"
                                                 class="btn btn-primary btn-icon">
                                                 <i data-feather="edit"></i>
                                             </a>
@@ -100,7 +100,7 @@
                                                 <input type="checkbox" class="form-check-input" id="formSwitch1">
                                             </div>
                                         </td>
-                                        <td><a href="{{ route('role.editForm') }}" type="button"
+                                        <td><a href="{{ route('module.editForm') }}" type="button"
                                                 class="btn btn-primary btn-icon">
                                                 <i data-feather="edit"></i>
                                             </a>
@@ -117,7 +117,7 @@
                                                 <input type="checkbox" class="form-check-input" id="formSwitch1">
                                             </div>
                                         </td>
-                                        <td><a href="{{ route('role.editForm') }}" type="button"
+                                        <td><a href="{{ route('module.editForm') }}" type="button"
                                                 class="btn btn-primary btn-icon">
                                                 <i data-feather="edit"></i>
                                             </a>
@@ -134,7 +134,7 @@
                                                 <input type="checkbox" class="form-check-input" id="formSwitch1">
                                             </div>
                                         </td>
-                                        <td><a href="{{ route('role.editForm') }}" type="button"
+                                        <td><a href="{{ route('module.editForm') }}" type="button"
                                                 class="btn btn-primary btn-icon">
                                                 <i data-feather="edit"></i>
                                             </a>

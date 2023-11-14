@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -58,6 +59,14 @@ Route::controller(PermissionController::class)->group(function () {
     Route::get('permissionList', 'list')->name('permission.list');
     Route::get('permissionAddForm', 'addForm')->name('permission.addForm');
     Route::get('permissionEditForm', 'editForm')->name('permission.editForm');
+
+});
+
+// Module Routes Group
+Route::controller(ModuleController::class)->group(function () {
+    Route::get('moduleList', 'list')->name('module.list');
+    Route::get('moduleAddForm', 'addForm')->name('module.addForm');
+    Route::get('moduleEditForm', 'editForm')->name('module.editForm');
 
 });
 
