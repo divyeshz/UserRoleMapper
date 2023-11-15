@@ -7,166 +7,44 @@
 {{-- Content Start --}}
 @section('content')
 
-    <div class="page-content">
-
-
-        <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-            <nav class="page-breadcrumb mb-2 mb-md-0">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">List Users</li>
-                </ol>
-            </nav>
-            <div class="d-flex align-items-center flex-wrap text-nowrap">
-                <a href="{{ route('user.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
-                    <i class="btn-icon-prepend" data-feather="user-plus"></i>
-                    Add User
-                </a>
-            </div>
+    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+        <nav class="page-breadcrumb mb-2 mb-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">List Users</li>
+            </ol>
+        </nav>
+        <div class="d-flex align-items-center flex-wrap text-nowrap">
+            <a href="{{ route('user.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+                <i class="btn-icon-prepend" data-feather="user-plus"></i>
+                Add User
+            </a>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="card-title">Users List</h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Type</th>
-                                        <th>Role(s)</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Demo</td>
-                                        <td>demo@gmail.com</td>
-                                        <td>User</td>
-                                        <td>User Role</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                            </div>
-                                        </td>
-                                        <td><a href="{{ route('user.editForm') }}" type="button"
-                                                class="btn btn-primary btn-icon">
-                                                <i data-feather="edit"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-danger btn-icon deleteUser">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Demo</td>
-                                        <td>demo@gmail.com</td>
-                                        <td>User</td>
-                                        <td>User Role</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                            </div>
-                                        </td>
-                                        <td><button type="button" class="btn btn-primary btn-icon">
-                                                <i data-feather="edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-icon">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Demo</td>
-                                        <td>demo@gmail.com</td>
-                                        <td>User</td>
-                                        <td>User Role</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                            </div>
-                                        </td>
-                                        <td><button type="button" class="btn btn-primary btn-icon">
-                                                <i data-feather="edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-icon">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Demo</td>
-                                        <td>demo@gmail.com</td>
-                                        <td>User</td>
-                                        <td>User Role</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                            </div>
-                                        </td>
-                                        <td><button type="button" class="btn btn-primary btn-icon">
-                                                <i data-feather="edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-icon">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Demo</td>
-                                        <td>demo@gmail.com</td>
-                                        <td>User</td>
-                                        <td>User Role</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                            </div>
-                                        </td>
-                                        <td><button type="button" class="btn btn-primary btn-icon">
-                                                <i data-feather="edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-icon">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Demo</td>
-                                        <td>demo@gmail.com</td>
-                                        <td>User</td>
-                                        <td>User Role</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                            </div>
-                                        </td>
-                                        <td><button type="button" class="btn btn-primary btn-icon">
-                                                <i data-feather="edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-icon">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Users List</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="userListTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Role(s)</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
 @endsection
@@ -174,6 +52,46 @@
 @section('jsContent')
     <script>
         $(document).ready(function() {
+
+
+            // make yajra Table
+            $('#userListTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('user.list') }}",
+                columns: [{
+                        data: '#',
+                        name: '#'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'email',
+                        name: 'email',
+                    },
+                    {
+                        data: 'type',
+                        name: 'type',
+                    },
+                    {
+                        data: 'roles',
+                        name: 'roles',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    },
+                ]
+            });
+
             $('.deleteUser').on('click', function() {
                 var recordId = $(this).data('record-id');
 

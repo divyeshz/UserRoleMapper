@@ -16,6 +16,7 @@
 
     <!-- core:css -->
     <link rel="stylesheet" href="{{ asset('assets/vendors/core/core.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <!-- endinject -->
 
     <!-- Plugin css for this page -->
@@ -27,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-tags-input/jquery.tagsinput.min.css') }}">
 
     {{-- sweetalert2 --}}
-    <link rel="stylesheet" href="{{ ('assets/vendors/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.css') }}">
     <!-- End plugin css for this page -->
 
     <!-- inject:css -->
@@ -49,7 +50,8 @@
             line-height: unset;
             width: 100%;
         }
-        span.star{
+
+        span.star {
             color: red;
         }
     </style>
@@ -68,9 +70,14 @@
         <!-- partial -->
 
         <div class="page-wrapper">
+            <div class="page-content">
 
-            @yield('content')
+                {{-- include Flash Message --}}
+                @includeIf('components.flash')
 
+                @yield('content')
+
+            </div>
             @includeIf('components.footer')
 
         </div>
@@ -82,7 +89,7 @@
 
     <!-- Plugin js for this page -->
     <script src="{{ asset('assets/vendors/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
-    <script src="{{ ('assets/js/tags-input.js') }}"></script>
+    <script src="{{ asset('assets/js/tags-input.js') }}"></script>
     <!-- End plugin js for this page -->
 
     <!-- inject:js -->
@@ -95,10 +102,16 @@
     <!-- End custom js for this page -->
 
     <!-- jquery-validation js -->
-    <script src="{{ ('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ ('assets/vendors/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     @yield('jsContent')
+
+    <script>
+        // hide alert-box
+        $("#alert-box").delay(2000).fadeOut();
+    </script>
 
 </body>
 

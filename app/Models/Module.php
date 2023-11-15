@@ -12,7 +12,7 @@ class Module extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
 
-    protected $fillable = ['module_code', 'name', 'is_active', 'is_in_menu', 'display_order', 'parent_id', 'created_by', 'updated_by', 'deleted_by', 'is_deleted'];
+    protected $fillable = ['code', 'name', 'is_active', 'is_in_menu', 'display_order', 'parent_id', 'created_by', 'updated_by', 'deleted_by', 'is_deleted'];
 
     protected static function booted()
     {

@@ -7,7 +7,9 @@
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item @if (Request::path() == 'userEditForm') active @endif">
+
+            {{-- User SideBar Link --}}
+            <li class="nav-item {{ (Request::is('user/create') || Request::is('user/list') || Request::is('user/edit/*')) ? 'active' : '' }}">
                 <a href="{{ route('user.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="menu-title">Users</span>
@@ -15,14 +17,14 @@
                 </a>
                 <div class="submenu">
                     <ul class="submenu-item">
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'userList') active @endif"
-                                href="{{ route('user.list') }}">List User</a></li>
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'userAddForm') active @endif"
-                                href="{{ route('user.addForm') }}">Add User</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('user/list') ? 'active' : '' }}" href="{{ route('user.list') }}">List User</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('user/create') ? 'active' : '' }}" href="{{ route('user.addForm') }}">Add User</a></li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item @if (Request::path() == 'roleEditForm') active @endif">
+
+            {{-- Role SideBar Link --}}
+            <li class="nav-item ">
                 <a href="{{ route('role.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="at-sign"></i>
                     <span class="menu-title">Role</span>
@@ -30,29 +32,32 @@
                 </a>
                 <div class="submenu">
                     <ul class="submenu-item">
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'roleList') active @endif"
-                                href="{{ route('role.list') }}">List Role</a></li>
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'roleAddForm') active @endif"
-                                href="{{ route('role.addForm') }}">Add Role</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('role.list') }}">List Role</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('role.addForm') }}">Add Role</a></li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item @if (Request::path() == 'permissionEditForm') active @endif">
+
+            {{-- Permission SideBar Link --}}
+            <li class="nav-item {{ (Request::is('permission/AddForm') || Request::is('permission/list')) ? 'active' : '' }}">
                 <a href="{{ route('permission.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="unlock"></i>
                     <span class="menu-title">Permission</span>
                     <i class="link-arrow"></i>
                 </a>
+
                 <div class="submenu">
                     <ul class="submenu-item">
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'permissionList') active @endif"
-                                href="{{ route('permission.list') }}">List Permission</a></li>
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'permissionAddForm') active @endif"
-                                href="{{ route('permission.addForm') }}">Add Permission</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('permission/list') ? 'active' : '' }}" href="{{ route('permission.list') }}">List
+                                Permission</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('permission/AddForm') ? 'active' : '' }}" href="{{ route('permission.addForm') }}">Add
+                                Permission</a></li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item @if (Request::path() == 'moduleEditForm') active @endif">
+
+            {{-- Module SideBar Link --}}
+            <li class="nav-item {{ (Request::is('module/create') || Request::is('module/list') || Request::is('module/edit/*')) ? 'active' : '' }}">
                 <a href="{{ route('module.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="menu-title">Module</span>
@@ -60,9 +65,9 @@
                 </a>
                 <div class="submenu">
                     <ul class="submenu-item">
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'permissionList') active @endif"
+                        <li class="nav-item"><a class="nav-link {{ Request::is('module/list') ? 'active' : '' }}"
                                 href="{{ route('module.list') }}">List Module</a></li>
-                        <li class="nav-item"><a class="nav-link @if (Request::path() == 'permissionAddForm') active @endif"
+                        <li class="nav-item"><a class="nav-link {{ Request::is('module/create') ? 'active' : '' }}"
                                 href="{{ route('module.addForm') }}">Add Module</a></li>
                     </ul>
                 </div>

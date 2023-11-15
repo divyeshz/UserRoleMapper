@@ -38,36 +38,41 @@ Route::controller(AuthController::class)->group(function () {
 // User Routes Group
 Route::controller(UserController::class)->group(function () {
     Route::get('profile', 'profile')->name('profile');
-    Route::get('userList', 'list')->name('user.list');
-    Route::get('userAddForm', 'addForm')->name('user.addForm');
-    Route::get('userEditForm', 'editForm')->name('user.editForm');
 
-
+    Route::prefix('user')->group(function () {
+        Route::get('list', 'index')->name('user.list');
+        Route::get('create', 'create')->name('user.addForm');
+        Route::post('store', 'store')->name('user.store');
+        Route::get('edit/{id?}', 'edit')->name('user.editForm');
+        Route::post('update/{id?}', 'update')->name('user.update');
+        Route::post('destroy/{id?}', 'destroy')->name('user.destroy');
+    });
 });
 
 // Role Routes Group
-Route::controller(RoleController::class)->group(function () {
-    Route::get('roleList', 'list')->name('role.list');
-    Route::get('roleAddForm', 'addForm')->name('role.addForm');
-    Route::get('roleEditForm', 'editForm')->name('role.editForm');
-
+Route::controller(RoleController::class)->prefix('role')->group(function () {
+    Route::get('List', 'list')->name('role.list');
+    Route::get('AddForm', 'addForm')->name('role.addForm');
+    Route::get('EditForm', 'editForm')->name('role.editForm');
 });
 
 
 // Permission Routes Group
-Route::controller(PermissionController::class)->group(function () {
-    Route::get('permissionList', 'list')->name('permission.list');
-    Route::get('permissionAddForm', 'addForm')->name('permission.addForm');
-    Route::get('permissionEditForm', 'editForm')->name('permission.editForm');
-
+Route::controller(PermissionController::class)->prefix('permission')->group(function () {
+    Route::get('list', 'list')->name('permission.list');
+    Route::get('AddForm', 'addForm')->name('permission.addForm');
+    Route::get('edit', 'editForm')->name('permission.editForm');
 });
 
 // Module Routes Group
-Route::controller(ModuleController::class)->group(function () {
-    Route::get('moduleList', 'list')->name('module.list');
-    Route::get('moduleAddForm', 'addForm')->name('module.addForm');
-    Route::get('moduleEditForm', 'editForm')->name('module.editForm');
-
+Route::controller(ModuleController::class)->prefix('module')->group(function () {
+    Route::get('list', 'index')->name('module.list');
+    Route::get('create', 'create')->name('module.addForm');
+    Route::post('store', 'store')->name('module.store');
+    Route::get('edit/{id?}', 'edit')->name('module.editForm');
+    Route::post('update/{id?}', 'update')->name('module.update');
+    Route::post('destroy/{id?}', 'destroy')->name('module.destroy');
+    Route::post('status', 'status')->name('module.status');
 });
 
 

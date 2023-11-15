@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->char('id', 36)->primary();
-            $table->string('module_code', 7);
+            $table->string('code', 7);
             $table->string('name', 64);
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->boolean('is_in_menu')->default(1)->comment('0:False,1:True');
