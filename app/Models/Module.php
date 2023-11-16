@@ -19,8 +19,8 @@ class Module extends Model
     {
         parent::booted();
 
-        static::creating(function ($user) {
-            $user->id = Str::uuid();
+        static::creating(function ($module) {
+            $module->id = Str::uuid();
         });
 
         static::deleting(function ($module) {

@@ -24,7 +24,7 @@
             </li>
 
             {{-- Role SideBar Link --}}
-            <li class="nav-item ">
+            <li class="nav-item {{ (Request::is('role/create') || Request::is('role/list') || Request::is('role/edit/*') || Request::is('role/show/*') ) ? 'active' : '' }}">
                 <a href="{{ route('role.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="at-sign"></i>
                     <span class="menu-title">Role</span>
@@ -32,8 +32,8 @@
                 </a>
                 <div class="submenu">
                     <ul class="submenu-item">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('role.list') }}">List Role</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('role.addForm') }}">Add Role</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('role/list') ? 'active' : '' }}" href="{{ route('role.list') }}">List Role</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('role/create') ? 'active' : '' }}" href="{{ route('role.addForm') }}">Add Role</a></li>
                     </ul>
                 </div>
             </li>

@@ -61,9 +61,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Role Routes Group
     Route::controller(RoleController::class)->prefix('role')->group(function () {
-        Route::get('List', 'list')->name('role.list');
-        Route::get('AddForm', 'addForm')->name('role.addForm');
-        Route::get('EditForm', 'editForm')->name('role.editForm');
+        Route::get('list', 'index')->name('role.list');
+        Route::get('create', 'create')->name('role.addForm');
+        Route::get('edit/{id?}', 'edit')->name('role.editForm');
     });
 
     // Permission Routes Group

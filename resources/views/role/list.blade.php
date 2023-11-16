@@ -26,9 +26,25 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Role List</h6>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+                        <div>
+                            <h6 class="card-title">Role List</h6>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap text-nowrap">
+                            <div class="row mb-3">
+                                <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" id="filter">
+                                        <option selected value="rl">Role List</option>
+                                        <option value="sdrl">Soft Deleted Role List</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="roleListTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -38,91 +54,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Demo</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                        </div>
-                                    </td>
-                                    <td><a href="{{ route('role.editForm') }}" type="button"
-                                            class="btn btn-primary btn-icon">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-icon deleteRole">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Demo</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                        </div>
-                                    </td>
-                                    <td><a href="{{ route('role.editForm') }}" type="button"
-                                            class="btn btn-primary btn-icon">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-icon deleteRole">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Demo</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                        </div>
-                                    </td>
-                                    <td><a href="{{ route('role.editForm') }}" type="button"
-                                            class="btn btn-primary btn-icon">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-icon deleteRole">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Demo</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                        </div>
-                                    </td>
-                                    <td><a href="{{ route('role.editForm') }}" type="button"
-                                            class="btn btn-primary btn-icon">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-icon deleteRole">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Demo</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                        </div>
-                                    </td>
-                                    <td><a href="{{ route('role.editForm') }}" type="button"
-                                            class="btn btn-primary btn-icon">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-icon deleteRole">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>1</td>
                                     <td>Demo</td>
@@ -153,6 +84,44 @@
 @section('jsContent')
     <script>
         $(document).ready(function() {
+
+            $('#filter').on('change', function() {
+                let filterValue = $(this).val(); // Get the selected filter value
+                refreshDataTable(filterValue);
+            });
+
+            // make yajra Table
+            let roleListTable = $('#roleListTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('role.list') }}",
+                    data: {
+                        filterName: 'rl'
+                    },
+                },
+                columns: [{
+                        data: '#',
+                        name: '#'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    },
+                ]
+            });
+
+
             $('.deleteRole').on('click', function() {
                 var recordId = $(this).data('record-id');
 
@@ -191,24 +160,42 @@
                         )
                     }
                 });
-
-
-
-                /* // Make Ajax request to delete record
-                $.ajax({
-                    url: '/delete-record/' + recordId,
-                    type: 'DELETE',
-                    success: function(response) {
-                        Swal.fire('Deleted!', response.success, 'success');
-                        // You can also remove the deleted record from the UI if needed
-                    },
-                    error: function(xhr) {
-                        Swal.fire('Error!', 'Unable to delete the record.',
-                            'error');
-                    }
-                }); */
-
             });
+
+            function refreshDataTable(filterName) {
+                roleListTable.destroy();
+
+                // Reinitialize DataTable based on the filterName
+                roleListTable = $('#roleListTable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('role.list') }}",
+                        data: {
+                            filterName: filterName
+                        },
+                    },
+                    columns: [{
+                            data: '#',
+                            name: '#'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name',
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false
+                        },
+                    ]
+                });
+            }
         });
     </script>
 
