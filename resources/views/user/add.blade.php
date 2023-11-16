@@ -23,7 +23,12 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Role</label>
-                            <input name="roles" class="form-control" id="tags" value="Admin,User"/>
+                            <select name="role[]" class="js-example-basic-multiple form-select" multiple="multiple"
+                                data-width="100%">
+                                @foreach ($role as $r)
+                                    <option value="{{ $r->id }}">{{ $r->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">First Name</label>

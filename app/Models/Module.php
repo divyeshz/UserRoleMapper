@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Module extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $primaryKey = 'id';
     public $incrementing = false;
 
@@ -20,6 +21,15 @@ class Module extends Model
 
         static::creating(function ($user) {
             $user->id = Str::uuid();
+        });
+
+        static::deleting(function ($module) {
+            $module->is_deleted = 1; // Update the is_deleted column
+            $module->save(); // Save the changes
+        });
+
+        static::restoring(function ($module) {
+            $module->is_deleted = 0; // Set is_deleted to 0 when restoring
         });
     }
 

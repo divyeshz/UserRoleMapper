@@ -36,6 +36,15 @@
                                 placeholder="Enter Display Order">
                         </div>
                         <div class="mb-3">
+                            <label for="exampleFormControlSelect1" class="form-label">Parent Module</label>
+                            <select class="form-select" name="parent_id" id="exampleFormControlSelect1">
+                                <option selected disabled>Select Parent Module</option>
+                                @foreach ($module as $m)
+                                    <option value="{{ $m->id }}">{{ $m->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <div class="form-check form-check-inline">
                                 <input type="checkbox" name="is_in_menu" class="form-check-input" id="is_in_menu"
                                     value="1">
@@ -44,7 +53,8 @@
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="is_active" class="form-check-input" value="1" id="is_active">
+                                <input type="checkbox" name="is_active" class="form-check-input" value="1"
+                                    id="is_active">
                                 <label class="form-check-label" for="is_active">
                                     Active
                                 </label>

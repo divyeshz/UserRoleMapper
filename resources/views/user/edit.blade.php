@@ -14,38 +14,46 @@
         </ol>
     </nav>
 
-    @foreach ($user as $u)
-        {{ $id = $u->id }}
-    @endforeach
-
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
 
-                    <form action="{{ route('user.update', $id) }}" id="addUserForm" method="post">
+                    <form action="{{ route('user.update', $user->id) }}" id="addUserForm" method="post">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Role</label>
-                            <input name="role" class="form-control" id="tags" value="{{ $user->name }}" />
+                            <select name="role[]" class="js-example-basic-multiple form-select" multiple="multiple"
+                                data-width="100%">
+                                @foreach ($role as $r)
+                                    <option {{ in_array($r->id, $pivotRoles) ? 'selected' : '' }} value="{{ $r->id }}">{{ $r->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
-                            <input type="text" class="form-control" value="Demo" name="fname"
+                            <input type="text" class="form-control" value="{{ $user->first_name }}" name="fname"
                                 placeholder="Enter first name">
                         </div>
                         <div class="mb-3">
                             <div class="mb-3">
                                 <label class="form-label">Last Name</label>
-                                <input type="text" class="form-control" value="User" name="lname"
+                                <input type="text" class="form-control" value="{{ $user->last_name }}" name="lname"
                                     placeholder="Enter last name">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email address</label>
-                            <input type="email" name="Email" value="demo@gmail.com" class="form-control"
+                            <input type="email" name="email" value="{{ $user->email }}" class="form-control"
                                 placeholder="Enter email">
                         </div>
+                        <div class="form-check mb-3">
+                            <input {{ $user->is_active == 1 ? 'checked' : '' }} type="checkbox" name="is_active" class="form-check-input" value="1" id="is_active">
+                            <label class="form-check-label" for="is_active">
+                                Active
+                            </label>
+                        </div>
+                        <input type="hidden" name="type" value="{{ $user->type }}">
                         <button type="submit" class="btn btn-primary me-2">Save</button>
                         <a href="{{ route('user.list') }}" class="btn btn-secondary">Cancel</a>
                     </form>

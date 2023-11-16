@@ -18,40 +18,79 @@ class UserController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = User::with('roles')->get();
-            return DataTables::of($data)
-                ->addColumn('#', function () {
-                    static $counter = 0;
-                    $counter++;
-                    return $counter;
-                })
-                ->addColumn('name', function ($row) {
-                    $name = $row->first_name . ' ' . $row->last_name;
-                    return $name;
-                })
-                ->addColumn('status', function ($row) {
-                    $checked = $row->is_active == 1 ? 'checked' : '';
-                    $activeBtn = '<div class="form-check form-switch">
+            $filterName = request()->input('filterName');
+            if ($filterName == 'ul') {
+                $data = User::with('roles')->get();
+                return DataTables::of($data)
+                    ->addColumn('#', function () {
+                        static $counter = 0;
+                        $counter++;
+                        return $counter;
+                    })
+                    ->addColumn('name', function ($row) {
+                        $name = $row->first_name . ' ' . $row->last_name;
+                        return $name;
+                    })
+                    ->addColumn('status', function ($row) {
+                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $activeBtn = '<div class="form-check form-switch">
                         <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active">
                     </div>';
-                    return $activeBtn;
-                })
-                ->addColumn('roles', function ($row) {
-                    return $row->roles->pluck('name')->implode(', ');
-                })
-                ->addColumn('action', function ($row) {
-                    $editRoute = route('user.editForm', $row->id);
-                    $deleteRoute = route('user.destroy', $row->id);
+                        return $activeBtn;
+                    })
+                    ->addColumn('roles', function ($row) {
+                        return $row->roles->pluck('name')->implode(', ');
+                    })
+                    ->addColumn('action', function ($row) {
+                        $editRoute = route('user.editForm', $row->id);
+                        $deleteRoute = route('user.destroy', $row->id);
 
-                    $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
+                        $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
                         <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
                         <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
                     </form>';
-                    return $actionBtn;
-                })
-                ->rawColumns(['action', 'status'])
-                ->make(true);
+                        return $actionBtn;
+                    })
+                    ->rawColumns(['action', 'status'])
+                    ->make(true);
+            }
+            if ($filterName == 'sdul') {
+                $data = User::with('roles')->withTrashed()->where('is_deleted', 1)->get();
+                return DataTables::of($data)
+                    ->addColumn('#', function () {
+                        static $counter = 0;
+                        $counter++;
+                        return $counter;
+                    })
+                    ->addColumn('name', function ($row) {
+                        $name = $row->first_name . ' ' . $row->last_name;
+                        return $name;
+                    })
+                    ->addColumn('status', function ($row) {
+                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $activeBtn = '<div class="form-check form-switch">
+                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active">
+                    </div>';
+                        return $activeBtn;
+                    })
+                    ->addColumn('roles', function ($row) {
+                        return $row->roles->pluck('name')->implode(', ');
+                    })
+                    ->addColumn('action', function ($row) {
+                        $restoreRoute = route('user.restore', $row->id);
+                        $deleteRoute = route('user.delete', $row->id);
+
+                        $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
+                            ' . csrf_field() . '
+                            <a href="' . $restoreRoute . '" type="button" class="btn btn-primary btn-sm">Restore</a>
+                            <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
+                        </form>';
+                        return $actionBtn;
+                    })
+                    ->rawColumns(['action', 'status'])
+                    ->make(true);
+            }
         }
         return view('user.list');
     }
@@ -61,7 +100,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.add');
+        $role = Role::all();
+        return view('user.add', compact('role'));
     }
 
     public function profile()
@@ -76,7 +116,7 @@ class UserController extends Controller
     {
         $save = false;
         $request->validate([
-            'roles'          => 'required',
+            'role'          => 'required',
             'fname'          => 'required|string',
         ]);
 
@@ -100,17 +140,9 @@ class UserController extends Controller
             'type'              => 'user',
         ]);
 
-        // Extract role names from the input
-        $roleNames = explode(',', $request->roles);
-
-        // Find roles by name and associate them with the user
-        foreach ($roleNames as $roleName) {
-            // Assuming 'name' is the column containing role names in the Role model
-            $role = Role::where('name', trim($roleName))->first();
-
-            if ($role) {
-                $User->roles()->attach($role->id);
-            }
+        if ($request->has('role')) {
+            $roles = $request->role;
+            $User->roles()->sync($roles);
             $save = true;
         }
 
@@ -132,16 +164,108 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::with('roles')->findOrFail($id);
-        return view('user.edit', compact('user'));
+        $pivotRoles = $user->roles->pluck('id')->toArray();
+        $role = Role::all();
+        return view('user.edit', compact('user', 'role', 'pivotRoles'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $save = false;
+        $request->validate([
+            'role'          => 'required',
+            'fname'          => 'required|string',
+        ]);
+
+        $fname = $request->fname;
+        $lname = $request->lname;
+        $email = $request->email;
+        $type = $request->type;
+        $is_active = $request->is_active != "" ? $request->is_active : 0;
+
+        $user = User::find($id);
+
+        // Update user details if needed
+        $user->update([
+            'first_name'        => $fname,
+            'last_name'         => $lname,
+            'email'             => $email,
+            'is_active'         => $is_active,
+            'type'              => $type,
+        ]);
+
+        if ($request->has('role')) {
+            $roles = $request->role;
+            $user->roles()->sync($roles);
+            $save = true;
+        }
+
+        if ($save) {
+            return redirect()->route('user.list')->with('success', 'Updated SuccessFully!!!');
+        } else {
+            return redirect()->route('user.addForm')->with('success', 'Updated Failed!!!');
+        }
     }
 
     public function destroy(string $id)
     {
-        //
+        // delete
+        $User = User::findOrFail($id);
+        if ($User) {
+            $User->delete();
+            $User->roles()->update(['role_user.deleted_at' => now(), 'role_user.is_deleted' => 1]);
+            return redirect()->route('user.list')->with('success', 'Soft Deleted SuccessFully!!!');
+        } else {
+            return redirect()->route('user.list')->with('error', 'Soft Deleted failed!!!');
+        }
+    }
+
+    public function delete($id)
+    {
+        $delete = User::withTrashed()->findOrFail($id);
+        if ($delete) {
+            $delete->forceDelete();
+            return redirect()->route('user.list')->with('success', 'Deleted SuccessFully!!!');
+        } else {
+            return redirect()->route('user.list')->with('error', 'Deleted failed!!!');
+        }
+    }
+
+    public function restore($id)
+    {
+        $restoredUser = User::withTrashed()->findOrFail($id);
+
+        if ($restoredUser ) {
+            $restoredUser->restore();
+            $userRoles = $restoredUser->roles()->withTrashed()->get();
+            foreach ($userRoles as $role) {
+                $restoredUser->roles()->attach($role->id);
+            }
+            return redirect()->route('module.list')->with('success', 'Restore SuccessFully!!!');
+        } else {
+            return redirect()->route('module.list')->with('error', 'Restore failed!!!');
+        }
+    }
+
+    public function status(Request $request)
+    {
+        $id = $request->id;
+        $is_active = $request->is_active;
+
+        $status = User::where('id', $id)->update([
+            'is_active'     => $is_active,
+        ]);
+        if ($status) {
+            $response = [
+                'status'    => '200',
+                'message'   => 'Status Updated SuccessFully!!!'
+            ];
+        } else {
+            $response = [
+                'status'    => '400',
+                'message'   => 'Status Updated Failed!!!'
+            ];
+        }
+        return json_encode($response);
     }
 }

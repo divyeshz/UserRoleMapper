@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Role;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +32,15 @@ class User extends Authenticatable
 
         static::creating(function ($user) {
             $user->id = Str::uuid();
+        });
+
+        static::deleting(function ($user) {
+            $user->is_deleted = 1; // Update the is_deleted column
+            $user->save(); // Save the changes
+        });
+
+        static::restoring(function ($user) {
+            $user->is_deleted = 0; // Set is_deleted to 0 when restoring
         });
     }
 

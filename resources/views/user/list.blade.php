@@ -26,7 +26,23 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Users List</h6>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+                        <div>
+                            <h6 class="card-title">Users List</h6>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap text-nowrap">
+                            <div class="row mb-3">
+                                <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" id="filter">
+                                        <option selected value="ul">User List</option>
+                                        <option value="sdul">Soft Deleted User List</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover" id="userListTable">
                             <thead>
@@ -53,12 +69,22 @@
     <script>
         $(document).ready(function() {
 
+            $('#filter').on('change', function() {
+                let filterValue = $(this).val(); // Get the selected filter value
+                refreshDataTable(filterValue);
+            });
+
 
             // make yajra Table
-            $('#userListTable').DataTable({
+            let userListTable = $('#userListTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('user.list') }}",
+                ajax: {
+                    url: "{{ route('user.list') }}",
+                    data: {
+                        filterName: 'ul'
+                    },
+                },
                 columns: [{
                         data: '#',
                         name: '#'
@@ -92,8 +118,27 @@
                 ]
             });
 
-            $('.deleteUser').on('click', function() {
-                var recordId = $(this).data('record-id');
+            // change is_active
+            $(document).on("click", ".switch_is_active", function() {
+                const id = $(this).attr('data-id');
+                let is_active = $(this).prop('checked') ? 1 : 0;
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        is_active: is_active,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    url: "{{ route('user.status') }}",
+                    success: function(response) {
+                        var userListTable = $('#userListTable').dataTable();
+                        userListTable.fnDraw(false);
+                    }
+                });
+            });
+
+            $(document).on("click", ".delete", function() {
+                const form = $(this).closest('.delete-form');
 
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
@@ -114,11 +159,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        )
+                        form.submit();
                     } else if (
                         // Read more about handling dismissals
                         result.dismiss === Swal.DismissReason.cancel
@@ -148,6 +189,53 @@
                 }); */
 
             });
+
+            function refreshDataTable(filterName) {
+                userListTable.destroy();
+
+                // Reinitialize DataTable based on the filterName
+                userListTable = $('#userListTable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('user.list') }}",
+                        data: {
+                            filterName: filterName
+                        },
+                    },
+                    columns: [{
+                        data: '#',
+                        name: '#'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'email',
+                        name: 'email',
+                    },
+                    {
+                        data: 'type',
+                        name: 'type',
+                    },
+                    {
+                        data: 'roles',
+                        name: 'roles',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    },
+                ]
+                });
+            }
         });
     </script>
 

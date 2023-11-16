@@ -29,7 +29,22 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Module List</h6>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+                        <div>
+                            <h6 class="card-title">Module List</h6>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap text-nowrap">
+                            <div class="row mb-3">
+                                <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" id="filter">
+                                        <option selected value="ml">Module List</option>
+                                        <option value="sdml">Soft Deleted Module List</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-hover" id="moduleListTable">
                             <thead>
@@ -55,11 +70,21 @@
     <script>
         $(document).ready(function() {
 
+            $('#filter').on('change', function() {
+                let filterValue = $(this).val(); // Get the selected filter value
+                refreshDataTable(filterValue);
+            });
+
             // make yajra Table
-            $('#moduleListTable').DataTable({
+            let moduleListTable = $('#moduleListTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('module.list') }}",
+                ajax: {
+                    url: "{{ route('module.list') }}",
+                    data: {
+                        filterName: 'ml'
+                    },
+                },
                 columns: [{
                         data: '#',
                         name: '#'
@@ -140,6 +165,45 @@
                     }
                 });
             });
+
+            function refreshDataTable(filterName) {
+                moduleListTable.destroy();
+
+                // Reinitialize DataTable based on the filterName
+                moduleListTable = $('#moduleListTable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('module.list') }}",
+                        data: {
+                            filterName: filterName
+                        },
+                    },
+                    columns: [{
+                            data: '#',
+                            name: '#'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name',
+                        },
+                        {
+                            data: 'display_order',
+                            name: 'display_order',
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false
+                        },
+                    ]
+                });
+            }
         });
     </script>
 

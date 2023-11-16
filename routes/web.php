@@ -46,6 +46,9 @@ Route::controller(UserController::class)->group(function () {
         Route::get('edit/{id?}', 'edit')->name('user.editForm');
         Route::post('update/{id?}', 'update')->name('user.update');
         Route::post('destroy/{id?}', 'destroy')->name('user.destroy');
+        Route::post('delete/{id?}', 'delete')->name('user.delete');
+        Route::get('restore/{id?}', 'restore')->name('user.restore');
+        Route::post('status', 'status')->name('user.status');
     });
 });
 
@@ -72,6 +75,8 @@ Route::controller(ModuleController::class)->prefix('module')->group(function () 
     Route::get('edit/{id?}', 'edit')->name('module.editForm');
     Route::post('update/{id?}', 'update')->name('module.update');
     Route::post('destroy/{id?}', 'destroy')->name('module.destroy');
+    Route::post('delete/{id?}', 'delete')->name('module.delete');
+    Route::get('restore/{id?}', 'restore')->name('module.restore');
     Route::post('status', 'status')->name('module.status');
 });
 
