@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
             'id' => '10c197af-5842-425f-aa80-334aa77afacf',
             'first_name' => 'Admin',
             'last_name' => 'User',
-            'email' => 'admin@example.com',
+            'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('123456'),
             'is_active' => 1,
