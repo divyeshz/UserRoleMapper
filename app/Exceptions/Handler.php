@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use ArgumentCountError;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -25,6 +28,18 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (MethodNotAllowedHttpException $e) {
+            return response()->view('pages.PageNotFound');
+        });
+
+        $this->renderable(function (NotFoundHttpException $e) {
+            return response()->view('pages.PageNotFound');
+        });
+
+        $this->renderable(function (ArgumentCountError $e) {
+            return response()->view('pages.PageNotFound');
         });
     }
 }
