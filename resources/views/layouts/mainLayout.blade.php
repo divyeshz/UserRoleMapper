@@ -107,6 +107,8 @@
     <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/select2/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.js') }}"></script>
+    <script src="{{ asset('assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     @yield('jsContent')

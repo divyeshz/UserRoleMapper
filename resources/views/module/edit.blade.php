@@ -41,23 +41,22 @@
                             <select class="form-select" name="parent_id" id="exampleFormControlSelect1">
                                 <option selected disabled>Select Parent Module</option>
                                 @foreach ($allModule as $m)
-                                    <option {{ $m->id == $module->parent_id ? 'selected' : '' }}  value="{{ $m->id }}">{{ $m->name }}</option>
+                                    <option {{ $m->id == $module->parent_id ? 'selected' : '' }}
+                                        value="{{ $m->id }}">{{ $m->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="is_in_menu"
-                                    @if ($module->is_in_menu) {{ 'checked' }} @endif class="form-check-input"
-                                    id="is_in_menu" value="1">
+                                <input type="checkbox" name="is_in_menu" {{ $module->is_in_menu == 1 ? 'checked' : '' }}
+                                    class="form-check-input" id="is_in_menu" value="1">
                                 <label class="form-check-label" for="is_in_menu">
                                     In Menu
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="is_active"
-                                    @if ($module->is_active) {{ 'checked' }} @endif class="form-check-input"
-                                    id="is_active" value="1">
+                                <input type="checkbox" name="is_active" {{ $module->is_active == 1 ? 'checked' : '' }}
+                                    class="form-check-input" id="is_active" value="1">
                                 <label class="form-check-label" for="is_active">
                                     Active
                                 </label>

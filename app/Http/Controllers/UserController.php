@@ -42,12 +42,14 @@ class UserController extends Controller
                         return $row->roles->pluck('name')->implode(', ');
                     })
                     ->addColumn('action', function ($row) {
+                        $viewRoute = route('user.show', $row->id);
                         $editRoute = route('user.editForm', $row->id);
                         $deleteRoute = route('user.destroy', $row->id);
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
                         <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
                         <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
                     </form>';
                         return $actionBtn;
@@ -155,7 +157,10 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        //
+        $user = User::with('roles')->findOrFail($id);
+        $pivotRoles = $user->roles->pluck('id')->toArray();
+        $role = Role::all();
+        return view('user.show', compact('user', 'role', 'pivotRoles'));
     }
 
     /**

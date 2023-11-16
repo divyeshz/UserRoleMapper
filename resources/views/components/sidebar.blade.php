@@ -9,7 +9,7 @@
             </li>
 
             {{-- User SideBar Link --}}
-            <li class="nav-item {{ (Request::is('user/create') || Request::is('user/list') || Request::is('user/edit/*')) ? 'active' : '' }}">
+            <li class="nav-item {{ (Request::is('user/create') || Request::is('user/list') || Request::is('user/edit/*') || Request::is('user/show/*') ) ? 'active' : '' }}">
                 <a href="{{ route('user.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="menu-title">Users</span>
@@ -57,7 +57,7 @@
             </li>
 
             {{-- Module SideBar Link --}}
-            <li class="nav-item {{ (Request::is('module/create') || Request::is('module/list') || Request::is('module/edit/*')) ? 'active' : '' }}">
+            <li class="nav-item {{ (Request::is('module/create') || Request::is('module/list') || Request::is('module/edit/*') || Request::is('module/show/*')) ? 'active' : '' }}">
                 <a href="{{ route('module.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="menu-title">Module</span>

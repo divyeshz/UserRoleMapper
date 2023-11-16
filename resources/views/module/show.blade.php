@@ -1,0 +1,91 @@
+{{-- Extends MainLayout --}}
+@extends('layouts.mainLayout')
+
+{{-- Change Title --}}
+@section('title', 'UserRoleMapper | Module Show')
+
+{{-- Content Start --}}
+@section('content')
+
+
+    <nav class="page-breadcrumb mb-2 mb-md-0">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Module</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name <span class="star">*</span> </label>
+                        <input type="text" class="form-control" readonly disabled value="{{ $module->name }}" name="name" placeholder="Enter Module name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Code <span class="star">*</span> </label>
+                        <input type="text" class="form-control" readonly disabled value="{{ $module->code }}" name="code" placeholder="Enter Module Code">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Display Order <span class="star">*</span> </label>
+                        <input type="number" class="form-control" readonly disabled value="{{ $module->display_order }}" name="display_order" placeholder="Enter Display Order">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlSelect1" class="form-label">Parent Module</label>
+                        <select class="form-select" readonly disabled name="parent_id" id="exampleFormControlSelect1">
+                            <option selected disabled>Select Parent Module</option>
+                            @foreach ($allModule as $m)
+                                <option {{ $m->id == $module->parent_id ? 'selected' : '' }} value="{{ $m->id }}">
+                                    {{ $m->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" name="is_in_menu" readonly disabled {{ $module->is_in_menu == 1 ? 'checked' : '' }} class="form-check-input" id="is_in_menu"
+                                value="1">
+                            <label class="form-check-label" for="is_in_menu">
+                                In Menu
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" name="is_active" readonly disabled {{ $module->is_active == 1 ? 'checked' : '' }} class="form-check-input" value="1" id="is_active">
+                            <label class="form-check-label" for="is_active">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                    <a href="{{ route('module.list') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('jsContent')
+    <script>
+        $(document).ready(function() {
+
+            $("#addModuleForm").validate({
+                rules: {
+                    name: "required",
+                    code: "required",
+                    display_order: {
+                        required: true,
+                        number: true
+                    },
+                },
+                messages: {
+                    name: "Please specify Module name",
+                    code: "Please specify Module Code",
+                    display_order: {
+                        required: "Please Enter Display Order",
+                        number: "Please enter numbers Only"
+                    }
+                }
+            });
+        });
+    </script>
+@endsection

@@ -43,6 +43,7 @@ Route::controller(UserController::class)->group(function () {
         Route::get('list', 'index')->name('user.list');
         Route::get('create', 'create')->name('user.addForm');
         Route::post('store', 'store')->name('user.store');
+        Route::get('show/{id?}', 'show')->name('user.show');
         Route::get('edit/{id?}', 'edit')->name('user.editForm');
         Route::post('update/{id?}', 'update')->name('user.update');
         Route::post('destroy/{id?}', 'destroy')->name('user.destroy');
@@ -72,6 +73,7 @@ Route::controller(ModuleController::class)->prefix('module')->group(function () 
     Route::get('list', 'index')->name('module.list');
     Route::get('create', 'create')->name('module.addForm');
     Route::post('store', 'store')->name('module.store');
+    Route::get('show/{id?}', 'show')->name('module.show');
     Route::get('edit/{id?}', 'edit')->name('module.editForm');
     Route::post('update/{id?}', 'update')->name('module.update');
     Route::post('destroy/{id?}', 'destroy')->name('module.destroy');

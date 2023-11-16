@@ -32,12 +32,14 @@ class ModuleController extends Controller
                         return $activeBtn;
                     })
                     ->addColumn('action', function ($row) {
+                        $viewRoute = route('module.show', $row->id);
                         $editRoute = route('module.editForm', $row->id);
                         $deleteRoute = route('module.destroy', $row->id);
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
                         <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
                         <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
                     </form>';
                         return $actionBtn;
@@ -133,7 +135,14 @@ class ModuleController extends Controller
      */
     public function show($id)
     {
-        //
+        $allModule = Module::where([
+            ['parent_id', null],
+            ['is_active', 1],
+            ['is_deleted', 0],
+            ['deleted_at', null],
+        ])->get();
+        $module = Module::findOrFail($id);
+        return view('module.show', compact('module', 'allModule'));
     }
 
     /**
