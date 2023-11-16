@@ -20,7 +20,8 @@
                         <div class="auth-form-wrapper px-4 py-5">
                             <a href="#" class="noble-ui-logo d-block mb-2">User&nbsp;Role&nbsp;<span>Mapper</span></a>
                             <h5 class="text-muted fw-normal mb-4">Create a free account.</h5>
-                            <form class="forms-sample" id="registerForm" method="post">
+                            <form class="forms-sample" action="{{ route('register') }}" id="registerForm" method="post">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="fname" class="form-label">First Name</label>
                                     <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
@@ -67,6 +68,7 @@
                 rules: {
                     fname: "required",
                     email: {
+                        required: true,
                         email: true,
                         endsWithCom: true
                     },
@@ -76,8 +78,9 @@
                     }
                 },
                 messages: {
-                    fname: "Please specify your First name",
+                    fname: "Please specify your first name",
                     email: {
+                        required: "Please provide a your email",
                         email: "Your email address must be in the format of name@domain.com",
                         endsWithCom: "Please enter a valid email address ending with .com."
                     },

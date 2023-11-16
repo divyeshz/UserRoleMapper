@@ -171,23 +171,6 @@
                         )
                     }
                 });
-
-
-
-                /* // Make Ajax request to delete record
-                $.ajax({
-                    url: '/delete-record/' + recordId,
-                    type: 'DELETE',
-                    success: function(response) {
-                        Swal.fire('Deleted!', response.success, 'success');
-                        // You can also remove the deleted record from the UI if needed
-                    },
-                    error: function(xhr) {
-                        Swal.fire('Error!', 'Unable to delete the record.',
-                            'error');
-                    }
-                }); */
-
             });
 
             function refreshDataTable(filterName) {

@@ -9,6 +9,8 @@
 
     <div class="row w-100 mx-0 auth-page">
         <div class="col-md-8 col-xl-6 mx-auto">
+            {{-- include Flash Message --}}
+            @includeIf('components.flash')
             <div class="card">
                 <div class="row">
                     <div class="col-md-4 pe-md-0">
@@ -22,7 +24,8 @@
                             <p class="text-muted fw-normal mb-3">We get it, stuff happens. Just enter your email address
                                 below
                                 and we'll send you a link to reset your password!</p>
-                            <form class="forms-sample" id="forgotPasswordForm" method="post">
+                            <form class="forms-sample" action="{{ route('forgotPassword') }}" id="forgotPasswordForm" method="post">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" name="email" id="email"

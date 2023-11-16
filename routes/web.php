@@ -24,13 +24,14 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'loginForm')->name('loginForm');
     Route::get('registration', 'registrationForm')->name('registrationForm');
     Route::get('forgotPassword', 'forgotPasswordForm')->name('forgotPasswordForm');
+    Route::post('forgotPassword', 'forgotPassword')->name('forgotPassword');
     Route::post('register', 'register')->name('register');
     Route::post('login', 'login')->name('login');
-    Route::post('forgotPassword', 'forgotPassword')->name('forgotPassword');
     Route::get('resetPassword/{token}', 'resetPasswordForm')->name('resetPasswordForm');
     Route::post('resetPassword', 'resetPassword')->name('resetPassword');
-
-    Route::get('logout', 'logout')->name('logout');
+    Route::get('loginChangePassword', 'loginChangePasswordFrom')->name('loginChangePasswordForm');
+    Route::post('loginChangePassword', 'loginChangePassword')->name('loginChangePassword');
+    Route::post('logout', 'logout')->name('logout');
     Route::get('changePassword', 'changePasswordForm')->name('changePasswordForm');
     Route::post('changePassword', 'changePassword')->name('changePassword');
 });

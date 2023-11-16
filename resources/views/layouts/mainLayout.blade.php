@@ -114,8 +114,47 @@
     @yield('jsContent')
 
     <script>
-        // hide alert-box
-        $("#alert-box").delay(2000).fadeOut();
+        $(document).ready(function() {
+            // hide alert-box
+            $("#alert-box").delay(3000).fadeOut();
+
+            $(document).on("click", "#logout", function() {
+                const form = $(this).closest('#logout-form');
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger me-2'
+                    },
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Ready to Leave?',
+                    text: "Select 'Logout' below if you are ready to end your current session.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'me-2',
+                    confirmButtonText: 'Yes, Logout!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        form.submit();
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your current session safe :)',
+                            'error'
+                        )
+                    }
+                });
+
+            });
+        });
     </script>
 
 </body>

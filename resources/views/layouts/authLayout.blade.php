@@ -26,13 +26,13 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <!-- endinject -->
 
-     <!-- Layout styles -->
-     <link rel="stylesheet" href="{{ asset('assets/css/demo3/style.css') }}">
-     <!-- End layout styles -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/demo3/style.css') }}">
+    <!-- End layout styles -->
 
-     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 
-     <style>
+    <style>
         form .error {
             color: red;
             font-size: 1rem;
@@ -49,6 +49,7 @@
             <div class="page-content d-flex align-items-center justify-content-center">
 
                 @yield('content')
+
 
             </div>
         </div>
@@ -74,7 +75,10 @@
     <!-- End custom js for this page -->
 
     @yield('jsContent')
-
+    <script>
+        // hide alert-box
+        $("#alert-box").delay(3000).fadeOut();
+    </script>
 </body>
 
 </html>

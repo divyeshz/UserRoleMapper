@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form class="forms-sample" id="changePasswordForm" method="post">
+                        <form class="forms-sample" action="{{ route('changePassword') }}" id="changePasswordForm" method="post">
                             {{-- Csrf --}}
                             @csrf
 
