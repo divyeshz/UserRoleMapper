@@ -122,8 +122,8 @@
             });
 
 
-            $('.deleteRole').on('click', function() {
-                var recordId = $(this).data('record-id');
+            $(document).on("click", ".delete", function() {
+                const form = $(this).closest('.delete-form');
 
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
@@ -144,11 +144,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        )
+                        form.submit();
                     } else if (
                         // Read more about handling dismissals
                         result.dismiss === Swal.DismissReason.cancel

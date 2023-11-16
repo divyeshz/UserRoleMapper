@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form class="" id="addRoleForm" method="post">
+                    <form class="" action="{{ route('role.store') }}" id="addRoleForm" method="post">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Name <span class="star">*</span> </label>
@@ -30,11 +30,17 @@
                             <textarea class="form-control" name="description" id="description" rows="5" placeholder="Enter Description"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Add Permission <span class="star">*</span> </label>
-                            <input class="form-control" name="permission" id="tags" />
+                            <label class="form-label">Permission <span class="star">*</span> </label>
+                            <select class="js-example-basic-multiple form-select" name="permission[]" multiple="multiple"
+                                data-width="100%">
+                                <option disabled>Select Permission</option>
+                                @foreach ($permission as $p)
+                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-check mb-3">
-                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active">
+                            <input type="checkbox" name="is_active" value="1" class="form-check-input" id="is_active">
                             <label class="form-check-label" for="is_active">
                                 Active
                             </label>
@@ -58,11 +64,13 @@
             $("#addRoleForm").validate({
                 rules: {
                     name: "required",
-                    description: "required"
+                    description: "required",
+                    permission: "required"
                 },
                 messages: {
                     name: "Please specify role name",
-                    description: "Please specify role description"
+                    description: "Please specify role description",
+                    permission: "Please Select permission"
                 }
             });
         });

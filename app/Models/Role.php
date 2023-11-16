@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,5 +32,12 @@ class Role extends Model
         static::restoring(function ($role) {
             $role->is_deleted = 0; // Set is_deleted to 0 when restoring
         });
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_role', 'role_id', 'permission_id')
+            ->withPivot('is_active')
+            ->withTimestamps();
     }
 }

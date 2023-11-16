@@ -19,23 +19,29 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form class="" id="editRoleForm" method="post">
+                    <form class="" action="{{ route('role.update', $role->id) }}" id="editRoleForm" method="post">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Name <span class="star">*</span> </label>
                             <input type="text" class="form-control" name="name" placeholder="Enter role name"
-                                value="Admin">
+                                value="{{ $role->name }}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Description <span class="star">*</span> </label>
-                            <textarea class="form-control" name="description" id="description" rows="5" placeholder="Enter Description">fgsdfgdsfgsg</textarea>
+                            <textarea class="form-control" name="description" id="description" rows="5" placeholder="Enter Description">{{ $role->description }}</textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Add Permission <span class="star">*</span> </label>
-                            <input class="form-control" name="permission" id="tags" value="All" />
+                            <label class="form-label">Permission <span class="star">*</span> </label>
+                            <select class="js-example-basic-multiple form-select" name="permission[]" multiple="multiple"
+                                data-width="100%">
+                                <option disabled>Select Permission</option>
+                                @foreach ($permission as $p)
+                                    <option {{ in_array($p->id, $pivotPermission) ? 'selected' : '' }} value="{{ $p->id }}">{{ $p->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-check mb-3">
-                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active">
+                            <input {{ $role->is_active == 1 ? 'checked' : '' }} value="1" type="checkbox" name="is_active" class="form-check-input" id="is_active">
                             <label class="form-check-label" for="is_active">
                                 Active
                             </label>

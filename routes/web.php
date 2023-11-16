@@ -63,7 +63,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::controller(RoleController::class)->prefix('role')->group(function () {
         Route::get('list', 'index')->name('role.list');
         Route::get('create', 'create')->name('role.addForm');
+        Route::post('store', 'store')->name('role.store');
+        Route::get('show/{id?}', 'show')->name('role.show');
         Route::get('edit/{id?}', 'edit')->name('role.editForm');
+        Route::post('update/{id?}', 'update')->name('role.update');
+        Route::post('destroy/{id?}', 'destroy')->name('role.destroy');
+        Route::post('delete/{id?}', 'delete')->name('role.delete');
+        Route::get('restore/{id?}', 'restore')->name('role.restore');
+        Route::post('status', 'status')->name('role.status');
     });
 
     // Permission Routes Group
