@@ -18,8 +18,8 @@
                                     alt="">
                             </div>
                             <div class="text-center">
-                                <p class="tx-16 fw-bolder">Amiah Burton</p>
-                                <p class="tx-12 text-muted">amiahburton@gmail.com</p>
+                                <p class="tx-16 fw-bolder">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+                                <p class="tx-12 text-muted">{{ Auth::user()->email }}</p>
                             </div>
                         </div>
                         <ul class="list-unstyled p-1">

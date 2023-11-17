@@ -18,7 +18,7 @@
                         class="d-flex justify-content-between align-items-center position-absolute top-90 w-100 px-2 px-md-4 mt-n4">
                         <div>
                             <img class="wd-70 rounded-circle" src="https://via.placeholder.com/100x100" alt="profile">
-                            <span class="h4 ms-3 text-dark">Amiah Burton</span>
+                            <span class="h4 ms-3 text-dark">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="mt-3">
                         <label class="tx-11 fw-bolder mb-0 text-uppercase">Email:</label>
-                        <p class="text-muted">me@nobleui.com</p>
+                        <p class="text-muted">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
             </div>
