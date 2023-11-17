@@ -32,9 +32,18 @@ class User extends Authenticatable
 
         static::creating(function ($user) {
             $user->id = Str::uuid();
+            $userId = auth()->id() ?? null;
+            $user->created_by = $userId;
+        });
+
+        static::updating(function ($user) {
+            $userId = auth()->id() ?? null;
+            $user->updated_by = $userId;
         });
 
         static::deleting(function ($user) {
+            $userId = auth()->id() ?? null;
+            $user->deleted_by = $userId;
             $user->is_deleted = 1; // Update the is_deleted column
             $user->save(); // Save the changes
         });
@@ -46,7 +55,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')->withPivot('is_active')->withTimestamps();;
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')->withPivot('is_active')->withTimestamps();
     }
 
     /**

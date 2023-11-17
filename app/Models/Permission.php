@@ -21,8 +21,26 @@ class Permission extends Model
     {
         parent::booted();
 
-        static::creating(function ($user) {
-            $user->id = Str::uuid();
+        static::creating(function ($permission) {
+            $permission->id = Str::uuid();
+            $userId = auth()->id() ?? null;
+            $permission->created_by = $userId;
+        });
+
+        static::updating(function ($permission) {
+            $userId = auth()->id() ?? null;
+            $permission->updated_by = $userId;
+        });
+
+        static::deleting(function ($permission) {
+            $userId = auth()->id() ?? null;
+            $permission->deleted_by = $userId;
+            $permission->is_deleted = 1; // Update the is_deleted column
+            $permission->save(); // Save the changes
+        });
+
+        static::restoring(function ($permission) {
+            $permission->is_deleted = 0; // Set is_deleted to 0 when restoring
         });
     }
 
@@ -30,6 +48,13 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class, 'permission_role', 'permission_id', 'role_id')
             ->withPivot('is_active')
+            ->withTimestamps();
+    }
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'permission_module', 'permission_id', 'module_id')
+            ->withPivot('add_access', 'edit_access', 'delete_access', 'view_access')
             ->withTimestamps();
     }
 }

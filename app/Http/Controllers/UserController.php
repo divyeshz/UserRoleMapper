@@ -120,6 +120,7 @@ class UserController extends Controller
         $request->validate([
             'role'          => 'required',
             'fname'          => 'required|string',
+            'email'          => 'required|email',
         ]);
 
         $min = 1000;
@@ -144,7 +145,12 @@ class UserController extends Controller
 
         if ($request->has('role')) {
             $roles = $request->role;
-            $User->roles()->sync($roles);
+            foreach ($roles as $roleId) {
+                $pivotData = [
+                    'created_by' => Auth::id(),
+                ];
+                $User->roles()->sync([$roleId => $pivotData]);
+            }
             $save = true;
         }
 
@@ -180,6 +186,7 @@ class UserController extends Controller
         $request->validate([
             'role'          => 'required',
             'fname'          => 'required|string',
+            'email'          => 'required|email',
         ]);
 
         $fname = $request->fname;
@@ -188,9 +195,9 @@ class UserController extends Controller
         $type = $request->type;
         $is_active = $request->is_active != "" ? $request->is_active : 0;
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
-        // Update user details if needed
+        // Update user details
         $user->update([
             'first_name'        => $fname,
             'last_name'         => $lname,
@@ -201,7 +208,30 @@ class UserController extends Controller
 
         if ($request->has('role')) {
             $roles = $request->role;
-            $user->roles()->sync($roles);
+            $currentRoles = $user->roles()->pluck('id')->toArray();
+
+            // Detach roles that are not in the updated set
+            $rolesToDetach = array_diff($currentRoles, $roles);
+            $user->roles()->detach($rolesToDetach);
+
+            // Loop through the updated set of roles
+            foreach ($roles as $roleId) {
+
+                if (in_array($roleId, $currentRoles)) {
+                    $pivotData = [
+                        'updated_by' => auth()->id(),
+                    ];
+                    // Update existing pivot data
+                    $user->roles()->updateExistingPivot($roleId, $pivotData);
+                } else {
+                    $pivotData = [
+                        'created_by' => auth()->id(),
+                        'updated_by' => auth()->id(),
+                    ];
+                    // Attach new role with pivot data
+                    $user->roles()->attach($roleId, $pivotData);
+                }
+            }
             $save = true;
         }
 
@@ -218,7 +248,7 @@ class UserController extends Controller
         $User = User::findOrFail($id);
         if ($User) {
             $User->delete();
-            $User->roles()->update(['role_user.deleted_at' => now(), 'role_user.is_deleted' => 1]);
+            $User->roles()->update(['role_user.deleted_by' => Auth::id(), 'role_user.deleted_at' => now(), 'role_user.is_deleted' => 1]);
             return redirect()->route('user.list')->with('success', 'Soft Deleted SuccessFully!!!');
         } else {
             return redirect()->route('user.list')->with('error', 'Soft Deleted failed!!!');
@@ -240,7 +270,7 @@ class UserController extends Controller
     {
         $restoredUser = User::withTrashed()->findOrFail($id);
 
-        if ($restoredUser ) {
+        if ($restoredUser) {
             $restoredUser->restore();
             $userRoles = $restoredUser->roles()->withTrashed()->get();
             foreach ($userRoles as $role) {

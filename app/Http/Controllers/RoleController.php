@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller
@@ -109,7 +110,12 @@ class RoleController extends Controller
 
         if ($request->has('permission')) {
             $permissions = $request->permission;
-            $Role->permissions()->sync($permissions);
+            foreach ($permissions as $p) {
+                $pivotData = [
+                    'created_by' => Auth::id(),
+                ];
+                $Role->permissions()->sync([$p => $pivotData]);
+            }
             $save = true;
         }
 
@@ -158,7 +164,7 @@ class RoleController extends Controller
         $description = $request->description;
         $is_active = $request->is_active != "" ? $request->is_active : 0;
 
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
 
         // Update user details if needed
         $role->update([
@@ -169,9 +175,33 @@ class RoleController extends Controller
 
         if ($request->has('permission')) {
             $permissions = $request->permission;
-            $role->permissions()->sync($permissions);
+            $currentPermissions = $role->permissions()->pluck('id')->toArray();
+
+            // Detach roles that are not in the updated set
+            $permissionToDetach = array_diff($currentPermissions, $permissions);
+            $role->permissions()->detach($permissionToDetach);
+
+            // Loop through the updated set of roles
+            foreach ($permissions as $p) {
+
+                if (in_array($p, $currentPermissions)) {
+                    $pivotData = [
+                        'updated_by' => auth()->id(),
+                    ];
+                    // Update existing pivot data
+                    $role->permissions()->updateExistingPivot($p, $pivotData);
+                } else {
+                    $pivotData = [
+                        'created_by' => auth()->id(),
+                        'updated_by' => auth()->id(),
+                    ];
+                    // Attach new role with pivot data
+                    $role->permissions()->attach($p, $pivotData);
+                }
+            }
             $save = true;
         }
+
 
         if ($save) {
             return redirect()->route('role.list')->with('success', 'Updated SuccessFully!!!');

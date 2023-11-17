@@ -151,6 +151,7 @@ class ModuleController extends Controller
     public function edit($id)
     {
         $allModule = Module::where([
+            ['id','<>' ,$id],
             ['parent_id', null],
             ['is_active', 1],
             ['is_deleted', 0],
@@ -178,7 +179,9 @@ class ModuleController extends Controller
         $is_active = $request->is_active != "" ? $request->is_active : 0;
         $is_in_menu = $request->is_in_menu != "" ? $request->is_in_menu : 0;
 
-        $edit = Module::where('id', $id)->update([
+        $module = Module::findOrFail($id);
+
+        $module->update([
             'name'          => $name,
             'code'          => $code,
             'display_order' => $display_order,
@@ -187,7 +190,7 @@ class ModuleController extends Controller
             'is_in_menu'    => $is_in_menu,
         ]);
 
-        if ($edit) {
+        if ($module) {
             return redirect()->route('module.list')->with('success', 'Module Updated SuccessFully!!!');
         } else {
             return redirect()->route('module.addForm')->with('error', 'Module Updated failed!!!');

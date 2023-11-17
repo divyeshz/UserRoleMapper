@@ -21,9 +21,18 @@ class Module extends Model
 
         static::creating(function ($module) {
             $module->id = Str::uuid();
+            $userId = auth()->id() ?? null;
+            $module->created_by = $userId;
+        });
+
+        static::updating(function ($module) {
+            $userId = auth()->id() ?? null;
+            $module->updated_by = $userId;
         });
 
         static::deleting(function ($module) {
+            $userId = auth()->id() ?? null;
+            $module->deleted_by = $userId;
             $module->is_deleted = 1; // Update the is_deleted column
             $module->save(); // Save the changes
         });
@@ -35,11 +44,18 @@ class Module extends Model
 
     public function parentModule()
     {
-        return $this->belongsTo(Module::class, 'parent_id');
+        return $this->belongsTo(Module::class, 'parent_id','id');
     }
 
     public function childModules()
     {
         return $this->hasMany(Module::class, 'parent_id');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_module', 'module_id', 'permission_id')
+            ->withPivot('is_active')
+            ->withTimestamps();
     }
 }

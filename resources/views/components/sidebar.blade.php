@@ -39,18 +39,17 @@
             </li>
 
             {{-- Permission SideBar Link --}}
-            <li class="nav-item {{ (Request::is('permission/AddForm') || Request::is('permission/list')) ? 'active' : '' }}">
+            <li class="nav-item {{ (Request::is('permission/create') || Request::is('permission/list') || Request::is('permission/edit/*') || Request::is('permission/show/*')) ? 'active' : '' }}">
                 <a href="{{ route('permission.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="unlock"></i>
                     <span class="menu-title">Permission</span>
                     <i class="link-arrow"></i>
                 </a>
-
                 <div class="submenu">
                     <ul class="submenu-item">
                         <li class="nav-item"><a class="nav-link {{ Request::is('permission/list') ? 'active' : '' }}" href="{{ route('permission.list') }}">List
                                 Permission</a></li>
-                        <li class="nav-item"><a class="nav-link {{ Request::is('permission/AddForm') ? 'active' : '' }}" href="{{ route('permission.addForm') }}">Add
+                        <li class="nav-item"><a class="nav-link {{ Request::is('permission/create') ? 'active' : '' }}" href="{{ route('permission.addForm') }}">Add
                                 Permission</a></li>
                     </ul>
                 </div>

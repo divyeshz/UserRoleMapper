@@ -80,14 +80,16 @@
                     role: "required",
                     fname: "required",
                     email: {
+                        required: true,
                         email: true,
                         endsWithCom: true
-                    }
+                    },
                 },
                 messages: {
                     role: "Please provide a Role",
                     fname: "Please specify your First name",
                     email: {
+                        required: "Please provide a your email",
                         email: "Your email address must be in the format of name@domain.com",
                         endsWithCom: "Please enter a valid email address ending with .com."
                     },

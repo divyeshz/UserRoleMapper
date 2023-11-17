@@ -75,9 +75,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Permission Routes Group
     Route::controller(PermissionController::class)->prefix('permission')->group(function () {
-        Route::get('list', 'list')->name('permission.list');
-        Route::get('AddForm', 'addForm')->name('permission.addForm');
-        Route::get('edit', 'editForm')->name('permission.editForm');
+        Route::get('list', 'index')->name('permission.list');
+        Route::get('create', 'create')->name('permission.addForm');
+        Route::post('store', 'store')->name('permission.store');
+        Route::get('show/{id?}', 'show')->name('permission.show');
+        Route::get('edit/{id?}', 'edit')->name('permission.editForm');
+        Route::post('update/{id?}', 'update')->name('permission.update');
+        Route::post('destroy/{id?}', 'destroy')->name('permission.destroy');
+        Route::post('delete/{id?}', 'delete')->name('permission.delete');
+        Route::get('restore/{id?}', 'restore')->name('permission.restore');
+        Route::post('status', 'status')->name('permission.status');
     });
 
     // Module Routes Group

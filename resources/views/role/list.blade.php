@@ -53,25 +53,6 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Demo</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                        </div>
-                                    </td>
-                                    <td><a href="{{ route('role.editForm') }}" type="button"
-                                            class="btn btn-primary btn-icon">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-icon deleteRole">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
