@@ -47,10 +47,13 @@ class AuthController extends Controller
         return redirect()->route('loginForm')->with('error', 'Invaild Credential!!!');
     }
 
+    /*  first time login then Change Password From display */
     public function loginChangePasswordFrom()
     {
         return view('auth.loginChangePassword');
     }
+
+    /*  first time login then Change Password function */
     public function loginChangePassword(Request $request)
     {
         // Validate Data

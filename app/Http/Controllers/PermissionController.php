@@ -11,6 +11,9 @@ use Yajra\DataTables\Facades\DataTables;
 class PermissionController extends Controller
 {
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         if (request()->ajax()) {
@@ -79,6 +82,9 @@ class PermissionController extends Controller
         return view('permission.list');
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $modules = Module::whereNotNull('parent_id')
@@ -99,8 +105,12 @@ class PermissionController extends Controller
         return view('permission.add', compact('modules', 'uniqueModules'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
+        // Validate Data
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -143,6 +153,9 @@ class PermissionController extends Controller
         return redirect()->route('permission.list')->with('success', 'Created SuccessFully!!!');
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id)
     {
         $Permission = Permission::with('modules')->findOrFail($id);
@@ -167,6 +180,9 @@ class PermissionController extends Controller
         return view('permission.edit', compact('Permission', 'modules', 'uniqueModules', 'pivotPermission'));
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $Permission = Permission::with('modules')->findOrFail($id);
@@ -191,8 +207,12 @@ class PermissionController extends Controller
         return view('permission.show', compact('Permission', 'modules', 'uniqueModules', 'pivotPermission'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
+        // validate data
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -259,6 +279,9 @@ class PermissionController extends Controller
         return redirect()->route('permission.list')->with('success', 'Updated SuccessFully!!!');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
         $permission = Permission::findOrFail($id);
@@ -271,6 +294,7 @@ class PermissionController extends Controller
         }
     }
 
+    /* Hard Delete */
     public function delete($id)
     {
         $delete = Permission::withTrashed()->findOrFail($id);
@@ -282,6 +306,7 @@ class PermissionController extends Controller
         }
     }
 
+    /* Restore Data from trash */
     public function restore($id)
     {
         $restoredPermission = Permission::withTrashed()->findOrFail($id);
@@ -295,6 +320,7 @@ class PermissionController extends Controller
         }
     }
 
+    /* Chnage active status */
     public function status(Request $request)
     {
 

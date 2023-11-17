@@ -108,6 +108,7 @@ class UserController extends Controller
         return view('user.add', compact('role'));
     }
 
+    /* Display Profile page */
     public function profile()
     {
         return view('user.profile');
@@ -175,6 +176,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $user = User::with('roles')->findOrFail($id);
@@ -194,6 +198,9 @@ class UserController extends Controller
         return view('user.edit', compact('user', 'role', 'pivotRoles'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         $save = false;
@@ -256,6 +263,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
         // delete
@@ -269,6 +279,7 @@ class UserController extends Controller
         }
     }
 
+    /* Hard Delete */
     public function delete($id)
     {
         $delete = User::withTrashed()->findOrFail($id);
@@ -280,6 +291,7 @@ class UserController extends Controller
         }
     }
 
+    /* Restore Data from trash */
     public function restore($id)
     {
         $restoredUser = User::withTrashed()->findOrFail($id);
@@ -296,6 +308,7 @@ class UserController extends Controller
         }
     }
 
+    /* Chnage active status */
     public function status(Request $request)
     {
         $id = $request->id;

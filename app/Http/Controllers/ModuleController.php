@@ -100,6 +100,7 @@ class ModuleController extends Controller
     public function store(Request $request)
     {
 
+        // validate Data
         $request->validate([
             'name'          => 'required|string',
             'code'          => 'required',
@@ -166,6 +167,7 @@ class ModuleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // validate Data
         $request->validate([
             'name'          => 'required|string',
             'code'          => 'required',
@@ -212,6 +214,7 @@ class ModuleController extends Controller
         }
     }
 
+    /* Hard Delete */
     public function delete($id)
     {
         $delete = Module::withTrashed()->findOrFail($id);
@@ -223,6 +226,7 @@ class ModuleController extends Controller
         }
     }
 
+    /* Restore Data from trash */
     public function restore($id)
     {
         $restoredModule = Module::withTrashed()->findOrFail($id);
@@ -234,6 +238,7 @@ class ModuleController extends Controller
         }
     }
 
+    /* Chnage active status */
     public function status(Request $request)
     {
         $id = $request->id;
