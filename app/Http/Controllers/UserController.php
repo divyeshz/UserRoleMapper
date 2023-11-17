@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AddUserMail;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -123,8 +125,8 @@ class UserController extends Controller
             'email'          => 'required|email',
         ]);
 
-        $min = 1000;
-        $max = 9999;
+        $min = 100000;
+        $max = 999999;
         $randomPass = random_int($min, $max);
 
         $fname = $request->fname;
@@ -143,6 +145,12 @@ class UserController extends Controller
             'type'              => 'user',
         ]);
 
+        $data = [
+            'fname'         => $fname = $request->fname,
+            'lname'         => $lname = $request->lname,
+            'password'      => $randomPass,
+        ];
+
         if ($request->has('role')) {
             $roles = $request->role;
             foreach ($roles as $roleId) {
@@ -152,6 +160,12 @@ class UserController extends Controller
                 $User->roles()->sync([$roleId => $pivotData]);
             }
             $save = true;
+        }
+
+        if ($save) {
+            dispatch(function () use ($User, $data) {
+                Mail::to($User->email)->send(new AddUserMail($data));
+            });
         }
 
         if ($save) {
