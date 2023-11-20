@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -14,11 +15,11 @@ class PermissionTableSeeder extends Seeder
     public function run(): void
     {
         Permission::insert([
-            ['id'           => 'd1f188eb-a44b-4471-8eea-90f1fd4bc81e',
+            ['id'           => Str::uuid(),
             'name'          => 'Admin',
             'description'   => 'Admin description',],
 
-            ['id'           => '2687aa9a-a046-4225-9a4c-1c442edbbcd6',
+            ['id'           => Str::uuid(),
             'name'          => 'User',
             'description'   => 'User description',],
         ]);

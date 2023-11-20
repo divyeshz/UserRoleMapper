@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class UsersTableSeeder extends Seeder
     {
         // Create a new user with admin type
         User::create([
-            'id' => '10c197af-5842-425f-aa80-334aa77afacf',
+            'id' => Str::uuid(),
             'first_name' => 'Admin',
             'last_name' => 'User',
             'email' => 'admin@gmail.com',
