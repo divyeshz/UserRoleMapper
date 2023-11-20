@@ -85,13 +85,14 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        $module = Module::where([
+        $parentModule = Module::where([
             ['parent_id', null],
             ['is_active', 1],
             ['is_deleted', 0],
             ['deleted_at', null],
         ])->get();
-        return view('module.add', compact('module'));
+        $module = null;
+        return view('module.addEdit', compact('module','parentModule'));
     }
 
     /**
@@ -151,7 +152,7 @@ class ModuleController extends Controller
      */
     public function edit($id)
     {
-        $allModule = Module::where([
+        $parentModule = Module::where([
             ['id','<>' ,$id],
             ['parent_id', null],
             ['is_active', 1],
@@ -159,7 +160,7 @@ class ModuleController extends Controller
             ['deleted_at', null],
         ])->get();
         $module = Module::findOrFail($id);
-        return view('module.edit', compact('module', 'allModule'));
+        return view('module.addEdit', compact('module', 'parentModule'));
     }
 
     /**

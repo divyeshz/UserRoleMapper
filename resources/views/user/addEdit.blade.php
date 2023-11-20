@@ -2,7 +2,12 @@
 @extends('layouts.mainLayout')
 
 {{-- Change Title --}}
-@section('title', 'UserRoleMapper | Users Edit')
+@if (isset($user) && $user != null)
+    @section('title', 'UserRoleMapper | Users Edit')
+@else
+    @section('title', 'UserRoleMapper | Users Add')
+@endif
+
 
 {{-- Content Start --}}
 @section('content')
@@ -10,7 +15,11 @@
     <nav class="page-breadcrumb mb-2 mb-md-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+            @if (isset($user) && $user != null)
+                <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+            @else
+                <li class="breadcrumb-item active" aria-current="page">Add User</li>
+            @endif
         </ol>
     </nav>
 
