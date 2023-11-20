@@ -151,8 +151,8 @@ class UserController extends Controller
         ]);
 
         $data = [
-            'fname'         => $fname = $request->fname,
-            'lname'         => $lname = $request->lname,
+            'fname'         => $fname,
+            'lname'         => $lname,
             'password'      => $randomPass,
         ];
 

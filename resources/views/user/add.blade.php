@@ -71,7 +71,7 @@
             // Validate Change Password Form
             $("#addUserForm").validate({
                 rules: {
-                    role: "required",
+                    'role[]': "required",
                     fname: "required",
                     email: {
                         required: true,
@@ -80,7 +80,7 @@
                     },
                 },
                 messages: {
-                    role: "Please provide a Role",
+                    'role[]': "Please provide a role",
                     fname: "Please specify your First name",
                     email: {
                         required: "Please provide a your email",
