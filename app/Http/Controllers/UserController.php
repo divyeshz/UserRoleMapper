@@ -158,11 +158,14 @@ class UserController extends Controller
 
         if ($request->has('role')) {
             $roles = $request->role;
+
+            // Loop through the updated set of roles
             foreach ($roles as $roleId) {
                 $pivotData = [
                     'created_by' => Auth::id(),
                 ];
-                $User->roles()->sync([$roleId => $pivotData]);
+                // Attach new role with pivot data
+                $User->roles()->attach($roleId, $pivotData);
             }
         }
 
@@ -290,12 +293,11 @@ class UserController extends Controller
         if ($restoredUser) {
             $restoredUser->restore();
             $userRoles = $restoredUser->roles()->withTrashed()->get();
-            foreach ($userRoles as $role) {
-                $restoredUser->roles()->attach($role->id);
-            }
-            return redirect()->route('module.list')->with('success', 'Restore SuccessFully!!!');
+            $rolesToAttach = $userRoles->pluck('id')->toArray();
+            $restoredUser->roles()->syncWithoutDetaching($rolesToAttach);
+            return redirect()->route('user.list')->with('success', 'Restore SuccessFully!!!');
         } else {
-            return redirect()->route('module.list')->with('error', 'Restore failed!!!');
+            return redirect()->route('user.list')->with('error', 'Restore failed!!!');
         }
     }
 

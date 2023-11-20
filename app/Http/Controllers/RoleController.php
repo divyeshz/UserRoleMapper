@@ -119,11 +119,14 @@ class RoleController extends Controller
 
         if ($request->has('permission')) {
             $permissions = $request->permission;
+
+            // Loop through the updated set of roles
             foreach ($permissions as $p) {
                 $pivotData = [
                     'created_by' => Auth::id(),
                 ];
-                $Role->permissions()->sync([$p => $pivotData]);
+                // Attach new role with pivot data
+                $Role->permissions()->attach($p, $pivotData);
             }
         }
 
