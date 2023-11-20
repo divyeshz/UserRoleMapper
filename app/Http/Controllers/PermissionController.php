@@ -102,7 +102,9 @@ class PermissionController extends Controller
                 return $groupedModules->first()->parentModule; // Get the first parentModule from each group
             })
             ->values();
-        return view('permission.add', compact('modules', 'uniqueModules'));
+
+        $Permission = null;
+        return view('permission.addEdit', compact('modules', 'uniqueModules','Permission'));
     }
 
     /**
@@ -177,7 +179,7 @@ class PermissionController extends Controller
             })
             ->values();
 
-        return view('permission.edit', compact('Permission', 'modules', 'uniqueModules', 'pivotPermission'));
+        return view('permission.addEdit', compact('Permission', 'modules', 'uniqueModules', 'pivotPermission'));
     }
 
     /**
