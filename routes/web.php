@@ -32,14 +32,14 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('loginChangePassword', 'loginChangePasswordFrom')->name('loginChangePasswordForm');
     Route::post('loginChangePassword', 'loginChangePassword')->name('loginChangePassword');
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth','forceLogout']], function () {
         Route::post('logout', 'logout')->name('logout');
         Route::post('changePassword', 'changePassword')->name('changePassword');
         Route::get('changePassword', 'changePasswordForm')->name('changePasswordForm');
     });
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth','forceLogout']], function () {
 
     // User Routes Group
     Route::controller(UserController::class)->group(function () {
@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('delete/{id?}', 'delete')->name('user.delete');
             Route::get('restore/{id?}', 'restore')->name('user.restore');
             Route::post('status', 'status')->name('user.status');
+            Route::post('logout/{id?}', 'forceLogout')->name('user.forceLogout');
         });
     });
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -47,11 +48,14 @@ class UserController extends Controller
                         $viewRoute = route('user.show', $row->id);
                         $editRoute = route('user.editForm', $row->id);
                         $deleteRoute = route('user.destroy', $row->id);
+                        $logoutRoute = route('user.forceLogout', $row->id);
+                        $displayLogout = Auth::user()->type !== "admin" ? "d-none" : "";
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
                         <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
                         <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
+                        <button type="button" data-id="' . $row->id . '" data-link="' . $logoutRoute . '" class="btn btn-secondary logout btn-sm ' . $displayLogout . ' ">Log Out</button>
                         <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
                     </form>';
                         return $actionBtn;
@@ -326,6 +330,37 @@ class UserController extends Controller
             $response = [
                 'status'    => '400',
                 'message'   => 'Status Updated Failed!!!'
+            ];
+        }
+        return json_encode($response);
+    }
+
+    public function forceLogout(Request $request)
+    {
+        $userId = $request->id;
+        $user = User::find($userId);
+        if ($user) {
+
+            if ($user->tokens->isNotEmpty()) {
+                foreach ($user->tokens as $token) {
+                    $token->delete();
+                }
+                $response = [
+                    'status' => '200',
+                    'message' => 'User logged out!!!'
+                ];
+            } else {
+                // User currently not logged in no tokens available
+                $response = [
+                    'status' => '400',
+                    'message' => 'User currently not logged in!!!'
+                ];
+            }
+        } else {
+            // User not found
+            $response = [
+                'status' => '400',
+                'message' => 'User not found!!!'
             ];
         }
         return json_encode($response);

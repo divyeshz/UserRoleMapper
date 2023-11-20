@@ -137,6 +137,31 @@
                 });
             });
 
+            $(document).on("click", ".logout", function() {
+                const id = $(this).attr('data-id');
+                let url = $(this).attr('data-link');
+                if (url != "") {
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        url: url,
+                        success: function(response) {
+                            if (response.status == "200") {
+                                toastr.success('' + response.message + '');
+                            } else {
+                                toastr.error('' + response.message + '');
+                            }
+                        }
+                    });
+                }
+            });
+
+
+
             $(document).on("click", ".delete", function() {
                 const form = $(this).closest('.delete-form');
 
@@ -187,36 +212,36 @@
                         },
                     },
                     columns: [{
-                        data: '#',
-                        name: '#'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name',
-                    },
-                    {
-                        data: 'email',
-                        name: 'email',
-                    },
-                    {
-                        data: 'type',
-                        name: 'type',
-                    },
-                    {
-                        data: 'roles',
-                        name: 'roles',
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false
-                    },
-                ]
+                            data: '#',
+                            name: '#'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name',
+                        },
+                        {
+                            data: 'email',
+                            name: 'email',
+                        },
+                        {
+                            data: 'type',
+                            name: 'type',
+                        },
+                        {
+                            data: 'roles',
+                            name: 'roles',
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false
+                        },
+                    ]
                 });
             }
         });

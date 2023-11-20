@@ -40,6 +40,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/demo3/style.css') }}">
     <!-- End layout styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}" >
 
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 
@@ -109,6 +110,7 @@
     <script src="{{ asset('assets/js/select2.js') }}"></script>
     <script src="{{ asset('assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     @yield('jsContent')
