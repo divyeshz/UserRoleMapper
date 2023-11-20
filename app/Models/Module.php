@@ -33,17 +33,17 @@ class Module extends Model
         static::creating(function ($module) {
             $module->id = Str::uuid();
             $userId = auth()->id() ?? null;
-            $module->created_by = $userId;
+            $module->created_by = $userId; // Update the created_by column
         });
 
         static::updating(function ($module) {
             $userId = auth()->id() ?? null;
-            $module->updated_by = $userId;
+            $module->updated_by = $userId; // Update the updated_by column
         });
 
         static::deleting(function ($module) {
             $userId = auth()->id() ?? null;
-            $module->deleted_by = $userId;
+            $module->deleted_by = $userId; // Update the deleted_by column
             $module->is_deleted = 1; // Update the is_deleted column
             $module->save(); // Save the changes
         });

@@ -23,17 +23,17 @@ class Role extends Model
         static::creating(function ($role) {
             $role->id = Str::uuid();
             $userId = auth()->id() ?? null;
-            $role->created_by = $userId;
+            $role->created_by = $userId; // Update the created_by column
         });
 
         static::updating(function ($role) {
             $userId = auth()->id() ?? null;
-            $role->updated_by = $userId;
+            $role->updated_by = $userId; // Update the updated_by column
         });
 
         static::deleting(function ($role) {
             $userId = auth()->id() ?? null;
-            $role->deleted_by = $userId;
+            $role->deleted_by = $userId; // Update the deleted_by column
             $role->is_deleted = 1; // Update the is_deleted column
             $role->save(); // Save the changes
         });

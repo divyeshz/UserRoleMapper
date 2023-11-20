@@ -34,17 +34,17 @@ class Permission extends Model
         static::creating(function ($permission) {
             $permission->id = Str::uuid();
             $userId = auth()->id() ?? null;
-            $permission->created_by = $userId;
+            $permission->created_by = $userId; // Update the created_by column
         });
 
         static::updating(function ($permission) {
             $userId = auth()->id() ?? null;
-            $permission->updated_by = $userId;
+            $permission->updated_by = $userId; // Update the updated_by column
         });
 
         static::deleting(function ($permission) {
             $userId = auth()->id() ?? null;
-            $permission->deleted_by = $userId;
+            $permission->deleted_by = $userId; // Update the deleted_by column
             $permission->is_deleted = 1; // Update the is_deleted column
             $permission->save(); // Save the changes
         });

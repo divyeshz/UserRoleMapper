@@ -33,17 +33,17 @@ class User extends Authenticatable
         static::creating(function ($user) {
             $user->id = Str::uuid();
             $userId = auth()->id() ?? null;
-            $user->created_by = $userId;
+            $user->created_by = $userId; // Update the created_by column
         });
 
         static::updating(function ($user) {
             $userId = auth()->id() ?? null;
-            $user->updated_by = $userId;
+            $user->updated_by = $userId; // Update the updated_by column
         });
 
         static::deleting(function ($user) {
             $userId = auth()->id() ?? null;
-            $user->deleted_by = $userId;
+            $user->deleted_by = $userId; // Update the deleted_by column
             $user->is_deleted = 1; // Update the is_deleted column
             $user->save(); // Save the changes
         });
