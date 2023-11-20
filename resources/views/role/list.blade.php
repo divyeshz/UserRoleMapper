@@ -102,6 +102,31 @@
                 ]
             });
 
+            // change is_active
+            $(document).on("click", ".switch_is_active", function() {
+                const id = $(this).attr('data-id');
+                let is_active = $(this).prop('checked') ? 1 : 0;
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        is_active: is_active,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    dataType: 'json',
+                    url: "{{ route('role.status') }}",
+                    success: function(response) {
+                        if (response.status == "200") {
+                            toastr.success('' + response.message + '');
+                        } else {
+                            toastr.error('' + response.message + '');
+                        }
+                        var userListTable = $('#userListTable').dataTable();
+                        userListTable.fnDraw(false);
+                    }
+                });
+            });
+
 
             $(document).on("click", ".delete", function() {
                 const form = $(this).closest('.delete-form');

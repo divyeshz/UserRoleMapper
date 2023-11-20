@@ -272,5 +272,23 @@ class RoleController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
+        $id = $request->id;
+        $is_active = $request->is_active;
+
+        $status = Role::where('id', $id)->update([
+            'is_active'     => $is_active,
+        ]);
+        if ($status) {
+            $response = [
+                'status'    => '200',
+                'message'   => 'Status Updated SuccessFully!!!'
+            ];
+        } else {
+            $response = [
+                'status'    => '400',
+                'message'   => 'Status Updated Failed!!!'
+            ];
+        }
+        return json_encode($response);
     }
 }

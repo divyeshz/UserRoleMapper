@@ -129,8 +129,14 @@
                         is_active: is_active,
                         _token: "{{ csrf_token() }}"
                     },
+                    dataType: 'json',
                     url: "{{ route('user.status') }}",
                     success: function(response) {
+                        if (response.status == "200") {
+                            toastr.success('' + response.message + '');
+                        } else {
+                            toastr.error('' + response.message + '');
+                        }
                         var userListTable = $('#userListTable').dataTable();
                         userListTable.fnDraw(false);
                     }

@@ -121,8 +121,14 @@
                         is_active: is_active,
                         _token: "{{ csrf_token() }}"
                     },
+                    dataType: 'json',
                     url: "{{ route('module.status') }}",
                     success: function(response) {
+                        if (response.status == "200") {
+                            toastr.success('' + response.message + '');
+                        } else {
+                            toastr.error('' + response.message + '');
+                        }
                         var moduleListTable = $('#moduleListTable').dataTable();
                         moduleListTable.fnDraw(false);
                     }
