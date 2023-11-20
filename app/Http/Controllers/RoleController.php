@@ -91,7 +91,8 @@ class RoleController extends Controller
             ['is_deleted', 0],
             ['deleted_at', null],
         ])->get();
-        return view('role.add', compact('permission'));
+        $role = null;
+        return view('role.addEdit', compact('permission','role'));
     }
 
     /**
@@ -147,7 +148,7 @@ class RoleController extends Controller
             ['is_deleted', 0],
             ['deleted_at', null],
         ])->get();
-        return view('role.edit', compact('permission', 'pivotPermission', 'role'));
+        return view('role.addEdit', compact('permission', 'pivotPermission', 'role'));
     }
 
     /**
