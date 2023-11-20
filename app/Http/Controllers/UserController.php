@@ -109,7 +109,8 @@ class UserController extends Controller
     public function create()
     {
         $role = Role::all();
-        return view('user.add', compact('role'));
+        $user = null;
+        return view('user.addEdit', compact('role','user'));
     }
 
     /* Display Profile page */
@@ -199,7 +200,7 @@ class UserController extends Controller
         $user = User::with('roles')->findOrFail($id);
         $pivotRoles = $user->roles->pluck('id')->toArray();
         $role = Role::all();
-        return view('user.edit', compact('user', 'role', 'pivotRoles'));
+        return view('user.addEdit', compact('user', 'role', 'pivotRoles'));
     }
 
     /**
