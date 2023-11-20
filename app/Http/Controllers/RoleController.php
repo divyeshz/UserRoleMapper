@@ -102,7 +102,7 @@ class RoleController extends Controller
     {
         $request->validate([
             'name'          => 'required|string',
-            'description'   => 'required',
+            'description'   => 'required|string',
             'permission'    => 'required',
         ]);
 
@@ -167,7 +167,7 @@ class RoleController extends Controller
     {
         $request->validate([
             'name'          => 'required|string',
-            'description'   => 'required',
+            'description'   => 'required|string',
             'permission'    => 'required',
         ]);
 

@@ -114,21 +114,21 @@ class PermissionController extends Controller
     {
         // Validate Data
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
+            'name'          => 'required|string',
+            'description'   => 'required|string',
         ]);
 
         $permission = Permission::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'is_active' => $request->is_active ?? 0,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'is_active'     => $request->is_active ?? 0,
         ]);
 
         $actionMapping = [
-            'add' => 'add_access',
-            'view' => 'view_access',
-            'edit' => 'edit_access',
-            'delete' => 'delete_access',
+            'add'       => 'add_access',
+            'view'      => 'view_access',
+            'edit'      => 'edit_access',
+            'delete'    => 'delete_access',
         ];
 
         $modules = Module::whereNotNull('parent_id')
@@ -216,23 +216,23 @@ class PermissionController extends Controller
     {
         // validate data
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
+            'name'          => 'required|string',
+            'description'   => 'required|string',
         ]);
 
         $permission = Permission::findOrFail($id);
 
         $permission->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'is_active' => $request->is_active ?? 0,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'is_active'     => $request->is_active ?? 0,
         ]);
 
         $actionMapping = [
-            'add' => 'add_access',
-            'view' => 'view_access',
-            'edit' => 'edit_access',
-            'delete' => 'delete_access',
+            'add'       => 'add_access',
+            'view'      => 'view_access',
+            'edit'      => 'edit_access',
+            'delete'    => 'delete_access',
         ];
 
         $modules = Module::whereNotNull('parent_id')

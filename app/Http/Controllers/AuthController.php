@@ -94,13 +94,13 @@ class AuthController extends Controller
 
         // Store data Into User Table
         $user = User::create([
-            'first_name'          => $request->fname,
-            'last_name'          => $request->lname,
-            'email'          => $request->email,
-            'is_active'      => 0,
-            'is_first_login' => 1,
-            'type' => 'user',
-            'password'       => Hash::make($request->password),
+            'first_name'        => $request->fname,
+            'last_name'         => $request->lname,
+            'email'             => $request->email,
+            'is_active'         => 0,
+            'is_first_login'    => 1,
+            'type'              => 'user',
+            'password'          => Hash::make($request->password),
         ]);
         if($user){
             return redirect()->route('loginForm')->with('success', 'Register SuccessFully!!! Now Contact Admin To Active Account For Login.');

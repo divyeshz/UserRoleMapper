@@ -104,23 +104,23 @@ class ModuleController extends Controller
         // validate Data
         $request->validate([
             'name'          => 'required|string',
-            'code'          => 'required',
+            'code'          => 'required|string',
             'display_order' => 'required|numeric',
         ]);
 
-        $code = $request->code;
-        $name = $request->name;
-        $display_order = $request->display_order;
-        $parent_id = $request->parent_id;
-        $is_active = $request->is_active != "" ? $request->is_active : 0;
-        $is_in_menu = $request->is_in_menu != "" ? $request->is_in_menu : 0;
+        $code           = $request->code;
+        $name           = $request->name;
+        $display_order  = $request->display_order;
+        $parent_id      = $request->parent_id;
+        $is_active      = $request->is_active != "" ? $request->is_active : 0;
+        $is_in_menu     = $request->is_in_menu != "" ? $request->is_in_menu : 0;
 
         // store the data
         $add = Module::create([
             'code'          => $code,
             'name'          => $name,
             'display_order' => $display_order,
-            'parent_id' => $parent_id,
+            'parent_id'     => $parent_id,
             'is_active'     => $is_active,
             'is_in_menu'    => $is_in_menu,
         ]);
@@ -175,12 +175,12 @@ class ModuleController extends Controller
             'display_order' => 'required|numeric',
         ]);
 
-        $code = $request->code;
-        $name = $request->name;
-        $display_order = $request->display_order;
-        $parent_id = $request->parent_id;
-        $is_active = $request->is_active != "" ? $request->is_active : 0;
-        $is_in_menu = $request->is_in_menu != "" ? $request->is_in_menu : 0;
+        $code           = $request->code;
+        $name           = $request->name;
+        $display_order  = $request->display_order;
+        $parent_id      = $request->parent_id;
+        $is_active      = $request->is_active != "" ? $request->is_active : 0;
+        $is_in_menu     = $request->is_in_menu != "" ? $request->is_in_menu : 0;
 
         $module = Module::findOrFail($id);
 

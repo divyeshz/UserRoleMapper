@@ -125,19 +125,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'role'          => 'required',
-            'fname'          => 'required|string',
-            'email'          => 'required|email',
+            'role'      => 'required',
+            'fname'     => 'required|string',
+            'email'     => 'required|email',
         ]);
 
         $min = 100000;
         $max = 999999;
         $randomPass = random_int($min, $max);
 
-        $fname = $request->fname;
-        $lname = $request->lname;
-        $email = $request->email;
-        $is_active = $request->is_active != "" ? $request->is_active : 0;
+        $fname      = $request->fname;
+        $lname      = $request->lname;
+        $email      = $request->email;
+        $is_active  = $request->is_active != "" ? $request->is_active : 0;
 
         // store the data
         $User = User::create([
@@ -201,7 +201,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'role'          => 'required',
+            'role'           => 'required',
             'fname'          => 'required|string',
             'email'          => 'required|email',
         ]);
@@ -334,21 +334,21 @@ class UserController extends Controller
                     $token->delete();
                 }
                 $response = [
-                    'status' => '200',
-                    'message' => 'User logged out!!!'
+                    'status'    => '200',
+                    'message'   => 'User logged out!!!'
                 ];
             } else {
                 // User currently not logged in no tokens available
                 $response = [
-                    'status' => '400',
-                    'message' => 'User currently not logged in!!!'
+                    'status'    => '400',
+                    'message'   => 'User currently not logged in!!!'
                 ];
             }
         } else {
             // User not found
             $response = [
-                'status' => '400',
-                'message' => 'User not found!!!'
+                'status'    => '400',
+                'message'   => 'User not found!!!'
             ];
         }
         return json_encode($response);
