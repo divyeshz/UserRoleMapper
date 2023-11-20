@@ -314,7 +314,7 @@ class PermissionController extends Controller
         $restoredPermission = Permission::withTrashed()->findOrFail($id);
 
         if ($restoredPermission) {
-            $restoredPermission->modules()->update(['permission_module.deleted_at' => null, 'permission_module.is_deleted' => 0]);
+            $restoredPermission->modules()->update(['permission_module.deleted_at' => null, 'permission_module.is_deleted' => 0, 'permission_module.deleted_by' => null]);
             $restoredPermission->restore();
             return redirect()->route('permission.list')->with('success', 'Restore SuccessFully!!!');
         } else {

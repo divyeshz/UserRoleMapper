@@ -292,9 +292,7 @@ class UserController extends Controller
 
         if ($restoredUser) {
             $restoredUser->restore();
-            $userRoles = $restoredUser->roles()->withTrashed()->get();
-            $rolesToAttach = $userRoles->pluck('id')->toArray();
-            $restoredUser->roles()->syncWithoutDetaching($rolesToAttach);
+            $restoredUser->roles()->update(['role_user.deleted_at' => null, 'role_user.is_deleted' => 0, 'role_user.deleted_by' => null]);
             return redirect()->route('user.list')->with('success', 'Restore SuccessFully!!!');
         } else {
             return redirect()->route('user.list')->with('error', 'Restore failed!!!');

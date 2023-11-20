@@ -251,8 +251,8 @@ class RoleController extends Controller
         $restoredRole = Role::withTrashed()->findOrFail($id);
 
         if ($restoredRole) {
-            $restoredRole->permissions()->update(['permission_role.deleted_at' => null, 'permission_role.is_deleted' => 0]);
             $restoredRole->restore();
+            $restoredRole->permissions()->update(['permission_role.deleted_at' => null, 'permission_role.is_deleted' => 0, 'permission_role.deleted_by' => null]);
             return redirect()->route('role.list')->with('success', 'Restore SuccessFully!!!');
         } else {
             return redirect()->route('role.list')->with('error', 'Restore failed!!!');
