@@ -50,13 +50,14 @@ class UserController extends Controller
                         $deleteRoute = route('user.destroy', $row->id);
                         $logoutRoute = route('user.forceLogout', $row->id);
                         $displayLogout = Auth::user()->type !== "admin" ? "d-none" : "";
+                        $display = $row->type == "admin" ? "d-none" : "";
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
                         <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
                         <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
                         <button type="button" data-id="' . $row->id . '" data-link="' . $logoutRoute . '" class="btn btn-secondary logout btn-sm ' . $displayLogout . ' ">Log Out</button>
-                        <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
+                        <button type="button" class="btn btn-danger btn-sm delete ' . $display . '">Delete</button>
                     </form>';
                         return $actionBtn;
                     })
@@ -110,7 +111,7 @@ class UserController extends Controller
     {
         $role = Role::all();
         $user = null;
-        return view('user.addEdit', compact('role','user'));
+        return view('user.addEdit', compact('role', 'user'));
     }
 
     /* Display Profile page */
