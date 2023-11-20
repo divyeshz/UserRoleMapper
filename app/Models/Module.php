@@ -15,6 +15,17 @@ class Module extends Model
 
     protected $fillable = ['code', 'name', 'is_active', 'is_in_menu', 'display_order', 'parent_id', 'created_by', 'updated_by', 'deleted_by', 'is_deleted'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_in_menu' => 'boolean',
+        'is_deleted' => 'boolean',
+    ];
+
     protected static function booted()
     {
         parent::booted();

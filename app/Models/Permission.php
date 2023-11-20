@@ -17,6 +17,16 @@ class Permission extends Model
 
     protected $fillable = ['name', 'description', 'is_active', 'created_by', 'updated_by', 'deleted_by', 'is_deleted'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_deleted' => 'boolean',
+    ];
+
     protected static function booted()
     {
         parent::booted();
