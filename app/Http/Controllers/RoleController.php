@@ -106,9 +106,9 @@ class RoleController extends Controller
             'permission'    => 'required',
         ]);
 
-        $name = $request->name;
+        $name        = $request->name;
         $description = $request->description;
-        $is_active = $request->is_active != "" ? $request->is_active : 0;
+        $is_active   = $request->is_active != "" ? $request->is_active : 0;
 
         // store the data
         $Role = Role::create([
@@ -171,9 +171,9 @@ class RoleController extends Controller
             'permission'    => 'required',
         ]);
 
-        $name = $request->name;
+        $name        = $request->name;
         $description = $request->description;
-        $is_active = $request->is_active != "" ? $request->is_active : 0;
+        $is_active   = $request->is_active != "" ? $request->is_active : 0;
 
         $role = Role::findOrFail($id);
 

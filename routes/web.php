@@ -49,14 +49,14 @@ Route::group(['middleware' => ['auth','forceLogout']], function () {
             Route::get('list', 'index')->name('user.list');
             Route::get('create', 'create')->name('user.addForm');
             Route::post('store', 'store')->name('user.store');
-            Route::get('show/{id?}', 'show')->name('user.show');
-            Route::get('edit/{id?}', 'edit')->name('user.editForm');
-            Route::post('update/{id?}', 'update')->name('user.update');
-            Route::post('destroy/{id?}', 'destroy')->name('user.destroy');
-            Route::post('delete/{id?}', 'delete')->name('user.delete');
-            Route::get('restore/{id?}', 'restore')->name('user.restore');
+            Route::get('show/{id}', 'show')->name('user.show');
+            Route::get('edit/{id}', 'edit')->name('user.editForm');
+            Route::post('update/{id}', 'update')->name('user.update');
+            Route::post('destroy/{id}', 'destroy')->name('user.destroy');
+            Route::post('delete/{id}', 'delete')->name('user.delete');
+            Route::get('restore/{id}', 'restore')->name('user.restore');
             Route::post('status', 'status')->name('user.status');
-            Route::post('logout/{id?}', 'forceLogout')->name('user.forceLogout');
+            Route::post('logout/{id}', 'forceLogout')->name('user.forceLogout');
         });
     });
 
@@ -65,12 +65,12 @@ Route::group(['middleware' => ['auth','forceLogout']], function () {
         Route::get('list', 'index')->name('role.list');
         Route::get('create', 'create')->name('role.addForm');
         Route::post('store', 'store')->name('role.store');
-        Route::get('show/{id?}', 'show')->name('role.show');
-        Route::get('edit/{id?}', 'edit')->name('role.editForm');
-        Route::post('update/{id?}', 'update')->name('role.update');
-        Route::post('destroy/{id?}', 'destroy')->name('role.destroy');
-        Route::post('delete/{id?}', 'delete')->name('role.delete');
-        Route::get('restore/{id?}', 'restore')->name('role.restore');
+        Route::get('show/{id}', 'show')->name('role.show');
+        Route::get('edit/{id}', 'edit')->name('role.editForm');
+        Route::post('update/{id}', 'update')->name('role.update');
+        Route::post('destroy/{id}', 'destroy')->name('role.destroy');
+        Route::post('delete/{id}', 'delete')->name('role.delete');
+        Route::get('restore/{id}', 'restore')->name('role.restore');
         Route::post('status', 'status')->name('role.status');
     });
 
@@ -79,12 +79,12 @@ Route::group(['middleware' => ['auth','forceLogout']], function () {
         Route::get('list', 'index')->name('permission.list');
         Route::get('create', 'create')->name('permission.addForm');
         Route::post('store', 'store')->name('permission.store');
-        Route::get('show/{id?}', 'show')->name('permission.show');
-        Route::get('edit/{id?}', 'edit')->name('permission.editForm');
-        Route::post('update/{id?}', 'update')->name('permission.update');
-        Route::post('destroy/{id?}', 'destroy')->name('permission.destroy');
-        Route::post('delete/{id?}', 'delete')->name('permission.delete');
-        Route::get('restore/{id?}', 'restore')->name('permission.restore');
+        Route::get('show/{id}', 'show')->name('permission.show');
+        Route::get('edit/{id}', 'edit')->name('permission.editForm');
+        Route::post('update/{id}', 'update')->name('permission.update');
+        Route::post('destroy/{id}', 'destroy')->name('permission.destroy');
+        Route::post('delete/{id}', 'delete')->name('permission.delete');
+        Route::get('restore/{id}', 'restore')->name('permission.restore');
         Route::post('status', 'status')->name('permission.status');
     });
 
@@ -93,12 +93,12 @@ Route::group(['middleware' => ['auth','forceLogout']], function () {
         Route::get('list', 'index')->name('module.list');
         Route::get('create', 'create')->name('module.addForm');
         Route::post('store', 'store')->name('module.store');
-        Route::get('show/{id?}', 'show')->name('module.show');
-        Route::get('edit/{id?}', 'edit')->name('module.editForm');
-        Route::post('update/{id?}', 'update')->name('module.update');
-        Route::post('destroy/{id?}', 'destroy')->name('module.destroy');
-        Route::post('delete/{id?}', 'delete')->name('module.delete');
-        Route::get('restore/{id?}', 'restore')->name('module.restore');
+        Route::get('show/{id}', 'show')->name('module.show');
+        Route::get('edit/{id}', 'edit')->name('module.editForm');
+        Route::post('update/{id}', 'update')->name('module.update');
+        Route::post('destroy/{id}', 'destroy')->name('module.destroy');
+        Route::post('delete/{id}', 'delete')->name('module.delete');
+        Route::get('restore/{id}', 'restore')->name('module.restore');
         Route::post('status', 'status')->name('module.status');
     });
 
