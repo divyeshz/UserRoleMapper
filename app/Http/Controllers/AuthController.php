@@ -71,7 +71,7 @@ class AuthController extends Controller
         if($user){
             return redirect()->route('dashboard')->with('success', 'Login SuccessFully!!!');
         }else{
-            return redirect()->route('loginChangePasswordForm')->with('erroe', 'Change Password Failed!!!');
+            return redirect()->route('loginChangePasswordForm')->with('error', 'Change Password Failed!!!');
         }
     }
 

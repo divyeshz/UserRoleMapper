@@ -92,7 +92,7 @@ class RoleController extends Controller
             ['deleted_at', null],
         ])->get();
         $role = null;
-        return view('role.addEdit', compact('permission','role'));
+        return view('role.addEdit', compact('permission', 'role'));
     }
 
     /**
@@ -100,7 +100,6 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $save = false;
         $request->validate([
             'name'          => 'required|string',
             'description'   => 'required',
@@ -126,14 +125,9 @@ class RoleController extends Controller
                 ];
                 $Role->permissions()->sync([$p => $pivotData]);
             }
-            $save = true;
         }
 
-        if ($save) {
-            return redirect()->route('role.list')->with('success', 'Created SuccessFully!!!');
-        } else {
-            return redirect()->route('role.addForm')->with('success', 'Created Failed!!!');
-        }
+        return redirect()->route('role.list')->with('success', 'Created SuccessFully!!!');
     }
 
     /**
@@ -171,8 +165,6 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-        $save = false;
         $request->validate([
             'name'          => 'required|string',
             'description'   => 'required',
@@ -218,15 +210,9 @@ class RoleController extends Controller
                     $role->permissions()->attach($p, $pivotData);
                 }
             }
-            $save = true;
         }
 
-
-        if ($save) {
-            return redirect()->route('role.list')->with('success', 'Updated SuccessFully!!!');
-        } else {
-            return redirect()->route('role.addForm')->with('success', 'Updated Failed!!!');
-        }
+        return redirect()->route('role.list')->with('success', 'Updated SuccessFully!!!');
     }
 
     /**

@@ -56,7 +56,7 @@ class UserController extends Controller
                         ' . csrf_field() . '
                         <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
                         <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
-                        <button type="button" data-id="' . $row->id . '" data-link="' . $logoutRoute . '" class="btn btn-secondary logout btn-sm ' . $displayLogout . ' ">Log Out</button>
+                        <button type="button" data-id="' . $row->id . '" data-link="' . $logoutRoute . '" class="btn btn-secondary logout btn-sm ' . $displayLogout . ' ' . $display . ' ">Log Out</button>
                         <button type="button" class="btn btn-danger btn-sm delete ' . $display . '">Delete</button>
                     </form>';
                         return $actionBtn;
@@ -125,7 +125,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $save = false;
         $request->validate([
             'role'          => 'required',
             'fname'          => 'required|string',
@@ -166,20 +165,13 @@ class UserController extends Controller
                 ];
                 $User->roles()->sync([$roleId => $pivotData]);
             }
-            $save = true;
         }
 
-        if ($save) {
-            dispatch(function () use ($User, $data) {
-                Mail::to($User->email)->send(new AddUserMail($data));
-            });
-        }
+        dispatch(function () use ($User, $data) {
+            Mail::to($User->email)->send(new AddUserMail($data));
+        });
 
-        if ($save) {
-            return redirect()->route('user.list')->with('success', 'User Created SuccessFully!!!');
-        } else {
-            return redirect()->route('user.addForm')->with('success', 'User Created failed!!!');
-        }
+        return redirect()->route('user.list')->with('success', 'User Created SuccessFully!!!');
     }
 
     /**
@@ -209,7 +201,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $save = false;
         $request->validate([
             'role'          => 'required',
             'fname'          => 'required|string',
@@ -259,14 +250,9 @@ class UserController extends Controller
                     $user->roles()->attach($roleId, $pivotData);
                 }
             }
-            $save = true;
         }
 
-        if ($save) {
-            return redirect()->route('user.list')->with('success', 'Updated SuccessFully!!!');
-        } else {
-            return redirect()->route('user.addForm')->with('success', 'Updated Failed!!!');
-        }
+        return redirect()->route('user.list')->with('success', 'Updated SuccessFully!!!');
     }
 
     /**
@@ -337,6 +323,7 @@ class UserController extends Controller
         return json_encode($response);
     }
 
+    /* admin can force logout any other user */
     public function forceLogout(Request $request)
     {
         $userId = $request->id;
