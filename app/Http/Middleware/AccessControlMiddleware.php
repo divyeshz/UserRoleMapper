@@ -32,7 +32,7 @@ class AccessControlMiddleware
                 if (strtolower($module['name']) === $requestedRoute['0']) {
 
                     // User has permission to view 'list' & 'status update' route
-                    if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($requestedRoute['1'] == 'list' || $requestedRoute['1'] == 'status')) {
+                    if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($requestedRoute['1'] == 'list' || $requestedRoute['1'] == 'status' || $requestedRoute['1'] == 'forceLogout')) {
                         return $next($request);
                     }
 
@@ -46,12 +46,12 @@ class AccessControlMiddleware
                         return $next($request);
                     }
 
-                    // User has permission to view 'view' route
+                    // User has permission to view 'user.list' route
                     if ($module->pivot['view_access'] && ($requestedRoute['1'] == 'show')) {
                         return $next($request);
                     }
 
-                    // User has permission to view 'delete' route
+                    // User has permission to view 'user.list' route
                     if ($module->pivot['delete_access'] && ($requestedRoute['1'] == 'destroy' || $requestedRoute['1'] == 'delete' || $requestedRoute['1'] == 'restore')) {
                         return $next($request);
                     }
