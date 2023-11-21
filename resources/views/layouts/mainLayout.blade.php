@@ -56,6 +56,10 @@
         span.star {
             color: red;
         }
+
+        #welcome-animation {
+            margin: auto;
+        }
     </style>
 </head>
 
@@ -111,6 +115,7 @@
     <script src="{{ asset('assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     @yield('jsContent')
