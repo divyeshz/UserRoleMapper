@@ -16,16 +16,8 @@ class RolesTableSeeder extends Seeder
     {
         Role::insert([
             ['id' => Str::uuid(),
-            'name' => 'Admin',
-            'description' => 'Admin Description',
-            'is_active' => 1,],
-            ['id' => Str::uuid(),
-            'name' => 'User',
-            'description' => 'User Description',
-            'is_active' => 1,],
-            ['id' => Str::uuid(),
-            'name' => 'Demo',
-            'description' => 'Demo Description',
+            'name' => 'Account owner role',
+            'description' => 'Default Account owner role',
             'is_active' => 1,],
         ]);
     }

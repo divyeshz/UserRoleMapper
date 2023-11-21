@@ -16,12 +16,8 @@ class PermissionTableSeeder extends Seeder
     {
         Permission::insert([
             ['id'           => Str::uuid(),
-            'name'          => 'Admin',
-            'description'   => 'Admin description',],
-
-            ['id'           => Str::uuid(),
-            'name'          => 'User',
-            'description'   => 'User description',],
+            'name'          => 'Account Owner Permission',
+            'description'   => 'Default Account Owner Permission',],
         ]);
     }
 }
