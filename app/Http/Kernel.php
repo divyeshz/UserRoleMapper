@@ -53,6 +53,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
+        'access.control' => \App\Http\Middleware\AccessControlMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'forceLogout' => \App\Http\Middleware\ForceLogoutCheck::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

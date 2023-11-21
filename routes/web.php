@@ -39,7 +39,7 @@ Route::controller(AuthController::class)->group(function () {
     });
 });
 
-Route::group(['middleware' => ['auth', 'forceLogout']], function () {
+Route::group(['middleware' => ['auth', 'forceLogout','access.control']], function () {
 
     // User Routes Group
     Route::controller(UserController::class)->group(function () {
@@ -105,6 +105,5 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
     Route::get('dashboard', function () {
         return view('pages.dashboard');
     })->name('dashboard');
-    Route::group(['middleware' => 'auth'], function () {
-    });
+
 });

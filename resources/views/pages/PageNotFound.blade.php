@@ -49,6 +49,19 @@
                 box-shadow: inset -3px 0px 0px transparent;
             }
         }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: #888;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #0e81ce;
+        }
     </style>
 </head>
 
@@ -57,6 +70,7 @@
     <div id="main">
         <div class="fof">
             <h1>Error 404</h1>
+            <p><a href="javascript:history.go(-1);" class="back-button">Go Back</a></p>
         </div>
     </div>
 
