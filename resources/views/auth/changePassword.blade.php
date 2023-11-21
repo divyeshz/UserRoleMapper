@@ -7,54 +7,50 @@
 {{-- Content Start --}}
 @section('content')
 
-    <div class="page-content">
-        <nav class="page-breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Change Password</li>
-            </ol>
-        </nav>
-        <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
+    <nav class="page-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Change Password</li>
+        </ol>
+    </nav>
 
-                        <form class="forms-sample" action="{{ route('changePassword') }}" id="changePasswordForm" method="post">
-                            {{-- Csrf --}}
-                            @csrf
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
 
-                            {{-- Current Password --}}
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Current Password</label>
-                                <input type="password" name="old_password" class="form-control" id="old_password"
+                    <form class="forms-sample" action="{{ route('changePassword') }}" id="changePasswordForm"
+                        method="post">
+                        {{-- Csrf --}}
+                        @csrf
+
+                        {{-- Current Password --}}
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Current Password</label>
+                            <input type="password" name="old_password" class="form-control" id="old_password"
                                 placeholder="Current Password">
-                            </div>
+                        </div>
 
-                            {{-- New Password --}}
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">New Password</label>
-                                <input type="password" name="new_password" class="form-control " id="new_password"
-                                    placeholder="New Password">
-                            </div>
+                        {{-- New Password --}}
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">New Password</label>
+                            <input type="password" name="new_password" class="form-control " id="new_password"
+                                placeholder="New Password">
+                        </div>
 
-                            {{-- Confirm New Password --}}
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Confirm New Password</label>
-                                <input type="password" name="confirm_new_password" class="form-control"
-                                    id="confirm_new_password " placeholder="Confirm New Password">
-                            </div>
-                            <button type="submit" class="btn btn-primary me-2">Submit</button>
-                            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancel</a>
-                        </form>
-                    </div>
+                        {{-- Confirm New Password --}}
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Confirm New Password</label>
+                            <input type="password" name="confirm_new_password" class="form-control"
+                                id="confirm_new_password " placeholder="Confirm New Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
 
 @endsection
 {{-- Content end --}}
