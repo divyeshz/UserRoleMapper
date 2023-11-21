@@ -61,6 +61,21 @@
 
                     </div>
 
+                    <div class="form-check form-check-inline">
+
+                        @if (isset($Permission) && $Permission != null)
+                            <input type="checkbox" name="is_active" {{ $Permission->is_active == 1 ? 'checked' : '' }}
+                                class="form-check-input" id="is_active" value="1">
+                        @else
+                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active"
+                                value="1">
+                        @endif
+
+                        <label class="form-check-label" for="is_active">
+                            Active
+                        </label>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12 grid-margin">
                             <div class="table-responsive">
