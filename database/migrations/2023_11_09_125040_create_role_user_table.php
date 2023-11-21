@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('role_user', function (Blueprint $table) {
             $table->char('role_id', 36);
             $table->char('user_id', 36);
-            $table->boolean('is_active')->default()->comment('');
+            $table->boolean('is_active')->default(1)->comment('0:False, 1:True');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
-            $table->boolean('is_deleted', 36)->default(0)->comment('0:False, 1:True)');
+            $table->boolean('is_deleted')->default(0)->comment('0:False, 1:True');
             $table->timestamps(); // Adds created_at and updated_at columns
             $table->softDeletes(); // Adds deleted_at Datatype Timestamps
 

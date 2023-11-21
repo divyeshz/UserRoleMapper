@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->char('permission_id', 36);
             $table->char('module_id', 36);
+            $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->boolean('add_access')->default(0)->comment('0:No,1:Yes');
             $table->boolean('edit_access')->default(0)->comment('0:No,1:Yes');
             $table->boolean('delete_access')->default(0)->comment('0:No,1:Yes');
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
-            $table->boolean('is_deleted', 36)->default(0)->comment('0:False, 1:True)');
+            $table->boolean('is_deleted')->default(0)->comment('0:False, 1:True)');
             $table->timestamps(); // Adds created_at and updated_at columns
             $table->softDeletes(); // Adds deleted_at Datatype Timestamps
 
