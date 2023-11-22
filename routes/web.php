@@ -101,8 +101,14 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('status', 'status')->name('module.status')->middleware('access.control:module,status');
     });
 
+    // dashboard Route
     Route::get('dashboard', function () {
         return view('pages.dashboard');
     })->name('dashboard');
+
+    // forbidden Rolute
+    Route::get('forbidden', function () {
+        return view('pages.forbidden');
+    })->name('forbidden');
 
 });

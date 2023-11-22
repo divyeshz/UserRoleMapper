@@ -64,6 +64,6 @@ class AccessControlMiddleware
         }
 
         // No permission found for the module
-        return response()->view('pages.forbidden');
+        return redirect()->route('forbidden');
     }
 }
