@@ -37,7 +37,7 @@ class AccessControlMiddleware
                     }
 
                     // User has permission to Access 'edit'
-                    if ($module->pivot['edit_access'] && ($action == 'edit')) {
+                    if ($module->pivot['edit_access'] && ($action == 'edit' || $action == 'status')) {
                         return $next($request);
                     }
 
