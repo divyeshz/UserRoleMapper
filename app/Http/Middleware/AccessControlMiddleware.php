@@ -23,38 +23,47 @@ class AccessControlMiddleware
         foreach ($permissions as $permission) {
             foreach ($permission->modules as $module) {
 
-                // User has permission for the requested route
+                // User has permission for the module
                 if (strtolower($module['name']) === $moduleName) {
 
-                    // User has permission to Access 'list' & 'status update' route
-                    if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($action == 'list' || $action == 'status' || $action == 'forceLogout')) {
+                    // User has permission to Access 'list' & 'forceLogout'
+                    if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($action == 'list' || $action == 'forceLogout')) {
                         return $next($request);
                     }
 
-                    // User has permission to Access 'add' route
+                    // User has permission to Access 'add'
                     if ($module->pivot['add_access'] && ($action == 'add')) {
                         return $next($request);
                     }
 
-                    // User has permission to Access 'edit' route
+                    // User has permission to Access 'edit'
                     if ($module->pivot['edit_access'] && ($action == 'edit')) {
                         return $next($request);
                     }
 
-                    // User has permission to Access 'view' route
+                    // User has permission to Access 'edit' than change the status
+                    if (!$module->pivot['edit_access'] && $action == 'status') {
+                        $response = [
+                            'status' => '403',
+                            'message' => "You don't have permission to access this page."
+                        ];
+                        return response()->json($response);
+                    }
+
+                    // User has permission to Access 'view'
                     if ($module->pivot['view_access'] && ($action == 'view')) {
                         return $next($request);
                     }
 
-                    // User has permission to Access 'soft delete', 'hard delete' & 'restore' route
-                    if ($module->pivot['delete_access'] && ($action == 'delete' || $action == 'restore' )) {
+                    // User has permission to Access 'soft delete', 'hard delete' & 'restore'
+                    if ($module->pivot['delete_access'] && ($action == 'delete' || $action == 'restore')) {
                         return $next($request);
                     }
                 }
             }
         }
 
-        // No permission found for the requested route
+        // No permission found for the module
         return response()->view('pages.forbidden');
     }
 }
