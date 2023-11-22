@@ -77,6 +77,7 @@
 
             // make yajra Table
             let userListTable = $('#userListTable').DataTable({
+                scrollY: false,
                 processing: true,
                 serverSide: true,
                 ajax: {

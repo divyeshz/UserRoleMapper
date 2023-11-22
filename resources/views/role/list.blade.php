@@ -73,6 +73,7 @@
 
             // make yajra Table
             let roleListTable = $('#roleListTable').DataTable({
+                scrollY: false,
                 processing: true,
                 serverSide: true,
                 ajax: {

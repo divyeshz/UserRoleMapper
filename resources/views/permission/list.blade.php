@@ -73,6 +73,7 @@
 
             // make yajra Table
             let permissionListTable = $('#permissionListTable').DataTable({
+                scrollY: false,
                 processing: true,
                 serverSide: true,
                 ajax: {

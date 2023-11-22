@@ -77,6 +77,7 @@
 
             // make yajra Table
             let moduleListTable = $('#moduleListTable').DataTable({
+                scrollY: false,
                 processing: true,
                 serverSide: true,
                 ajax: {
