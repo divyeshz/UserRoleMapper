@@ -45,7 +45,7 @@ class AccessControlMiddleware
                     if (!$module->pivot['edit_access'] && $action == 'status') {
                         $response = [
                             'status' => '403',
-                            'message' => "You don't have permission to access this page."
+                            'message' => "You don't have permission to do this."
                         ];
                         return response()->json($response);
                     }
