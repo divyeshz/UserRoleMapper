@@ -94,6 +94,7 @@ class PermissionController extends Controller
                 ['is_deleted', 0],
                 ['deleted_at', null],
             ])
+            ->orderBy('display_order')
             ->get();
 
         $uniqueModules = $modules
@@ -170,6 +171,7 @@ class PermissionController extends Controller
                 ['is_deleted', 0],
                 ['deleted_at', null],
             ])
+            ->orderBy('display_order')
             ->get();
 
         $uniqueModules = $modules

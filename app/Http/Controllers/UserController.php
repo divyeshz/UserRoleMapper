@@ -111,7 +111,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        $role = Role::all();
+        $role = Role::where([
+            ['is_active', 1],
+            ['is_deleted', 0],
+            ['deleted_at', null],
+        ])->get();
         $user = null;
         return view('user.addEdit', compact('role', 'user'));
     }
@@ -197,7 +201,11 @@ class UserController extends Controller
     {
         $user = User::with('roles')->findOrFail($id);
         $pivotRoles = $user->roles->pluck('id')->toArray();
-        $role = Role::all();
+        $role = Role::where([
+            ['is_active', 1],
+            ['is_deleted', 0],
+            ['deleted_at', null],
+        ])->get();
         return view('user.addEdit', compact('user', 'role', 'pivotRoles'));
     }
 
