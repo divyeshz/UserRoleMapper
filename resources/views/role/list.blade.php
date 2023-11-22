@@ -170,6 +170,7 @@
 
                 // Reinitialize DataTable based on the filterName
                 roleListTable = $('#roleListTable').DataTable({
+                    scrollY: false,
                     processing: true,
                     serverSide: true,
                     ajax: {

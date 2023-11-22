@@ -210,6 +210,7 @@
 
                 // Reinitialize DataTable based on the filterName
                 userListTable = $('#userListTable').DataTable({
+                    scrollY: false,
                     processing: true,
                     serverSide: true,
                     ajax: {

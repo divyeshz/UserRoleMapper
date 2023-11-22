@@ -169,6 +169,7 @@
 
                 // Reinitialize DataTable based on the filterName
                 permissionListTable = $('#permissionListTable').DataTable({
+                    scrollY: false,
                     processing: true,
                     serverSide: true,
                     ajax: {

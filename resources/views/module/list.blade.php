@@ -178,6 +178,7 @@
 
                 // Reinitialize DataTable based on the filterName
                 moduleListTable = $('#moduleListTable').DataTable({
+                    scrollY: false,
                     processing: true,
                     serverSide: true,
                     ajax: {
