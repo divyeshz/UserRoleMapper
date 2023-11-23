@@ -8,8 +8,9 @@
                 </a>
             </li>
 
-            {{-- User SideBar Link --}}
-            <li class="nav-item {{ (Request::is('user/create') || Request::is('user/list') || Request::is('user/edit/*') || Request::is('user/show/*') ) ? 'active' : '' }}">
+            @if (auth()->user()->hasModulePermission('user'))
+                {{-- User SideBar Link --}}
+                <li class="nav-item {{ (Request::is('user/create') || Request::is('user/list') || Request::is('user/edit/*') || Request::is('user/show/*') ) ? 'active' : '' }}">
                 <a href="{{ route('user.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="menu-title">Users</span>
@@ -22,9 +23,11 @@
                     </ul>
                 </div>
             </li>
+            @endif
 
-            {{-- Role SideBar Link --}}
-            <li class="nav-item {{ (Request::is('role/create') || Request::is('role/list') || Request::is('role/edit/*') || Request::is('role/show/*') ) ? 'active' : '' }}">
+            @if (auth()->user()->hasModulePermission('role'))
+                {{-- Role SideBar Link --}}
+                <li class="nav-item {{ (Request::is('role/create') || Request::is('role/list') || Request::is('role/edit/*') || Request::is('role/show/*') ) ? 'active' : '' }}">
                 <a href="{{ route('role.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="at-sign"></i>
                     <span class="menu-title">Role</span>
@@ -37,9 +40,11 @@
                     </ul>
                 </div>
             </li>
+            @endif
 
-            {{-- Permission SideBar Link --}}
-            <li class="nav-item {{ (Request::is('permission/create') || Request::is('permission/list') || Request::is('permission/edit/*') || Request::is('permission/show/*')) ? 'active' : '' }}">
+            @if (auth()->user()->hasModulePermission('permission'))
+                {{-- Permission SideBar Link --}}
+                <li class="nav-item {{ (Request::is('permission/create') || Request::is('permission/list') || Request::is('permission/edit/*') || Request::is('permission/show/*')) ? 'active' : '' }}">
                 <a href="{{ route('permission.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="unlock"></i>
                     <span class="menu-title">Permission</span>
@@ -54,9 +59,11 @@
                     </ul>
                 </div>
             </li>
+            @endif
 
-            {{-- Module SideBar Link --}}
-            <li class="nav-item {{ (Request::is('module/create') || Request::is('module/list') || Request::is('module/edit/*') || Request::is('module/show/*')) ? 'active' : '' }}">
+            @if (auth()->user()->hasModulePermission('module'))
+                {{-- Module SideBar Link --}}
+                <li class="nav-item {{ (Request::is('module/create') || Request::is('module/list') || Request::is('module/edit/*') || Request::is('module/show/*')) ? 'active' : '' }}">
                 <a href="{{ route('module.list') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="menu-title">Module</span>
@@ -71,6 +78,8 @@
                     </ul>
                 </div>
             </li>
+            @endif
+
         </ul>
     </div>
 </nav>
