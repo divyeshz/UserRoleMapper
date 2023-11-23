@@ -7,10 +7,12 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Mail\ForgotPasswordMail;
+use App\Mail\AccountActivatedMail;
 use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\NewUserNotification;
 
 class AuthController extends Controller
 {
@@ -68,9 +70,9 @@ class AuthController extends Controller
             'is_first_login'    => 0,
             'password'          => Hash::make($request->new_password),
         ]);
-        if($user){
+        if ($user) {
             return redirect()->route('dashboard')->with('success', 'Login SuccessFully!!!');
-        }else{
+        } else {
             return redirect()->route('loginChangePasswordForm')->with('error', 'Change Password Failed!!!');
         }
     }
@@ -102,9 +104,13 @@ class AuthController extends Controller
             'type'              => 'user',
             'password'          => Hash::make($request->password),
         ]);
-        if($user){
+        if ($user) {
+            $adminUser = User::where('type', 'admin')->first();
+            // Notify the admin about the new user
+            $adminUser->notify(new NewUserNotification($user, $adminUser->email));
+
             return redirect()->route('loginForm')->with('success', 'Register SuccessFully!!! Now Contact Admin To Active Account For Login.');
-        }else{
+        } else {
             return redirect()->route('registrationForm')->with('success', 'Register Failed!!!');
         }
 
@@ -131,7 +137,7 @@ class AuthController extends Controller
             return redirect()->route('forgotPasswordForm')->with('error', 'Invaild Credential!!!');
         }
 
-        $prt_data = PasswordResetToken::where('email', $request->email)->where('token','!=','')->first();
+        $prt_data = PasswordResetToken::where('email', $request->email)->where('token', '!=', '')->first();
         if ($prt_data != null) {
             $valid = false;
             return redirect()->route('forgotPasswordForm')->with('error', 'Mail is already sent. check your email!!!');
@@ -220,6 +226,24 @@ class AuthController extends Controller
         } else {
             return redirect()->route('changePasswordForm')->with('error', 'Invaild Credential!!!');
         }
+    }
+
+    /* Activate the user */
+    public function activate(string $id)
+    {
+        $user = User::findorfail($id);
+
+        $user->update([
+            'is_active' => 1,
+        ]);
+
+        if ($user) {
+            dispatch(function () use ($user) {
+                Mail::to($user->email)->send(new AccountActivatedMail($user));
+            });
+        }
+
+        return redirect()->route('loginForm')->with('success', "$user->first_name $user->last_name Your account has been activated. Please login ");
     }
 
     /* User Logout */

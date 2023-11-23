@@ -31,6 +31,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('resetPassword', 'resetPassword')->name('resetPassword');
     Route::get('loginChangePassword', 'loginChangePasswordFrom')->name('loginChangePasswordForm');
     Route::post('loginChangePassword', 'loginChangePassword')->name('loginChangePassword');
+    Route::get('activate/{id}','activate')->name('activate.user');
 
     Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('logout', 'logout')->name('logout');
