@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
+use App\Traits\DispatchEmails;
 
 class UserController extends Controller
 {
 
+    use DispatchEmails;
     /**
      * Display a listing of the resource.
      */
@@ -176,9 +178,10 @@ class UserController extends Controller
             }
         }
 
-        dispatch(function () use ($User, $data) {
-            Mail::to($User->email)->send(new AddUserMail($data));
-        });
+        // Call the sendEmail method from the trait
+        $userEmail = $User->email; // $User holds the user data
+        $mailData = new AddUserMail($data); // $data holds the necessary data
+        $this->sendEmail($userEmail, $mailData);
 
         return redirect()->route('user.list')->with('success', 'User Created SuccessFully!!!');
     }

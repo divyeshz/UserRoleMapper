@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\NewUserNotification;
+use App\Traits\DispatchEmails;
 
 class AuthController extends Controller
 {
+    use DispatchEmails;
     /* User Login Form */
     public function loginForm()
     {
@@ -151,9 +153,10 @@ class AuthController extends Controller
                 'created_at'    => now(),
             ]);
 
-            dispatch(function () use ($user, $token) {
-                Mail::to($user->email)->send(new ForgotPasswordMail($user, $token));
-            });
+            // Call the sendEmail method from the trait
+            $userEmail = $user->email; // $user holds the user data
+            $mailData = new ForgotPasswordMail($user, $token); // $data holds the necessary data
+            $this->sendEmail($userEmail, $mailData);
 
             return redirect()->route('loginForm')->with('success', 'We have sent you a mail');
         }
@@ -238,9 +241,10 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
-            dispatch(function () use ($user) {
-                Mail::to($user->email)->send(new AccountActivatedMail($user));
-            });
+            // Call the sendEmail method from the trait
+            $userEmail = $user->email; // $user holds the user data
+            $mailData = new AccountActivatedMail($user); // $data holds the necessary data
+            $this->sendEmail($userEmail, $mailData);
         }
 
         return redirect()->route('loginForm')->with('success', "$user->first_name $user->last_name Your account has been activated. Please login ");
