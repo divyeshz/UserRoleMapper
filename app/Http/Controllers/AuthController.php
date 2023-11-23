@@ -40,10 +40,10 @@ class AuthController extends Controller
                 return redirect()->route('loginForm')->with('error', 'Your Account Is Not Active!!!');
             }
             if (Auth::attempt($credential)) {
+                $token = $user->createToken('AuthToken')->plainTextToken;
                 if (Auth::user()->is_first_login == 1 && Auth::user()->is_active == 1 && Auth::user()->deleted_at == null &&  Auth::user()->is_deleted == 0) {
                     return redirect()->route('loginChangePasswordForm')->with('error', 'Change Your Password First!!!');
                 }
-                $token = $user->createToken('AuthToken')->plainTextToken;
                 return redirect()->route('dashboard')->with('success', 'Login SuccessFully!!!');
             }
         }
