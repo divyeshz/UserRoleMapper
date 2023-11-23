@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
+use App\Traits\BootTrait;
 
 class Module extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BootTrait;
     protected $primaryKey = 'id';
     public $incrementing = false;
 
@@ -29,28 +29,7 @@ class Module extends Model
     protected static function booted()
     {
         parent::booted();
-
-        static::creating(function ($module) {
-            $module->id = Str::uuid();
-            $userId = auth()->id() ?? null;
-            $module->created_by = $userId; // Update the created_by column
-        });
-
-        static::updating(function ($module) {
-            $userId = auth()->id() ?? null;
-            $module->updated_by = $userId; // Update the updated_by column
-        });
-
-        static::deleting(function ($module) {
-            $userId = auth()->id() ?? null;
-            $module->deleted_by = $userId; // Update the deleted_by column
-            $module->is_deleted = 1; // Update the is_deleted column
-            $module->save(); // Save the changes
-        });
-
-        static::restoring(function ($module) {
-            $module->is_deleted = 0; // Set is_deleted to 0 when restoring
-        });
+        static::moduleTrait();
     }
 
     public function parentModule()

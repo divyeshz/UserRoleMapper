@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Str;
+use App\Traits\BootTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, BootTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -29,28 +28,7 @@ class User extends Authenticatable
     protected static function booted()
     {
         parent::booted();
-
-        static::creating(function ($user) {
-            $user->id = Str::uuid();
-            $userId = auth()->id() ?? null;
-            $user->created_by = $userId; // Update the created_by column
-        });
-
-        static::updating(function ($user) {
-            $userId = auth()->id() ?? null;
-            $user->updated_by = $userId; // Update the updated_by column
-        });
-
-        static::deleting(function ($user) {
-            $userId = auth()->id() ?? null;
-            $user->deleted_by = $userId; // Update the deleted_by column
-            $user->is_deleted = 1; // Update the is_deleted column
-            $user->save(); // Save the changes
-        });
-
-        static::restoring(function ($user) {
-            $user->is_deleted = 0; // Set is_deleted to 0 when restoring
-        });
+        static::moduleTrait();
     }
 
     public function roles()

@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Models\Role;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\BootTrait;
 
 class Permission extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BootTrait;
 
     protected $primaryKey = 'id';
     public $incrementing = false;
@@ -30,28 +30,7 @@ class Permission extends Model
     protected static function booted()
     {
         parent::booted();
-
-        static::creating(function ($permission) {
-            $permission->id = Str::uuid();
-            $userId = auth()->id() ?? null;
-            $permission->created_by = $userId; // Update the created_by column
-        });
-
-        static::updating(function ($permission) {
-            $userId = auth()->id() ?? null;
-            $permission->updated_by = $userId; // Update the updated_by column
-        });
-
-        static::deleting(function ($permission) {
-            $userId = auth()->id() ?? null;
-            $permission->deleted_by = $userId; // Update the deleted_by column
-            $permission->is_deleted = 1; // Update the is_deleted column
-            $permission->save(); // Save the changes
-        });
-
-        static::restoring(function ($permission) {
-            $permission->is_deleted = 0; // Set is_deleted to 0 when restoring
-        });
+        static::moduleTrait();
     }
 
     public function roles()
