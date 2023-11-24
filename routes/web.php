@@ -37,6 +37,7 @@ Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout')->name('logout');
         Route::post('changePassword', 'changePassword')->name('changePassword');
         Route::get('changePassword', 'changePasswordForm')->name('changePasswordForm');
+        Route::get('dashboard', 'dashboard')->name('dashboard');
     });
 });
 
@@ -46,7 +47,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
     Route::controller(UserController::class)->group(function () {
         Route::prefix('user')->group(function () {
             Route::get('profile', 'profile')->name('profile');
-            Route::get('list', 'index')->name('user.list')->middleware('access.control:user,list');
+            Route::get('list', 'index')->name('user.list')->middleware('access.control:user,view');
             Route::get('create', 'create')->name('user.addForm')->middleware('access.control:user,add');
             Route::post('store', 'store')->name('user.store')->middleware('access.control:user,add');
             Route::get('show/{id}', 'show')->name('user.show')->middleware('access.control:user,view');
@@ -62,7 +63,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
 
     // Role Routes Group
     Route::controller(RoleController::class)->prefix('role')->group(function () {
-        Route::get('list', 'index')->name('role.list')->middleware('access.control:role,list');
+        Route::get('list', 'index')->name('role.list')->middleware('access.control:role,view');
         Route::get('create', 'create')->name('role.addForm')->middleware('access.control:role,add');
         Route::post('store', 'store')->name('role.store')->middleware('access.control:role,add');
         Route::get('show/{id}', 'show')->name('role.show')->middleware('access.control:role,view');
@@ -76,7 +77,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
 
     // Permission Routes Group
     Route::controller(PermissionController::class)->prefix('permission')->group(function () {
-        Route::get('list', 'index')->name('permission.list')->middleware('access.control:permission,list');
+        Route::get('list', 'index')->name('permission.list')->middleware('access.control:permission,view');
         Route::get('create', 'create')->name('permission.addForm')->middleware('access.control:permission,add');
         Route::post('store', 'store')->name('permission.store')->middleware('access.control:permission,add');
         Route::get('show/{id}', 'show')->name('permission.show')->middleware('access.control:permission,view');
@@ -90,7 +91,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
 
     // Module Routes Group
     Route::controller(ModuleController::class)->prefix('module')->group(function () {
-        Route::get('list', 'index')->name('module.list')->middleware('access.control:module,list');
+        Route::get('list', 'index')->name('module.list')->middleware('access.control:module,view');
         Route::get('create', 'create')->name('module.addForm')->middleware('access.control:module,add');
         Route::post('store', 'store')->name('module.store')->middleware('access.control:module,add');
         Route::get('show/{id}', 'show')->name('module.show')->middleware('access.control:module,view');
@@ -101,11 +102,6 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::get('restore/{id}', 'restore')->name('module.restore')->middleware('access.control:module,restore');
         Route::post('status', 'status')->name('module.status')->middleware('access.control:module,status');
     });
-
-    // dashboard Route
-    Route::get('dashboard', function () {
-        return view('pages.dashboard');
-    })->name('dashboard');
 
     // forbidden Rolute
     Route::get('forbidden', function () {

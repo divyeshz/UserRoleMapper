@@ -11,11 +11,10 @@ use App\Mail\AccountActivatedMail;
 use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Notifications\NewUserNotification;
 use App\Traits\DispatchEmails;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     use DispatchEmails;
     /* User Login Form */
@@ -43,7 +42,7 @@ class AuthController extends Controller
             }
             if (Auth::attempt($credential)) {
                 $token = $user->createToken('AuthToken')->plainTextToken;
-                if (Auth::user()->is_first_login == 1 && Auth::user()->is_active == 1 && Auth::user()->deleted_at == null &&  Auth::user()->is_deleted == 0) {
+                if (Auth::user()->is_first_login == 1 && Auth::user()->is_active == 1 && Auth::user()->deleted_at == null && Auth::user()->is_deleted == 0) {
                     return redirect()->route('loginChangePasswordForm')->with('error', 'Change Your Password First!!!');
                 }
                 return redirect()->route('dashboard')->with('success', 'Login SuccessFully!!!');
@@ -187,9 +186,9 @@ class AuthController extends Controller
 
             // Validate Data
             $request->validate([
-                'prt_token'         => 'required',
-                'password'          => 'required|min:6',
-                'confirm_password'  => 'required|min:6|same:password',
+                'prt_token' => 'required',
+                'password' => 'required|min:6',
+                'confirm_password' => 'required|min:6|same:password',
             ]);
 
             $user->update([
@@ -205,7 +204,9 @@ class AuthController extends Controller
     /* User Change Password Form */
     public function changePasswordForm()
     {
-        return view('auth.changePassword');
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('auth.changePassword', compact('modules', 'uniqueModules'));
     }
 
     /* Actual Functionality for Change Password */
@@ -255,5 +256,13 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect()->route('loginForm');
+    }
+
+    /* Dashboard */
+    public function dashboard()
+    {
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('pages.dashboard', compact('modules','uniqueModules'));
     }
 }

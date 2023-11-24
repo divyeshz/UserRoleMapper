@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\ModulePermissionTrait;
 
-class RoleController extends Controller
+class RoleController extends BaseController
 {
     use ModulePermissionTrait;
     /**
@@ -90,7 +90,10 @@ class RoleController extends Controller
                     ->make(true);
             }
         }
-        return view('role.list');
+
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('role.list', compact('modules', 'uniqueModules'));
     }
 
     /**
@@ -104,7 +107,9 @@ class RoleController extends Controller
             ['deleted_at', null],
         ])->get();
         $role = null;
-        return view('role.addEdit', compact('permission', 'role'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('role.addEdit', compact('permission', 'role', 'modules', 'uniqueModules'));
     }
 
     /**
@@ -157,7 +162,9 @@ class RoleController extends Controller
             ['is_deleted', 0],
             ['deleted_at', null],
         ])->get();
-        return view('role.addEdit', compact('permission', 'pivotPermission', 'role'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('role.addEdit', compact('permission', 'pivotPermission', 'role', 'modules', 'uniqueModules'));
     }
 
     /**
@@ -172,7 +179,9 @@ class RoleController extends Controller
             ['is_deleted', 0],
             ['deleted_at', null],
         ])->get();
-        return view('role.show', compact('permission', 'pivotPermission', 'role'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('role.show', compact('permission', 'pivotPermission', 'role', 'modules', 'uniqueModules'));
     }
 
     /**

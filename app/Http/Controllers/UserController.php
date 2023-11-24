@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\DispatchEmails;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     use DispatchEmails;
     /**
@@ -114,7 +114,10 @@ class UserController extends Controller
                     ->make(true);
             }
         }
-        return view('user.list');
+
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('user.list', compact('modules','uniqueModules'));
     }
 
     /**
@@ -128,13 +131,17 @@ class UserController extends Controller
             ['deleted_at', null],
         ])->get();
         $user = null;
-        return view('user.addEdit', compact('role', 'user'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('user.addEdit', compact('role', 'user', 'modules', 'uniqueModules'));
     }
 
     /* Display Profile page */
     public function profile()
     {
-        return view('user.profile');
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('user.profile', compact('modules', 'uniqueModules'));
     }
 
     /**
@@ -203,7 +210,9 @@ class UserController extends Controller
         $user = User::with('roles')->findOrFail($id);
         $pivotRoles = $user->roles->pluck('id')->toArray();
         $role = Role::all();
-        return view('user.show', compact('user', 'role', 'pivotRoles'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('user.show', compact('user', 'role', 'pivotRoles', 'modules', 'uniqueModules'));
     }
 
     /**
@@ -218,7 +227,9 @@ class UserController extends Controller
             ['is_deleted', 0],
             ['deleted_at', null],
         ])->get();
-        return view('user.addEdit', compact('user', 'role', 'pivotRoles'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('user.addEdit', compact('user', 'role', 'pivotRoles', 'modules', 'uniqueModules'));
     }
 
     /**

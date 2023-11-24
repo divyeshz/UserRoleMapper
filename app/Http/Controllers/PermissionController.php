@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\ModulePermissionTrait;
 
-class PermissionController extends Controller
+class PermissionController extends BaseController
 {
     use ModulePermissionTrait;
     /**
@@ -90,7 +90,9 @@ class PermissionController extends Controller
                     ->make(true);
             }
         }
-        return view('permission.list');
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('permission.list', compact('modules','uniqueModules'));
     }
 
     /**

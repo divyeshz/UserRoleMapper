@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\ModulePermissionTrait;
 
-class ModuleController extends Controller
+class ModuleController extends BaseController
 {
     use ModulePermissionTrait;
     /**
@@ -88,7 +88,10 @@ class ModuleController extends Controller
                     ->make(true);
             }
         }
-        return view('module.list');
+
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('module.list', compact('modules', 'uniqueModules'));
     }
 
     /**
@@ -103,7 +106,9 @@ class ModuleController extends Controller
             ['deleted_at', null],
         ])->get();
         $module = null;
-        return view('module.addEdit', compact('module', 'parentModule'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('module.addEdit', compact('module', 'parentModule', 'modules', 'uniqueModules'));
     }
 
     /**
@@ -155,7 +160,9 @@ class ModuleController extends Controller
             ['deleted_at', null],
         ])->get();
         $module = Module::findOrFail($id);
-        return view('module.show', compact('module', 'allModule'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('module.show', compact('module', 'allModule', 'modules', 'uniqueModules'));
     }
 
     /**
@@ -171,7 +178,9 @@ class ModuleController extends Controller
             ['deleted_at', null],
         ])->get();
         $module = Module::findOrFail($id);
-        return view('module.addEdit', compact('module', 'parentModule'));
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('module.addEdit', compact('module', 'parentModule', 'modules', 'uniqueModules'));
     }
 
     /**

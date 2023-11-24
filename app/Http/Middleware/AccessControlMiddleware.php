@@ -31,8 +31,8 @@ class AccessControlMiddleware
                     // User has permission for the module
                     if (strtolower($module['name']) === $moduleName) {
 
-                        // User has permission to Access 'list' & 'forceLogout'
-                        if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($action == 'list' || $action == 'forceLogout')) {
+                        // User has permission to Access 'forceLogout'
+                        if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($action == 'forceLogout')) {
                             return $next($request);
                         }
 
