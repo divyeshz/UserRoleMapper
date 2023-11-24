@@ -19,7 +19,7 @@ class ModuleController extends BaseController
         if (request()->ajax()) {
             $filterName = request()->input('filterName');
             if ($filterName == 'ml') {
-                $data = Module::latest()->get();
+                $data = Module::get();
                 return DataTables::of($data)
                     ->addColumn('#', function () {
                         static $counter = 0;
@@ -226,10 +226,10 @@ class ModuleController extends BaseController
      */
     public function destroy($id)
     {
-        // delete
         $delete = Module::findOrFail($id);
         if ($delete) {
             $delete->delete();
+            $module = Module::where('parent_id',$id)->delete();
             return redirect()->route('module.list')->with('success', 'Soft Deleted SuccessFully!!!');
         } else {
             return redirect()->route('module.list')->with('error', 'Soft Deleted failed!!!');
