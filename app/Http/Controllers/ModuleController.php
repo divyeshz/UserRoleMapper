@@ -28,7 +28,7 @@ class ModuleController extends Controller
                         return $counter;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('module', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -58,7 +58,7 @@ class ModuleController extends Controller
                     ->make(true);
             }
             if ($filterName == 'sdml') {
-                $data = Module::withTrashed()->where('is_deleted', 1)->get();
+                $data = Module::withTrashed()->where('is_deleted', true)->get();
                 return DataTables::of($data)
                     ->addColumn('#', function () {
                         static $counter = 0;
@@ -66,7 +66,7 @@ class ModuleController extends Controller
                         return $counter;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('module', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -103,7 +103,7 @@ class ModuleController extends Controller
     {
         $parentModule = Module::where([
             ['parent_id', null],
-            ['is_active', 1],
+            ['is_active', true],
         ])->get();
         $module = null;
         $modules = $this->modules();
@@ -131,8 +131,8 @@ class ModuleController extends Controller
             'name'          => $request->name,
             'display_order' => $request->display_order,
             'parent_id'     => $request->parent_id,
-            'is_active'     => $request->is_active ?? 0,
-            'is_in_menu'    => $request->is_in_menu ?? 0,
+            'is_active'     => $request->is_active ?? false,
+            'is_in_menu'    => $request->is_in_menu ?? false,
         ]);
 
         if ($add) {
@@ -149,7 +149,7 @@ class ModuleController extends Controller
     {
         $allModule = Module::where([
             ['parent_id', null],
-            ['is_active', 1],
+            ['is_active', true],
         ])->get();
         $module = Module::findOrFail($id);
         $modules = $this->modules();
@@ -165,7 +165,7 @@ class ModuleController extends Controller
         $parentModule = Module::where([
             ['id', '<>', $id],
             ['parent_id', null],
-            ['is_active', 1],
+            ['is_active', true],
         ])->get();
         $module = Module::findOrFail($id);
         $modules = $this->modules();

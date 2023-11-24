@@ -37,12 +37,12 @@ class AuthController extends BaseController
 
         $user = User::where('email', $credential['email'])->first();
         if ($user && Hash::check($credential['password'], $user->password)) {
-            if ($user->is_active != 1) {
+            if ($user->is_active != true) {
                 return redirect()->route('loginForm')->with('error', 'Your Account Is Not Active!!!');
             }
             if (Auth::attempt($credential)) {
-                $token = $user->createToken('AuthToken')->plainTextToken;
-                if (Auth::user()->is_first_login == 1) {
+                $user->createToken('AuthToken')->plainTextToken;
+                if (Auth::user()->is_first_login == true) {
                     return redirect()->route('loginChangePasswordForm')->with('error', 'Change Your Password First!!!');
                 }
                 return redirect()->route('dashboard')->with('success', 'Login SuccessFully!!!');

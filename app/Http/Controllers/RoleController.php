@@ -30,7 +30,7 @@ class RoleController extends Controller
                         return $counter;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('role', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -60,7 +60,7 @@ class RoleController extends Controller
                     ->make(true);
             }
             if ($filterName == 'sdrl') {
-                $data = Role::withTrashed()->where('is_deleted', 1)->get();
+                $data = Role::withTrashed()->where('is_deleted', true)->get();
                 return DataTables::of($data)
                     ->addColumn('#', function () {
                         static $counter = 0;
@@ -68,7 +68,7 @@ class RoleController extends Controller
                         return $counter;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('role', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -103,7 +103,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::where('is_active', 1)->get();
+        $permission = Permission::where('is_active', true)->get();
         $role = null;
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
@@ -151,7 +151,7 @@ class RoleController extends Controller
     {
         $role = Role::with('permissions')->findOrFail($id);
         $pivotPermission = $role->permissions->pluck('id')->toArray();
-        $permission = Permission::where('is_active', 1)->get();
+        $permission = Permission::where('is_active', true)->get();
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
         return view('role.addEdit', compact('permission', 'pivotPermission', 'role', 'modules', 'uniqueModules'));
@@ -164,7 +164,7 @@ class RoleController extends Controller
     {
         $role = Role::with('permissions')->findOrFail($id);
         $pivotPermission = $role->permissions->pluck('id')->toArray();
-        $permission = Permission::where('is_active', 1)->get();
+        $permission = Permission::where('is_active', true)->get();
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
         return view('role.show', compact('permission', 'pivotPermission', 'role', 'modules', 'uniqueModules'));

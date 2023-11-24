@@ -91,7 +91,7 @@
                         <div class="form-check form-check-inline">
 
                             @if (isset($module) && $module != null)
-                                <input type="checkbox" name="is_in_menu" {{ $module->is_in_menu == 1 ? 'checked' : '' }}
+                                <input type="checkbox" name="is_in_menu" {{ $module->is_in_menu == true ? 'checked' : '' }}
                                     class="form-check-input" id="is_in_menu" value="1">
                             @else
                                 <input type="checkbox" name="is_in_menu" class="form-check-input" id="is_in_menu"
@@ -105,7 +105,7 @@
                         <div class="form-check form-check-inline">
 
                             @if (isset($module) && $module != null)
-                                <input type="checkbox" name="is_active" {{ $module->is_active == 1 ? 'checked' : '' }}
+                                <input type="checkbox" name="is_active" {{ $module->is_active == true ? 'checked' : '' }}
                                     class="form-check-input" id="is_active" value="1">
                             @else
                                 <input type="checkbox" name="is_active" class="form-check-input" id="is_active"

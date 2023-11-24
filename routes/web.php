@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
     // User Routes Group
     Route::controller(UserController::class)->group(function () {
         Route::prefix('user')->group(function () {
-            Route::get('profile', 'profile')->name('profile');
+                Route::get('profile', 'profile')->name('profile');
             Route::get('list', 'index')->name('user.list')->middleware('access.control:user,view');
             Route::get('create', 'create')->name('user.addForm')->middleware('access.control:user,add');
             Route::post('store', 'store')->name('user.store')->middleware('access.control:user,add');

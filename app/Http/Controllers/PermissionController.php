@@ -30,7 +30,7 @@ class PermissionController extends Controller
                         return $counter;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -60,7 +60,7 @@ class PermissionController extends Controller
                     ->make(true);
             }
             if ($filterName == 'sdpl') {
-                $data = Permission::withTrashed()->where('is_deleted', 1)->get();
+                $data = Permission::withTrashed()->where('is_deleted', true)->get();
                 return DataTables::of($data)
                     ->addColumn('#', function () {
                         static $counter = 0;
@@ -68,7 +68,7 @@ class PermissionController extends Controller
                         return $counter;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -104,7 +104,7 @@ class PermissionController extends Controller
     {
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where('is_active', 1)
+            ->where('is_active', true)
             ->orderBy('display_order')
             ->get();
 
@@ -144,8 +144,8 @@ class PermissionController extends Controller
         ];
 
         $modules = Module::whereNotNull('parent_id')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
+            ->where('is_active', true)
+            ->where('is_deleted', false)
             ->get();
 
         foreach ($modules as $module) {
@@ -156,7 +156,7 @@ class PermissionController extends Controller
 
                 foreach ($request->$moduleName as $action) {
                     if (isset($actionMapping[$action])) {
-                        $pivotData[$actionMapping[$action]] = 1;
+                        $pivotData[$actionMapping[$action]] = true;
                     }
                 }
 
@@ -178,7 +178,7 @@ class PermissionController extends Controller
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where('is_active', 1)
+            ->where('is_active', true)
             ->orderBy('display_order')
             ->get();
 
@@ -202,7 +202,7 @@ class PermissionController extends Controller
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where('is_active', 1)
+            ->where('is_active', true)
             ->get();
 
         $uniqueModules = $modules
@@ -243,7 +243,7 @@ class PermissionController extends Controller
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where('is_active', 1)
+            ->where('is_active', true)
             ->get();
 
         $syncData = [];
@@ -256,7 +256,7 @@ class PermissionController extends Controller
 
                 foreach ($request->$moduleName as $action) {
                     if (isset($actionMapping[$action])) {
-                        $pivotData[$actionMapping[$action]] = 1;
+                        $pivotData[$actionMapping[$action]] = true;
                     }
                 }
 
@@ -294,7 +294,7 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         if ($permission) {
             $permission->delete();
-            $permission->modules()->update(['permission_module.deleted_at' => now(), 'permission_module.is_deleted' => 1, 'permission_module.deleted_by' => Auth::id()]);
+            $permission->modules()->update(['permission_module.deleted_at' => now(), 'permission_module.is_deleted' => true, 'permission_module.deleted_by' => Auth::id()]);
             return redirect()->route('permission.list')->with('success', 'Soft Deleted SuccessFully!!!');
         } else {
             return redirect()->route('permission.list')->with('error', 'Soft Deleted Failed!!!');
@@ -319,7 +319,7 @@ class PermissionController extends Controller
         $restoredPermission = Permission::withTrashed()->findOrFail($id);
 
         if ($restoredPermission) {
-            $restoredPermission->modules()->update(['permission_module.deleted_at' => null, 'permission_module.is_deleted' => 0, 'permission_module.deleted_by' => null]);
+            $restoredPermission->modules()->update(['permission_module.deleted_at' => null, 'permission_module.is_deleted' => false, 'permission_module.deleted_by' => null]);
             $restoredPermission->restore();
             return redirect()->route('permission.list')->with('success', 'Restore SuccessFully!!!');
         } else {

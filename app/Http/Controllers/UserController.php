@@ -36,7 +36,7 @@ class UserController extends Controller
                         return $name;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -77,7 +77,7 @@ class UserController extends Controller
                     ->make(true);
             }
             if ($filterName == 'sdul') {
-                $data = User::with('roles')->withTrashed()->where('is_deleted', 1)->get();
+                $data = User::with('roles')->withTrashed()->where('is_deleted', true)->get();
                 return DataTables::of($data)
                     ->addColumn('#', function () {
                         static $counter = 0;
@@ -89,7 +89,7 @@ class UserController extends Controller
                         return $name;
                     })
                     ->addColumn('status', function ($row) {
-                        $checked = $row->is_active == 1 ? 'checked' : '';
+                        $checked = $row->is_active == true ? 'checked' : '';
                         $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
@@ -127,7 +127,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $role = Role::where('is_active', 1)->get();
+        $role = Role::where('is_active', true)->get();
         $user = null;
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
@@ -215,7 +215,7 @@ class UserController extends Controller
     {
         $user = User::with('roles')->findOrFail($id);
         $pivotRoles = $user->roles->pluck('id')->toArray();
-        $role = Role::where('is_active', 1)->get();
+        $role = Role::where('is_active', true)->get();
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
         return view('user.addEdit', compact('user', 'role', 'pivotRoles', 'modules', 'uniqueModules'));
