@@ -22,12 +22,12 @@ trait ModulePermissionTrait
 
                     // User has permission for the module
                     if ($moduleName != "" && $action == "") {
-                        if (strtolower($module['name']) === $moduleName && ($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access'])) {
+                        if (strtolower($module['code']) === $moduleName && ($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access'])) {
                             return true;
                         }
                     }
                     if ($moduleName != "" && $action != "") {
-                        if (strtolower($module['name']) === $moduleName) {
+                        if (strtolower($module['code']) === $moduleName) {
 
                             // User has permission to Access 'add'
                             if ($module->pivot['add_access'] && ($action == 'add')) {

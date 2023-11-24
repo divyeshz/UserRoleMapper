@@ -31,7 +31,7 @@ class AccessControlMiddleware
                 foreach ($permission->modules as $module) {
 
                     // User has permission for the module
-                    if (strtolower($module['name']) === $moduleName) {
+                    if (strtolower($module['code']) === $moduleName) {
 
                         // User has permission to Access 'forceLogout'
                         if (($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access']) && ($action == 'forceLogout')) {
