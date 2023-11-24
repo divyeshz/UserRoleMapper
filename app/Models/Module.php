@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\BootTrait;
 
-class Module extends Model
+class Module extends BaseModel
 {
-    use HasFactory, SoftDeletes, BootTrait;
+    use HasFactory, SoftDeletes;
     protected $primaryKey = 'id';
     public $incrementing = false;
 
