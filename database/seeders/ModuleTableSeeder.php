@@ -49,6 +49,13 @@ class ModuleTableSeeder extends Seeder
                     'display_order' => 4,
                     'parent_id' => $accountModuleId, // Assign Account module's ID as parent_id
                 ],
+                [
+                    'id' => Str::uuid(),
+                    'code' => 'module',
+                    'name' => 'Module',
+                    'display_order' => 5,
+                    'parent_id' => $accountModuleId, // Assign Account module's ID as parent_id
+                ],
             ]);
         }
     }

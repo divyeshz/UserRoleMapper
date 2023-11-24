@@ -6,10 +6,11 @@ use App\Models\Module;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\ModulePermissionTrait;
+use App\Traits\AjaxResponse;
 
 class ModuleController extends BaseController
 {
-    use ModulePermissionTrait;
+    use ModulePermissionTrait, AjaxResponse;
     /**
      * Display a listing of the resource.
      */
@@ -269,17 +270,10 @@ class ModuleController extends BaseController
             'is_active'     => $is_active,
         ]);
         if ($status) {
-            $response = [
-                'status'    => '200',
-                'message'   => 'Status Updated SuccessFully!!!'
-            ];
+            return $this->success(200,'Status Updated SuccessFully!!!');
         } else {
-            $response = [
-                'status'    => '400',
-                'message'   => 'Status Updated Failed!!!'
-            ];
+            return $this->error(400,'Status Updated Failed!!!');
         }
-        return json_encode($response);
     }
 
 }

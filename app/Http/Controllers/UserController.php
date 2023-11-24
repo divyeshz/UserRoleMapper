@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\DispatchEmails;
+use App\Traits\AjaxResponse;
 
 class UserController extends BaseController
 {
-    use DispatchEmails;
+    use DispatchEmails, AjaxResponse;
     /**
      * Display a listing of the resource.
      */
@@ -343,17 +344,10 @@ class UserController extends BaseController
             'is_active'     => $is_active,
         ]);
         if ($status) {
-            $response = [
-                'status'    => '200',
-                'message'   => 'Status Updated SuccessFully!!!'
-            ];
+            return $this->success(200,'Status Updated SuccessFully!!!');
         } else {
-            $response = [
-                'status'    => '400',
-                'message'   => 'Status Updated Failed!!!'
-            ];
+            return $this->error(400,'Status Updated Failed!!!');
         }
-        return json_encode($response);
     }
 
     /* admin can force logout any other user */
@@ -367,24 +361,13 @@ class UserController extends BaseController
                 foreach ($user->tokens as $token) {
                     $token->delete();
                 }
-                $response = [
-                    'status'    => '200',
-                    'message'   => 'User logged out!!!'
-                ];
+                return $this->success(200,'User logged out!!!');
             } else {
-                // User currently not logged in no tokens available
-                $response = [
-                    'status'    => '400',
-                    'message'   => 'User currently not logged in!!!'
-                ];
+                return $this->error(400,'User currently not logged in!!!');
             }
         } else {
             // User not found
-            $response = [
-                'status'    => '400',
-                'message'   => 'User not found!!!'
-            ];
+            return $this->error(400,'User not found!!!');
         }
-        return json_encode($response);
     }
 }
