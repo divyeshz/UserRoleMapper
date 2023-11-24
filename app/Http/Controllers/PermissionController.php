@@ -104,11 +104,7 @@ class PermissionController extends Controller
     {
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where([
-                ['is_active', 1],
-                ['is_deleted', 0],
-                ['deleted_at', null],
-            ])
+            ->where('is_active', 1)
             ->orderBy('display_order')
             ->get();
 
@@ -182,11 +178,7 @@ class PermissionController extends Controller
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where([
-                ['is_active', 1],
-                ['is_deleted', 0],
-                ['deleted_at', null],
-            ])
+            ->where('is_active', 1)
             ->orderBy('display_order')
             ->get();
 
@@ -210,11 +202,7 @@ class PermissionController extends Controller
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
-            ->where([
-                ['is_active', 1],
-                ['is_deleted', 0],
-                ['deleted_at', null],
-            ])
+            ->where('is_active', 1)
             ->get();
 
         $uniqueModules = $modules
@@ -256,7 +244,6 @@ class PermissionController extends Controller
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
             ->where('is_active', 1)
-            ->where('is_deleted', 0)
             ->get();
 
         $syncData = [];
@@ -344,11 +331,8 @@ class PermissionController extends Controller
     public function status(Request $request)
     {
 
-        $id = $request->id;
-        $is_active = $request->is_active;
-
-        $status = Permission::where('id', $id)->update([
-            'is_active'     => $is_active,
+        $status = Permission::where('id', $request->id)->update([
+            'is_active'     => $request->is_active,
         ]);
         if ($status) {
             return $this->success(200,'Status Updated SuccessFully!!!');

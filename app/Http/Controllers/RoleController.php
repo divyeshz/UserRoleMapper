@@ -103,11 +103,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::where([
-            ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
-        ])->get();
+        $permission = Permission::where('is_active', 1)->get();
         $role = null;
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
@@ -125,15 +121,11 @@ class RoleController extends Controller
             'permission'    => 'required',
         ]);
 
-        $name        = $request->name;
-        $description = $request->description;
-        $is_active   = $request->is_active != "" ? $request->is_active : 0;
-
         // store the data
         $Role = Role::create([
-            'name'          => $name,
-            'description'   => $description,
-            'is_active'     => $is_active,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'is_active'     => $request->is_active ?? 0,
         ]);
 
         if ($request->has('permission')) {
@@ -159,11 +151,7 @@ class RoleController extends Controller
     {
         $role = Role::with('permissions')->findOrFail($id);
         $pivotPermission = $role->permissions->pluck('id')->toArray();
-        $permission = Permission::where([
-            ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
-        ])->get();
+        $permission = Permission::where('is_active', 1)->get();
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
         return view('role.addEdit', compact('permission', 'pivotPermission', 'role', 'modules', 'uniqueModules'));
@@ -176,11 +164,7 @@ class RoleController extends Controller
     {
         $role = Role::with('permissions')->findOrFail($id);
         $pivotPermission = $role->permissions->pluck('id')->toArray();
-        $permission = Permission::where([
-            ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
-        ])->get();
+        $permission = Permission::where('is_active', 1)->get();
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
         return view('role.show', compact('permission', 'pivotPermission', 'role', 'modules', 'uniqueModules'));
@@ -197,17 +181,13 @@ class RoleController extends Controller
             'permission'    => 'required',
         ]);
 
-        $name        = $request->name;
-        $description = $request->description;
-        $is_active   = $request->is_active != "" ? $request->is_active : 0;
-
         $role = Role::findOrFail($id);
 
         // Update user details if needed
         $role->update([
-            'name'          => $name,
-            'description'   => $description,
-            'is_active'     => $is_active,
+            'name'          => $request->name,
+            'description'   => $request->description,
+            'is_active'     => $request->is_active ?? 0,
         ]);
 
         if ($request->has('permission')) {
@@ -285,11 +265,8 @@ class RoleController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
-        $id = $request->id;
-        $is_active = $request->is_active;
-
-        $status = Role::where('id', $id)->update([
-            'is_active'     => $is_active,
+        $status = Role::where('id', $request->id)->update([
+            'is_active'     =>  $request->is_active,
         ]);
         if ($status) {
             return $this->success(200,'Status Updated SuccessFully!!!');

@@ -104,8 +104,6 @@ class ModuleController extends Controller
         $parentModule = Module::where([
             ['parent_id', null],
             ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
         ])->get();
         $module = null;
         $modules = $this->modules();
@@ -124,23 +122,17 @@ class ModuleController extends Controller
             'name'          => 'required|string',
             'code'          => 'required|string',
             'display_order' => 'required|numeric',
+            'parent_id'     => 'nullable',
         ]);
-
-        $code           = $request->code;
-        $name           = $request->name;
-        $display_order  = $request->display_order;
-        $parent_id      = $request->parent_id;
-        $is_active      = $request->is_active != "" ? $request->is_active : 0;
-        $is_in_menu     = $request->is_in_menu != "" ? $request->is_in_menu : 0;
 
         // store the data
         $add = Module::create([
-            'code'          => $code,
-            'name'          => $name,
-            'display_order' => $display_order,
-            'parent_id'     => $parent_id,
-            'is_active'     => $is_active,
-            'is_in_menu'    => $is_in_menu,
+            'code'          => $request->code,
+            'name'          => $request->name,
+            'display_order' => $request->display_order,
+            'parent_id'     => $request->parent_id,
+            'is_active'     => $request->is_active ?? 0,
+            'is_in_menu'    => $request->is_in_menu ?? 0,
         ]);
 
         if ($add) {
@@ -158,8 +150,6 @@ class ModuleController extends Controller
         $allModule = Module::where([
             ['parent_id', null],
             ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
         ])->get();
         $module = Module::findOrFail($id);
         $modules = $this->modules();
@@ -176,8 +166,6 @@ class ModuleController extends Controller
             ['id', '<>', $id],
             ['parent_id', null],
             ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
         ])->get();
         $module = Module::findOrFail($id);
         $modules = $this->modules();
@@ -193,26 +181,20 @@ class ModuleController extends Controller
         // validate Data
         $request->validate([
             'name'          => 'required|string',
-            'code'          => 'required',
+            'code'          => 'required|string',
             'display_order' => 'required|numeric',
+            'parent_id'     => 'nullable',
         ]);
-
-        $code           = $request->code;
-        $name           = $request->name;
-        $display_order  = $request->display_order;
-        $parent_id      = $request->parent_id;
-        $is_active      = $request->is_active != "" ? $request->is_active : 0;
-        $is_in_menu     = $request->is_in_menu != "" ? $request->is_in_menu : 0;
 
         $module = Module::findOrFail($id);
 
         $module->update([
-            'name'          => $name,
-            'code'          => $code,
-            'display_order' => $display_order,
-            'parent_id'     => $parent_id,
-            'is_active'     => $is_active,
-            'is_in_menu'    => $is_in_menu,
+            'name'          => $request->name,
+            'code'          => $request->code,
+            'display_order' => $request->display_order,
+            'parent_id'     => $request->parent_id,
+            'is_active'     => $request->is_active ?? 0,
+            'is_in_menu'    => $request->is_in_menu ?? 0,
         ]);
 
         if ($module) {
@@ -264,11 +246,8 @@ class ModuleController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
-        $id = $request->id;
-        $is_active = $request->is_active;
-
-        $status = Module::where('id', $id)->update([
-            'is_active'     => $is_active,
+        $status = Module::where('id', $request->id)->update([
+            'is_active'     => $request->is_active,
         ]);
         if ($status) {
             return $this->success(200,'Status Updated SuccessFully!!!');

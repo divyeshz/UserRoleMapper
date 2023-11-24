@@ -127,11 +127,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $role = Role::where([
-            ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
-        ])->get();
+        $role = Role::where('is_active', 1)->get();
         $user = null;
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
@@ -161,25 +157,20 @@ class UserController extends Controller
         $max = 999999;
         $randomPass = random_int($min, $max);
 
-        $fname      = $request->fname;
-        $lname      = $request->lname;
-        $email      = $request->email;
-        $is_active  = $request->is_active != "" ? $request->is_active : 0;
-
         // store the data
         $User = User::create([
-            'first_name'        => $fname,
-            'last_name'         => $lname,
-            'email'             => $email,
+            'first_name'        => $request->fname,
+            'last_name'         => $request->lname,
+            'email'             => $request->email,
             'password'          => Hash::make($randomPass),
             'is_first_login'    => 1,
-            'is_active'         => $is_active,
+            'is_active'         => $request->is_active ?? 0,
             'type'              => 'user',
         ]);
 
         $data = [
-            'fname'         => $fname,
-            'lname'         => $lname,
+            'fname'         => $request->fname,
+            'lname'         => $request->lname,
             'password'      => $randomPass,
         ];
 
@@ -224,11 +215,7 @@ class UserController extends Controller
     {
         $user = User::with('roles')->findOrFail($id);
         $pivotRoles = $user->roles->pluck('id')->toArray();
-        $role = Role::where([
-            ['is_active', 1],
-            ['is_deleted', 0],
-            ['deleted_at', null],
-        ])->get();
+        $role = Role::where('is_active', 1)->get();
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
         return view('user.addEdit', compact('user', 'role', 'pivotRoles', 'modules', 'uniqueModules'));
@@ -245,21 +232,15 @@ class UserController extends Controller
             'email'          => 'required|email',
         ]);
 
-        $fname = $request->fname;
-        $lname = $request->lname;
-        $email = $request->email;
-        $type = $request->type;
-        $is_active = $request->is_active != "" ? $request->is_active : 0;
-
         $user = User::findOrFail($id);
 
         // Update user details
         $user->update([
-            'first_name'        => $fname,
-            'last_name'         => $lname,
-            'email'             => $email,
-            'is_active'         => $is_active,
-            'type'              => $type,
+            'first_name'        => $request->fname,
+            'last_name'         => $request->lname,
+            'email'             => $request->email,
+            'is_active'         => $request->is_active ?? 0,
+            'type'              => $request->type,
         ]);
 
         if ($request->has('role')) {
@@ -338,11 +319,8 @@ class UserController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
-        $id = $request->id;
-        $is_active = $request->is_active;
-
-        $status = User::where('id', $id)->update([
-            'is_active'     => $is_active,
+        $status = User::where('id', $request->id)->update([
+            'is_active'     => $request->is_active,
         ]);
         if ($status) {
             return $this->success(200,'Status Updated SuccessFully!!!');
