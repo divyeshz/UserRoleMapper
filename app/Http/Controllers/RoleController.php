@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\ModulePermissionTrait;
 use App\Traits\AjaxResponse;
+use App\Traits\ControllerTrait;
 
-class RoleController extends BaseController
+class RoleController extends Controller
 {
-    use ModulePermissionTrait, AjaxResponse;
+    use ModulePermissionTrait, AjaxResponse, ControllerTrait;
     /**
      * Display a listing of the resource.
      */

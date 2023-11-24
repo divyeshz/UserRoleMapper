@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\ModulePermissionTrait;
 use App\Traits\AjaxResponse;
+use App\Traits\ControllerTrait;
 
-class ModuleController extends BaseController
+class ModuleController extends Controller
 {
-    use ModulePermissionTrait, AjaxResponse;
+    use ModulePermissionTrait, AjaxResponse, ControllerTrait;
     /**
      * Display a listing of the resource.
      */

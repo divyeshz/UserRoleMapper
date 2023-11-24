@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\DispatchEmails;
 use App\Traits\AjaxResponse;
+use App\Traits\ControllerTrait;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
-    use DispatchEmails, AjaxResponse;
+    use DispatchEmails, AjaxResponse, ControllerTrait;
     /**
      * Display a listing of the resource.
      */
