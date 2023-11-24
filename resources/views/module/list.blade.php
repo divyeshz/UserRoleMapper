@@ -18,10 +18,12 @@
             </ol>
         </nav>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ route('module.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
-                <i class="btn-icon-prepend" data-feather="plus"></i>
-                Add Module
-            </a>
+            @if (auth()->user()->hasModulePermission('module', 'add'))
+                <a href="{{ route('module.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+                    <i class="btn-icon-prepend" data-feather="plus"></i>
+                    Add Module
+                </a>
+            @endif
         </div>
     </div>
 

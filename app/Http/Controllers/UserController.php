@@ -8,14 +8,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\DispatchEmails;
-use App\Traits\ModulePermissionTrait;
 
 class UserController extends Controller
 {
-    use DispatchEmails, ModulePermissionTrait;
+    use DispatchEmails;
     /**
      * Display a listing of the resource.
      */

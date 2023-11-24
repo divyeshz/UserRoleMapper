@@ -15,10 +15,12 @@
             </ol>
         </nav>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ route('permission.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
-                <i class="btn-icon-prepend" data-feather="plus"></i>
-                Add Permission
-            </a>
+            @if (auth()->user()->hasModulePermission('permission', 'add'))
+                <a href="{{ route('permission.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+                    <i class="btn-icon-prepend" data-feather="plus"></i>
+                    Add Permission
+                </a>
+            @endif
         </div>
     </div>
 
