@@ -25,12 +25,12 @@
                                             @elseif ($module->name == 'Role') {{ route('role.list') }}
                                             @elseif ($module->name == 'Permission') {{ route('permission.list') }}
                                             @elseif ($module->name == 'Module') {{ route('module.list') }}
-                                            @else {{ route('forbidden') }} @endif ">{{ $module->name }}</a>
+                                            @else {{ route('comingSoon') }} @endif ">{{ $module->name }}</a>
                                         </li>
                                     @elseif (Auth::user()->type != 'admin' &&
                                             auth()->user()->hasModulePermission(strtolower($module->name)))
                                         <li class="nav-item"><a class="nav-link"
-                                                href="@if ($module->name == 'User') {{ route('user.list') }} @elseif ($module->name == 'Role') {{ route('role.list') }} @elseif ($module->name == 'Permission') {{ route('permission.list') }}@elseif ($module->name == 'Module') {{ route('module.list') }}@else {{ route('forbidden') }} @endif">{{ $module->name }}</a>
+                                                href="@if ($module->name == 'User') {{ route('user.list') }} @elseif ($module->name == 'Role') {{ route('role.list') }} @elseif ($module->name == 'Permission') {{ route('permission.list') }}@elseif ($module->name == 'Module') {{ route('module.list') }}@else {{ route('comingSoon') }} @endif">{{ $module->name }}</a>
                                         </li>
                                     @endif
                                 @endif
