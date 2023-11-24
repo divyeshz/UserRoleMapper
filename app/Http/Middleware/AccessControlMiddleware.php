@@ -6,9 +6,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use App\Traits\AjaxResponse;
 
 class AccessControlMiddleware
 {
+    use AjaxResponse;
     /**
      * Handle an incoming request.
      *
@@ -48,11 +50,7 @@ class AccessControlMiddleware
 
                         // User has permission to Access 'edit' than change the status
                         if (!$module->pivot['edit_access'] && $action == 'status') {
-                            $response = [
-                                'status' => '403',
-                                'message' => "You don't have permission to do this."
-                            ];
-                            return response()->json($response);
+                            return $this->error(401,"You don't have permission to do this.");
                         }
 
                         // User has permission to Access 'view'
