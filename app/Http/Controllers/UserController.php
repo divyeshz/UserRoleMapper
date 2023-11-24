@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\DispatchEmails;
+use App\Traits\ModulePermissionTrait;
 
 class UserController extends Controller
 {
-
-    use DispatchEmails;
+    use DispatchEmails, ModulePermissionTrait;
     /**
      * Display a listing of the resource.
      */
@@ -37,8 +37,10 @@ class UserController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == 1 ? 'checked' : '';
+                        $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
+
                         $activeBtn = '<div class="form-check form-switch">
-                        <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active">
+                        <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . '">
                     </div>';
                         return $activeBtn;
                     })
@@ -47,19 +49,25 @@ class UserController extends Controller
                     })
                     ->addColumn('action', function ($row) {
                         $viewRoute = route('user.show', $row->id);
+                        $viewBtn = $this->hasModulePermission('user', 'view') != true ? 'd-none' : '';
+
                         $editRoute = route('user.editForm', $row->id);
+                        $editBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
+
                         $deleteRoute = route('user.destroy', $row->id);
+                        $deleteBtn = $this->hasModulePermission('user', 'delete') != true ? 'd-none' : '';
+
                         $logoutRoute = route('user.forceLogout', $row->id);
                         $displayLogout = Auth::user()->type !== "admin" ? "d-none" : "";
                         $display = $row->type == "admin" ? "d-none" : "";
 
-                        if($row->type != 'admin' || (Auth::user()->type == "admin")){
+                        if ($row->type != 'admin' || (Auth::user()->type == "admin")) {
                             $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                             ' . csrf_field() . '
-                            <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
-                            <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
+                            <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm ' . $editBtn . '">Edit</a>
+                            <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm ' . $viewBtn . '">View</a>
                             <button type="button" data-id="' . $row->id . '" data-link="' . $logoutRoute . '" class="btn btn-secondary logout btn-sm ' . $displayLogout . ' ' . $display . ' ">Log Out</button>
-                            <button type="button" class="btn btn-danger btn-sm delete ' . $display . '">Delete</button>
+                            <button type="button" class="btn btn-danger btn-sm delete ' . $display . ' ' . $deleteBtn . '">Delete</button>
                         </form>';
                             return $actionBtn;
                         }
@@ -82,8 +90,10 @@ class UserController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == 1 ? 'checked' : '';
+                        $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
+
                         $activeBtn = '<div class="form-check form-switch">
-                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active">
+                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . ' ">
                     </div>';
                         return $activeBtn;
                     })
@@ -93,8 +103,9 @@ class UserController extends Controller
                     ->addColumn('action', function ($row) {
                         $restoreRoute = route('user.restore', $row->id);
                         $deleteRoute = route('user.delete', $row->id);
+                        $deleteBtn = $this->hasModulePermission('user', 'delete') != true ? 'd-none' : '';
 
-                        $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
+                        $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form ' . $deleteBtn . '" method="POST">
                             ' . csrf_field() . '
                             <a href="' . $restoreRoute . '" type="button" class="btn btn-primary btn-sm">Restore</a>
                             <button type="button" class="btn btn-danger btn-sm delete">Delete</button>

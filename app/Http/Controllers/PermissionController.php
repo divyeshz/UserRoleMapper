@@ -7,10 +7,11 @@ use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use App\Traits\ModulePermissionTrait;
 
 class PermissionController extends Controller
 {
-
+    use ModulePermissionTrait;
     /**
      * Display a listing of the resource.
      */
@@ -28,21 +29,28 @@ class PermissionController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == 1 ? 'checked' : '';
+                        $switchBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
+
                         $activeBtn = '<div class="form-check form-switch">
-                        <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active">
+                        <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . '">
                     </div>';
                         return $activeBtn;
                     })
                     ->addColumn('action', function ($row) {
                         $viewRoute = route('permission.show', $row->id);
+                        $viewBtn = $this->hasModulePermission('permission', 'view') != true ? 'd-none' : '';
+
                         $editRoute = route('permission.editForm', $row->id);
+                        $editBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
+
                         $deleteRoute = route('permission.destroy', $row->id);
+                        $deleteBtn = $this->hasModulePermission('permission', 'delete') != true ? 'd-none' : '';
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
-                        <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm">View</a>
-                        <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
+                        <a href="' . $editRoute . '" type="button" class="btn btn-primary btn-sm ' . $editBtn . '">Edit</a>
+                        <a href="' . $viewRoute . '" type="button" class="btn btn-info btn-sm ' . $viewBtn . '">View</a>
+                        <button type="button" class="btn btn-danger btn-sm delete ' . $deleteBtn . '">Delete</button>
                     </form>';
                         return $actionBtn;
                     })
@@ -59,16 +67,19 @@ class PermissionController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == 1 ? 'checked' : '';
+                        $switchBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
+
                         $activeBtn = '<div class="form-check form-switch">
-                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active">
+                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . '">
                     </div>';
                         return $activeBtn;
                     })
                     ->addColumn('action', function ($row) {
                         $restoreRoute = route('permission.restore', $row->id);
                         $deleteRoute = route('permission.delete', $row->id);
+                        $deleteBtn = $this->hasModulePermission('permission', 'delete') != true ? 'd-none' : '';
 
-                        $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
+                        $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form ' . $deleteBtn . '" method="POST">
                             ' . csrf_field() . '
                             <a href="' . $restoreRoute . '" type="button" class="btn btn-primary btn-sm">Restore</a>
                             <button type="button" class="btn btn-danger btn-sm delete">Delete</button>
@@ -105,7 +116,7 @@ class PermissionController extends Controller
             ->values();
 
         $Permission = null;
-        return view('permission.addEdit', compact('modules', 'uniqueModules','Permission'));
+        return view('permission.addEdit', compact('modules', 'uniqueModules', 'Permission'));
     }
 
     /**
@@ -162,7 +173,8 @@ class PermissionController extends Controller
     public function edit(string $id)
     {
         $Permission = Permission::with('modules')->findOrFail($id);
-        $pivotPermission = $Permission->modules->pluck('pivot')->toArray();;
+        $pivotPermission = $Permission->modules->pluck('pivot')->toArray();
+        ;
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
@@ -190,7 +202,7 @@ class PermissionController extends Controller
     public function show(string $id)
     {
         $Permission = Permission::with('modules')->findOrFail($id);
-        $pivotPermission = $Permission->modules->pluck('pivot')->toArray();;
+        $pivotPermission = $Permission->modules->pluck('pivot')->toArray();
 
         $modules = Module::whereNotNull('parent_id')
             ->with('parentModule')
