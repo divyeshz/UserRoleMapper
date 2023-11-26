@@ -164,7 +164,7 @@ class UserController extends Controller
             'email'             => $request->email,
             'password'          => Hash::make($randomPass),
             'is_first_login'    => 1,
-            'is_active'         => $request->is_active ?? 0,
+            'is_active'         => $request->is_active ?? false,
             'type'              => 'user',
         ]);
 
@@ -239,7 +239,7 @@ class UserController extends Controller
             'first_name'        => $request->fname,
             'last_name'         => $request->lname,
             'email'             => $request->email,
-            'is_active'         => $request->is_active ?? 0,
+            'is_active'         => $request->is_active ?? false,
             'type'              => $request->type,
         ]);
 

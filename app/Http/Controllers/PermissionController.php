@@ -133,7 +133,7 @@ class PermissionController extends Controller
         $permission = Permission::create([
             'name'          => $request->name,
             'description'   => $request->description,
-            'is_active'     => $request->is_active ?? 0,
+            'is_active'     => $request->is_active ?? false,
         ]);
 
         $actionMapping = [
@@ -231,7 +231,7 @@ class PermissionController extends Controller
         $permission->update([
             'name'          => $request->name,
             'description'   => $request->description,
-            'is_active'     => $request->is_active ?? 0,
+            'is_active'     => $request->is_active ?? false,
         ]);
 
         $actionMapping = [

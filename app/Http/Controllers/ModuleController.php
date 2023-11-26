@@ -193,8 +193,8 @@ class ModuleController extends Controller
             'code'          => $request->code,
             'display_order' => $request->display_order,
             'parent_id'     => $request->parent_id,
-            'is_active'     => $request->is_active ?? 0,
-            'is_in_menu'    => $request->is_in_menu ?? 0,
+            'is_active'     => $request->is_active ?? false,
+            'is_in_menu'    => $request->is_in_menu ?? false,
         ]);
 
         if ($module) {

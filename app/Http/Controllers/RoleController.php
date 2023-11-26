@@ -125,7 +125,7 @@ class RoleController extends Controller
         $Role = Role::create([
             'name'          => $request->name,
             'description'   => $request->description,
-            'is_active'     => $request->is_active ?? 0,
+            'is_active'     => $request->is_active ?? false,
         ]);
 
         if ($request->has('permission')) {
@@ -187,7 +187,7 @@ class RoleController extends Controller
         $role->update([
             'name'          => $request->name,
             'description'   => $request->description,
-            'is_active'     => $request->is_active ?? 0,
+            'is_active'     => $request->is_active ?? false,
         ]);
 
         if ($request->has('permission')) {
