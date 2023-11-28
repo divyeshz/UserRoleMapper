@@ -67,10 +67,6 @@ class Permission extends BaseModel
                     return true;
                 }
 
-                if (!$value->pivot['edit_access'] && $action == 'status') {
-                    return $this->error(401, "You don't have permission to do this.");
-                }
-
             }
         } else {
             return false;

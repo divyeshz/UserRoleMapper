@@ -37,10 +37,10 @@ class UserController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == true ? 'checked' : '';
-                        $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
+                        $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'disabled readonly' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
-                        <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . '">
+                        <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active" ' . $switchBtn . '>
                     </div>';
                         return $activeBtn;
                     })
@@ -90,10 +90,10 @@ class UserController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == true ? 'checked' : '';
-                        $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'd-none' : '';
+                        $switchBtn = $this->hasModulePermission('user', 'edit') != true ? 'disabled readonly' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
-                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . ' ">
+                        <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active" ' . $switchBtn . '>
                     </div>';
                         return $activeBtn;
                     })

@@ -41,7 +41,7 @@
                                             </li>
                                         @elseif (Auth::user()->type != 'admin' &&
                                                 auth()->user()->hasAccess(strtolower($module->code), ''))
-                                            <li class="nav-item"><a class="nav-link"
+                                            <li class="nav-item {{ $isActive }}"><a class="nav-link"
                                                     href="@if ($module->code == 'user') {{ route('user.list') }} @elseif ($module->code == 'role') {{ route('role.list') }} @elseif ($module->code == 'perm') {{ route('perm.list') }}@elseif ($module->code == 'module') {{ route('module.list') }} @elseif ($module->code == 'demo') {{ route('demo.list') }}@else {{ route('comingSoon') }} @endif">{{ $module->name }}</a>
                                             </li>
                                         @endif

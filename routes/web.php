@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
             Route::post('destroy/{id}', 'destroy')->name('user.destroy')->middleware('access.control:user,delete');
             Route::post('delete/{id}', 'delete')->name('user.delete')->middleware('access.control:user,delete');
             Route::get('restore/{id}', 'restore')->name('user.restore')->middleware('access.control:user,restore');
-            Route::post('status', 'status')->name('user.status')->middleware('access.control:user,status');
+            Route::post('status', 'status')->name('user.status')->middleware('access.control:user,edit');
             Route::post('logout/{id}', 'forceLogout')->name('user.forceLogout')->middleware('access.control:user,forceLogout');
         });
     });
@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('destroy/{id}', 'destroy')->name('role.destroy')->middleware('access.control:role,delete');
         Route::post('delete/{id}', 'delete')->name('role.delete')->middleware('access.control:role,delete');
         Route::get('restore/{id}', 'restore')->name('role.restore')->middleware('access.control:role,restore');
-        Route::post('status', 'status')->name('role.status')->middleware('access.control:role,status');
+        Route::post('status', 'status')->name('role.status')->middleware('access.control:role,edit');
     });
 
     // Permission Routes Group
@@ -87,7 +87,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('destroy/{id}', 'destroy')->name('perm.destroy')->middleware('access.control:perm,delete');
         Route::post('delete/{id}', 'delete')->name('perm.delete')->middleware('access.control:perm,delete');
         Route::get('restore/{id}', 'restore')->name('perm.restore')->middleware('access.control:perm,restore');
-        Route::post('status', 'status')->name('perm.status')->middleware('access.control:perm,status');
+        Route::post('status', 'status')->name('perm.status')->middleware('access.control:perm,edit');
     });
 
     // Module Routes Group
@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('destroy/{id}', 'destroy')->name('module.destroy')->middleware('access.control:module,delete');
         Route::post('delete/{id}', 'delete')->name('module.delete')->middleware('access.control:module,delete');
         Route::get('restore/{id}', 'restore')->name('module.restore')->middleware('access.control:module,restore');
-        Route::post('status', 'status')->name('module.status')->middleware('access.control:module,status');
+        Route::post('status', 'status')->name('module.status')->middleware('access.control:module,edit');
     });
 
     // Demo Routes Group
