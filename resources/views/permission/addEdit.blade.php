@@ -67,8 +67,7 @@
                             <input type="checkbox" name="is_active" {{ $Permission->is_active == 1 ? 'checked' : '' }}
                                 class="form-check-input" id="is_active" value="1">
                         @else
-                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active"
-                                value="1">
+                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1">
                         @endif
 
                         <label class="form-check-label" for="is_active">
@@ -112,9 +111,117 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($uniqueModules as $uniqueModule)
+                                            @if (count($uniqueModule->childModules) > 0)
+                                                <tr class="table-info">
+                                                    <td colspan="6">{{ $uniqueModule->name }}</td>
+                                                </tr>
+                                            @else
                                             <tr class="table-info">
-                                                <td colspan="6">{{ $uniqueModule->name }}</td>
+                                                <td>{{ $uniqueModule->name }}</td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input all"
+                                                            id="{{ $uniqueModule->name }}" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+
+                                                        @if (isset($Permission) && $Permission != null)
+                                                            <input type="checkbox" value="add"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";1;"
+                                                                {{ $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                                    return $value->id === $uniqueModule->id && $value->pivot->add_access === 1;
+                                                                })
+                                                                    ? 'checked'
+                                                                    : '' }}
+                                                                class="form-check-input add_{{ $uniqueModule->name }}"
+                                                                id="add_{{ $uniqueModule->name }}" />
+                                                        @else
+                                                            <input type="checkbox" value="add"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";1;"
+                                                                class="form-check-input add_{{ $uniqueModule->name }}"
+                                                                id="add_{{ $uniqueModule->name }}" />
+                                                        @endif
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+
+                                                        @if (isset($Permission) && $Permission != null)
+                                                            <input type="checkbox" value="view"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";2;"
+                                                                {{ $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                                    return $value->id === $uniqueModule->id && $value->pivot->view_access === 1;
+                                                                })
+                                                                    ? 'checked'
+                                                                    : '' }}
+                                                                class="form-check-input view_{{ $uniqueModule->name }}"
+                                                                id="view_{{ $uniqueModule->name }}" />
+                                                        @else
+                                                            <input type="checkbox" value="view"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";2;"
+                                                                class="form-check-input view_{{ $uniqueModule->name }}"
+                                                                id="view_{{ $uniqueModule->name }}" />
+                                                        @endif
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+
+                                                        @if (isset($Permission) && $Permission != null)
+                                                            <input type="checkbox" value="edit"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";3;"
+                                                                {{ $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                                    return $value->id === $uniqueModule->id && $value->pivot->edit_access === 1;
+                                                                })
+                                                                    ? 'checked'
+                                                                    : '' }}
+                                                                class="form-check-input edit_{{ $uniqueModule->name }}"
+                                                                id="modify_{{ $uniqueModule->name }}" />
+                                                        @else
+                                                            <input type="checkbox" value="edit"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";3;"
+                                                                class="form-check-input edit_{{ $uniqueModule->name }}"
+                                                                id="modify_{{ $uniqueModule->name }}" />
+                                                        @endif
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+
+                                                        @if (isset($Permission) && $Permission != null)
+                                                            <input type="checkbox" value="delete"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";4;"
+                                                                {{ $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                                    return $value->id === $uniqueModule->id && $value->pivot->delete_access === 1;
+                                                                })
+                                                                    ? 'checked'
+                                                                    : '' }}
+                                                                class="form-check-input delete"
+                                                                id="delete_{{ $uniqueModule->name }}" />
+                                                        @else
+                                                            <input type="checkbox" value="delete"
+                                                                name="{{ $uniqueModule->name }}[]"
+                                                                data-in-perm-group=";4;"
+                                                                class="form-check-input delete"
+                                                                id="delete_{{ $uniqueModule->name }}" />
+                                                        @endif
+
+                                                    </div>
+                                                </td>
                                             </tr>
+                                            @endif
                                             @foreach ($modules as $module)
                                                 @if ($module->parentModule->id === $uniqueModule->id)
                                                     <tr>

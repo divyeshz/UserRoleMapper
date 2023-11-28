@@ -46,9 +46,43 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($uniqueModules as $uniqueModule)
-                                            <tr class="table-info">
-                                                <td colspan="6">{{ $uniqueModule->name }}</td>
-                                            </tr>
+                                            @if (count($uniqueModule->childModules) > 0)
+                                                <tr class="table-info">
+                                                    <td colspan="6">{{ $uniqueModule->name }}</td>
+                                                </tr>
+                                            @else
+                                                <tr class="table-info">
+                                                    <td>{{ $uniqueModule->name }}</td>
+                                                    <td>
+                                                        {!! $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                            return $value->id === $uniqueModule->id && $value->pivot->add_access === 1;
+                                                        })
+                                                            ? "<i data-feather='check'></i>"
+                                                            : "<i data-feather='x'></i>" !!}
+                                                    </td>
+                                                    <td>
+                                                        {!! $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                            return $value->id === $uniqueModule->id && $value->pivot->view_access === 1;
+                                                        })
+                                                            ? "<i data-feather='check'></i>"
+                                                            : "<i data-feather='x'></i>" !!}
+                                                    </td>
+                                                    <td>
+                                                        {!! $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                            return $value->id === $uniqueModule->id && $value->pivot->edit_access === 1;
+                                                        })
+                                                            ? "<i data-feather='check'></i>"
+                                                            : "<i data-feather='x'></i>" !!}
+                                                    </td>
+                                                    <td>
+                                                        {!! $Permission->modules->contains(function ($value) use ($uniqueModule) {
+                                                            return $value->id === $uniqueModule->id && $value->pivot->delete_access === 1;
+                                                        })
+                                                            ? "<i data-feather='check'></i>"
+                                                            : "<i data-feather='x'></i>" !!}
+                                                    </td>
+                                                </tr>
+                                            @endif
                                             @foreach ($modules as $module)
                                                 @if ($module->parentModule->id === $uniqueModule->id)
                                                     <tr>

@@ -134,8 +134,7 @@ class PermissionController extends Controller
             'delete'    => 'delete_access',
         ];
 
-        $modules = Module::whereNotNull('parent_id')
-            ->where('is_active', true)
+        $modules = Module::where('is_active', true)
             ->where('is_deleted', false)
             ->get();
 
@@ -178,18 +177,8 @@ class PermissionController extends Controller
         $Permission = Permission::with('modules')->findOrFail($id);
         $pivotPermission = $Permission->modules->pluck('pivot')->toArray();
 
-        $modules = Module::whereNotNull('parent_id')
-            ->with('parentModule')
-            ->where('is_active', true)
-            ->get();
-
-        $uniqueModules = $modules
-            ->groupBy('parent_id') // Group modules by parent_id
-            ->map(function ($groupedModules) {
-                return $groupedModules->first()->parentModule; // Get the first parentModule from each group
-            })
-            ->values();
-
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
         return view('permission.show', compact('Permission', 'modules', 'uniqueModules', 'pivotPermission'));
     }
 
@@ -220,10 +209,7 @@ class PermissionController extends Controller
             'delete'    => 'delete_access',
         ];
 
-        $modules = Module::whereNotNull('parent_id')
-            ->with('parentModule')
-            ->where('is_active', true)
-            ->get();
+        $modules = Module::where('is_active', true)->get();
 
         $syncData = [];
 
