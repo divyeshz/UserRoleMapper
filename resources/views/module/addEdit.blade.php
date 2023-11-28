@@ -73,7 +73,7 @@
                     <div class="mb-3">
                         <label for="exampleFormControlSelect1" class="form-label">Parent Module</label>
                         <select class="form-select" name="parent_id" id="exampleFormControlSelect1">
-                            <option selected disabled>Select Parent Module</option>
+                            <option selected value="">Select Parent Module</option>
 
                             @foreach ($parentModule as $m)
                                 @if (isset($module) && $module != null)

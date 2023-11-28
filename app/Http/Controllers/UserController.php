@@ -150,7 +150,8 @@ class UserController extends Controller
         $request->validate([
             'role'      => 'required',
             'fname'     => 'required|string',
-            'email'     => 'required|email',
+            'email'     => 'unique:users|required|email',
+            'is_active'     => 'boolean',
         ]);
 
         $min = 100000;
@@ -230,6 +231,7 @@ class UserController extends Controller
             'role'           => 'required',
             'fname'          => 'required|string',
             'email'          => 'required|email',
+            'is_active'     => 'boolean',
         ]);
 
         $user = User::findOrFail($id);
@@ -319,6 +321,11 @@ class UserController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
+        $request->validate([
+            'id'        => 'required',
+            'is_active' => 'numeric'
+        ]);
+
         $status = User::where('id', $request->id)->update([
             'is_active'     => $request->is_active,
         ]);

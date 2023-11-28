@@ -120,9 +120,11 @@ class ModuleController extends Controller
         // validate Data
         $request->validate([
             'name'          => 'required|string',
-            'code'          => 'required|string',
+            'code'          => 'required|string|unique:modules',
             'display_order' => 'required|numeric',
             'parent_id'     => 'nullable',
+            'is_active'     => 'boolean',
+            'is_in_menu'    => 'boolean',
         ]);
 
         // store the data
@@ -184,6 +186,8 @@ class ModuleController extends Controller
             'code'          => 'required|string',
             'display_order' => 'required|numeric',
             'parent_id'     => 'nullable',
+            'is_active'     => 'boolean',
+            'is_in_menu'    => 'boolean',
         ]);
 
         $module = Module::findOrFail($id);
@@ -246,6 +250,11 @@ class ModuleController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
+        $request->validate([
+            'id'        => 'required',
+            'is_active' => 'boolean',
+        ]);
+
         $status = Module::where('id', $request->id)->update([
             'is_active'     => $request->is_active,
         ]);

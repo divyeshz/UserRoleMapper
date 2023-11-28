@@ -128,6 +128,7 @@ class PermissionController extends Controller
         $request->validate([
             'name'          => 'required|string',
             'description'   => 'required|string',
+            'is_active'     => 'boolean',
         ]);
 
         $permission = Permission::create([
@@ -224,6 +225,7 @@ class PermissionController extends Controller
         $request->validate([
             'name'          => 'required|string',
             'description'   => 'required|string',
+            'is_active'     => 'boolean',
         ]);
 
         $permission = Permission::findOrFail($id);
@@ -330,6 +332,11 @@ class PermissionController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
+
+        $request->validate([
+            'id'        => 'required',
+            'is_active' => 'numeric'
+        ]);
 
         $status = Permission::where('id', $request->id)->update([
             'is_active'     => $request->is_active,

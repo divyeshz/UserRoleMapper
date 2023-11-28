@@ -115,10 +115,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name'          => 'required|string',
             'description'   => 'required|string',
-            'permission'    => 'required',
+            'permission'    => 'required|exists:permissions,id',
+            'is_active'     => 'boolean',
         ]);
 
         // store the data
@@ -178,7 +180,8 @@ class RoleController extends Controller
         $request->validate([
             'name'          => 'required|string',
             'description'   => 'required|string',
-            'permission'    => 'required',
+            'permission'    => 'required|exists:permissions,id',
+            'is_active'     => 'boolean',
         ]);
 
         $role = Role::findOrFail($id);
@@ -265,6 +268,11 @@ class RoleController extends Controller
     /* Chnage active status */
     public function status(Request $request)
     {
+        $request->validate([
+            'id'        => 'required',
+            'is_active' => 'numeric'
+        ]);
+
         $status = Role::where('id', $request->id)->update([
             'is_active'     =>  $request->is_active,
         ]);

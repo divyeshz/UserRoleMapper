@@ -29,7 +29,7 @@ class AuthController extends BaseController
         // Validate Data
         $request->validate([
             'email'     => 'required|email',
-            'password'  => 'required|min:6',
+            'password'  => 'required|min:6|string'
         ]);
 
         // Attempt for Login With User Credentials
@@ -91,8 +91,8 @@ class AuthController extends BaseController
         $request->validate([
             'fname'          => 'required|string',
             'lname'          => 'required|string',
-            'email'          => 'required|email',
-            'password'       => 'required|min:6',
+            'email'          => 'unique:users|required|email',
+            'password'       => 'required|min:6|string',
         ]);
 
         // Store data Into User Table
@@ -186,9 +186,9 @@ class AuthController extends BaseController
 
             // Validate Data
             $request->validate([
-                'prt_token' => 'required',
-                'password' => 'required|min:6',
-                'confirm_password' => 'required|min:6|same:password',
+                'prt_token'         => 'required',
+                'password'          => 'required|min:6|string',
+                'confirm_password'  => 'required|min:6|same:password|string',
             ]);
 
             $user->update([
@@ -214,9 +214,9 @@ class AuthController extends BaseController
     {
         // Validate Data
         $request->validate([
-            'old_password'          => 'required|min:6',
-            'new_password'          => 'required|min:6',
-            'confirm_new_password'  => 'required|min:6|same:new_password',
+            'old_password'          => 'required|min:6|string',
+            'new_password'          => 'required|min:6|string',
+            'confirm_new_password'  => 'required|min:6|same:new_password|string',
         ]);
 
         $user = User::where('email', Auth::user()->email)->first();
