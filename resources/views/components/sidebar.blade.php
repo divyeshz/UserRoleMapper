@@ -22,7 +22,10 @@
                                     @php
                                         $isActive = '';
                                     @endphp
-                                    @if (Request::is(strtolower($module->code) . '/list') || Request::is(strtolower($module->code) . '/create') || Request::is(strtolower($module->code) . '/edit/*') || Request::is(strtolower($module->code) . '/show/*'))
+                                    @if (Request::is(strtolower($module->code) . '/list') ||
+                                            Request::is(strtolower($module->code) . '/create') ||
+                                            Request::is(strtolower($module->code) . '/edit/*') ||
+                                            Request::is(strtolower($module->code) . '/show/*'))
                                         @php
                                             $isActive = 'active';
                                         @endphp
@@ -51,17 +54,19 @@
                         </div>
                     </li>
                 @else
-                    <li class="nav-item">
-                        <a href="@if ($uniqueModule->code == 'user') {{ route('user.list') }}
-                            @elseif ($uniqueModule->code == 'role') {{ route('role.list') }}
-                            @elseif ($uniqueModule->code == 'perm') {{ route('perm.list') }}
-                            @elseif ($uniqueModule->code == 'module') {{ route('module.list') }}
-                            @elseif ($uniqueModule->code == 'demo') {{ route('demo.list') }}
-                            @else {{ route('comingSoon') }} @endif "
-                            class="nav-link">
-                            <i class="link-icon" data-feather="hash"></i>
-                            <span class="menu-title">{{ $uniqueModule->name }}</span></a>
-                    </li>
+                    @if (Auth::user()->type === 'admin' || auth()->user()->hasAccess(strtolower($uniqueModule->code), ''))
+                        <li class="nav-item">
+                            <a href="@if ($uniqueModule->code == 'user') {{ route('user.list') }}
+                        @elseif ($uniqueModule->code == 'role') {{ route('role.list') }}
+                        @elseif ($uniqueModule->code == 'perm') {{ route('perm.list') }}
+                        @elseif ($uniqueModule->code == 'module') {{ route('module.list') }}
+                        @elseif ($uniqueModule->code == 'demo') {{ route('demo.list') }}
+                        @else {{ route('comingSoon') }} @endif "
+                                class="nav-link">
+                                <i class="link-icon" data-feather="hash"></i>
+                                <span class="menu-title">{{ $uniqueModule->name }}</span></a>
+                        </li>
+                    @endif
                 @endif
             @endforeach
 
