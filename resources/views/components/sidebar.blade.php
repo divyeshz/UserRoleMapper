@@ -26,12 +26,13 @@
                                             @elseif ($module->code == 'role') {{ route('role.list') }}
                                             @elseif ($module->code == 'perm') {{ route('permission.list') }}
                                             @elseif ($module->code == 'module') {{ route('module.list') }}
+                                            @elseif ($module->code == 'demo') {{ route('demo.list') }}
                                             @else {{ route('comingSoon') }} @endif ">{{ $module->name }}</a>
                                             </li>
                                         @elseif (Auth::user()->type != 'admin' &&
                                                 auth()->user()->hasAccess(strtolower($module->code), ''))
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="@if ($module->code == 'user') {{ route('user.list') }} @elseif ($module->code == 'role') {{ route('role.list') }} @elseif ($module->code == 'perm') {{ route('permission.list') }}@elseif ($module->code == 'module') {{ route('module.list') }}@else {{ route('comingSoon') }} @endif">{{ $module->name }}</a>
+                                                    href="@if ($module->code == 'user') {{ route('user.list') }} @elseif ($module->code == 'role') {{ route('role.list') }} @elseif ($module->code == 'perm') {{ route('permission.list') }}@elseif ($module->code == 'module') {{ route('module.list') }} @elseif ($module->code == 'demo') {{ route('demo.list') }}@else {{ route('comingSoon') }} @endif">{{ $module->name }}</a>
                                             </li>
                                         @endif
                                     @endif
@@ -41,10 +42,11 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a href="@if ($uniqueModule->name == 'User') {{ route('user.list') }}
-                            @elseif ($uniqueModule->name == 'Role') {{ route('role.list') }}
-                            @elseif ($uniqueModule->name == 'Permission') {{ route('permission.list') }}
-                            @elseif ($uniqueModule->name == 'Module') {{ route('module.list') }}
+                        <a href="@if ($uniqueModule->code == 'user') {{ route('user.list') }}
+                            @elseif ($uniqueModule->code == 'role') {{ route('role.list') }}
+                            @elseif ($uniqueModule->code == 'permission') {{ route('permission.list') }}
+                            @elseif ($uniqueModule->code == 'module') {{ route('module.list') }}
+                            @elseif ($uniqueModule->code == 'demo') {{ route('demo.list') }}
                             @else {{ route('comingSoon') }} @endif "
                             class="nav-link">
                             <i class="link-icon" data-feather="hash"></i>
