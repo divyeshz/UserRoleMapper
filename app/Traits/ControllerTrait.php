@@ -7,6 +7,13 @@ use App\Models\Module;
 trait ControllerTrait
 {
 
+    /**
+     * The function retrieves active modules with their parent modules, ordered by display order.
+     *
+     * - The module has a non-null parent_id
+     * - The module is active (is_active = 1)
+     * - The modules are ordered by display_order
+     */
     protected static function modules()
     {
 
@@ -14,6 +21,10 @@ trait ControllerTrait
         return $modules;
     }
 
+    /**
+     * The function "uniqueModules" returns a collection of parent modules that are active and ordered
+     * by display order.
+     */
     protected static function uniqueModules()
     {
 

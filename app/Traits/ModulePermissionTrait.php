@@ -6,6 +6,21 @@ use Illuminate\Support\Facades\Auth;
 
 trait ModulePermissionTrait
 {
+    /**
+     * The function checks if a user has permission to access a module in a PHP application, granting
+     * access to users with the 'admin' type without further permission checks.
+     *
+     * @param $moduleName The moduleName parameter represents the name of the module for which the
+     * permission is being checked. It is a string value that identifies a specific module in the
+     * application.
+     *
+     * @param $action The "action" parameter represents the specific action or operation that the user
+     * is trying to perform within the module. It could be a CRUD operation like create, read, update,
+     * or delete, or any other custom action defined within the module.
+     *
+     * @return boolean value. If the user is an admin, it will return true. If the user is not an
+     * admin and does not have access to the specified module and action, it will return false.
+     */
     public function hasModulePermission($moduleName, $action = '')
     {
         $user = Auth::user();
@@ -15,49 +30,12 @@ trait ModulePermissionTrait
         if (Auth::user()->type == 'admin') {
             return true;
         } else {
-            $permissions = $user->roles->flatMap->permissions; // Get all permissions associated with user roles
-
-            foreach ($permissions as $permission) {
-                foreach ($permission->modules as $module) {
-
-                    // User has permission for the module
-                    if ($moduleName != "" && $action == "") {
-                        if (strtolower($module['code']) === $moduleName && ($module->pivot['add_access'] || $module->pivot['edit_access'] || $module->pivot['delete_access'] || $module->pivot['view_access'])) {
-                            return true;
-                        }
-                    }
-                    if ($moduleName != "" && $action != "") {
-                        if (strtolower($module['code']) === $moduleName) {
-
-                            // User has permission to Access 'add'
-                            if ($module->pivot['add_access'] && ($action == 'add')) {
-                                return true;
-                            }
-
-                            // User has permission to Access 'edit'
-                            if ($module->pivot['edit_access'] && ($action == 'edit')) {
-                                return true;
-                            }
-
-                            // User has permission to Access 'view'
-                            if ($module->pivot['view_access'] && $action == 'view') {
-                                return true;
-                            }
-
-                            // User has permission to Access 'soft delete', 'hard delete' & 'restore'
-                            if ($module->pivot['delete_access'] && ($action == 'delete' || $action == 'restore')) {
-                                return true;
-                            }
-
-                        }
-
-
-                    }
-                }
+            if ($user->hasAccess($moduleName, $action)) {
+                return true;
+            } else {
+                // No permission found for the module
+                return false;
             }
-
-            // No permission found for the module
-            return false;
         }
     }
 }
