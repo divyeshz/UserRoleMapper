@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DemoController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -101,6 +102,19 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('delete/{id}', 'delete')->name('module.delete')->middleware('access.control:module,delete');
         Route::get('restore/{id}', 'restore')->name('module.restore')->middleware('access.control:module,restore');
         Route::post('status', 'status')->name('module.status')->middleware('access.control:module,status');
+    });
+
+    // Demo Routes Group
+    Route::controller(DemoController::class)->prefix('demo')->group(function () {
+        Route::get('list', 'index')->name('demo.list')->middleware('access.control:demo,view');
+        Route::get('create', 'create')->name('demo.addForm')->middleware('access.control:demo,add');
+        Route::post('store', 'store')->name('demo.store')->middleware('access.control:demo,add');
+        Route::get('show/{id}', 'show')->name('demo.show')->middleware('access.control:demo,view');
+        Route::get('edit/{id}', 'edit')->name('demo.editForm')->middleware('access.control:demo,edit');
+        Route::post('update/{id}', 'update')->name('demo.update')->middleware('access.control:demo,edit');
+        Route::post('destroy/{id}', 'destroy')->name('demo.destroy')->middleware('access.control:demo,delete');
+        Route::post('delete/{id}', 'delete')->name('demo.delete')->middleware('access.control:demo,delete');
+        Route::get('restore/{id}', 'restore')->name('demo.restore')->middleware('access.control:demo,restore');
     });
 
     // forbidden Route

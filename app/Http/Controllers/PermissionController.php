@@ -102,20 +102,10 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        $modules = Module::whereNotNull('parent_id')
-            ->with('parentModule')
-            ->where('is_active', true)
-            ->orderBy('display_order')
-            ->get();
-
-        $uniqueModules = $modules
-            ->groupBy('parent_id') // Group modules by parent_id
-            ->map(function ($groupedModules) {
-                return $groupedModules->first()->parentModule; // Get the first parentModule from each group
-            })
-            ->values();
 
         $Permission = null;
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
         return view('permission.addEdit', compact('modules', 'uniqueModules', 'Permission'));
     }
 
@@ -175,21 +165,8 @@ class PermissionController extends Controller
     {
         $Permission = Permission::with('modules')->findOrFail($id);
         $pivotPermission = $Permission->modules->pluck('pivot')->toArray();
-        ;
-
-        $modules = Module::whereNotNull('parent_id')
-            ->with('parentModule')
-            ->where('is_active', true)
-            ->orderBy('display_order')
-            ->get();
-
-        $uniqueModules = $modules
-            ->groupBy('parent_id') // Group modules by parent_id
-            ->map(function ($groupedModules) {
-                return $groupedModules->first()->parentModule; // Get the first parentModule from each group
-            })
-            ->values();
-
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
         return view('permission.addEdit', compact('Permission', 'modules', 'uniqueModules', 'pivotPermission'));
     }
 
