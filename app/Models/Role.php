@@ -36,4 +36,14 @@ class Role extends BaseModel
             ->withPivot('is_active')
             ->withTimestamps();
     }
+
+    public function hasRole($module, $action)
+    {
+        foreach ($this->permissions as $permission) {
+           if($permission->hasPermission($module, $action)){
+                return true;
+           }
+        }
+        return false;
+    }
 }

@@ -44,4 +44,26 @@ class Permission extends BaseModel
             ->withPivot('add_access', 'edit_access', 'delete_access', 'view_access')
             ->withTimestamps();
     }
+
+    public function hasPermission($module, $action)
+    {
+        $moduleData = $this->modules->where('code', $module)->first();
+        if ($moduleData) {
+            foreach ($this->modules as $value) {
+                if ($action == "") {
+                    return true;
+                }
+                if ($value->pivot[$action . '_access'] && $value->code == $module) {
+                    return true;
+                }
+
+                if (!$value->pivot['edit_access'] && $action == 'status') {
+                    return $this->error(401, "You don't have permission to do this.");
+                }
+
+            }
+        } else {
+            return false;
+        }
+    }
 }

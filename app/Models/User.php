@@ -37,6 +37,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')->withPivot('is_active')->withTimestamps();
     }
 
+    public function hasAccess($module, $action)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->hasRole($module, $action)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
