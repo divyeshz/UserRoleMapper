@@ -9,15 +9,12 @@ class Role extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected $primaryKey = 'id';
-    public $incrementing = false;
-
     protected $fillable = ['name', 'description', 'is_active', 'created_by', 'updated_by', 'deleted_by', 'is_deleted'];
 
     protected static function booted()
     {
         parent::booted();
-        static::moduleTrait();
+        static::bootMethod();
     }
 
     /**

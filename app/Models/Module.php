@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Module extends BaseModel
 {
     use HasFactory, SoftDeletes;
-    protected $primaryKey = 'id';
-    public $incrementing = false;
-
     protected $fillable = ['code', 'name', 'is_active', 'is_in_menu', 'display_order', 'parent_id', 'created_by', 'updated_by', 'deleted_by', 'is_deleted'];
 
     /**
@@ -27,7 +24,7 @@ class Module extends BaseModel
     protected static function booted()
     {
         parent::booted();
-        static::moduleTrait();
+        static::bootMethod();
     }
 
     public function parentModule()

@@ -10,7 +10,10 @@ class BaseModel extends Model
 {
     use HasFactory;
 
-    protected static function moduleTrait()
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+
+    protected static function bootMethod()
     {
         static::creating(function ($module) {
             $module->id = Str::uuid()->toString();
