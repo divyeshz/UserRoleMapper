@@ -27,6 +27,10 @@ class Role extends BaseModel
         'is_deleted' => 'boolean',
     ];
 
+    /**
+     * The function returns a many-to-many relationship between the current object and the Permission
+     * model, with additional pivot data and timestamps.
+     */
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_role', 'role_id', 'permission_id')
@@ -34,6 +38,12 @@ class Role extends BaseModel
             ->withTimestamps();
     }
 
+    /**
+     * The function checks if a user has a specific role for a given module and action.
+     *
+     * return a boolean value. It returns true if there is a permission that matches the given module
+     * and action, and false otherwise.
+     */
     public function hasRole($module, $action)
     {
         foreach ($this->permissions as $permission) {

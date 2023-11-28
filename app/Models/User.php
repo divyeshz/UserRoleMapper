@@ -32,11 +32,22 @@ class User extends Authenticatable
         static::moduleTrait();
     }
 
+    /**
+     * The function "roles" defines a many-to-many relationship between the current class and the
+     * "Role" class, using the "role_user" pivot table, with additional pivot data "is_active" and
+     * timestamps.
+     */
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')->withPivot('is_active')->withTimestamps();
     }
 
+    /**
+     * The function checks if a user has access to a specific module and action based on their roles.
+     *
+     * return a boolean value. It returns true if any of the roles in the  array have access to
+     * the specified  and , and false otherwise.
+     */
     public function hasAccess($module, $action)
     {
         foreach ($this->roles as $role) {

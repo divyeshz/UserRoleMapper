@@ -4,6 +4,12 @@ namespace App\Traits;
 
 trait AjaxResponse
 {
+    /**
+     * The function "success" is used to generate a JSON response with a success status code, message,
+     * and optional data.
+     *
+     * return a JSON response with the specified status code, message, and data.
+     */
     protected function success($statusCode,$message,$data = null)
     {
         $successMessages = [
@@ -26,6 +32,12 @@ trait AjaxResponse
         }
     }
 
+    /**
+     * The function "error" is used to generate a JSON response with a error status code, message,
+     * and optional data.
+     *
+     * return a JSON response with the specified status code, message, and data.
+     */
     protected function error($statusCode,$message,$data = null)
     {
         $errorMessages = [

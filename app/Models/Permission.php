@@ -28,6 +28,10 @@ class Permission extends BaseModel
         static::bootMethod();
     }
 
+    /**
+     * The function returns a many-to-many relationship between the current object and the Role class,
+     * with additional pivot data and timestamps.
+     */
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'permission_role', 'permission_id', 'role_id')
@@ -35,6 +39,10 @@ class Permission extends BaseModel
             ->withTimestamps();
     }
 
+    /**
+     * The function "modules" returns a many-to-many relationship between the current object and the
+     * Module class, with additional pivot columns and timestamps.
+     */
     public function modules()
     {
         return $this->belongsToMany(Module::class, 'permission_module', 'permission_id', 'module_id')
@@ -42,6 +50,11 @@ class Permission extends BaseModel
             ->withTimestamps();
     }
 
+    /**
+     * The function checks if a user has permission to perform a specific action on a module.
+     *
+     * return either true, false, or an error message.
+     */
     public function hasPermission($module, $action)
     {
         $moduleData = $this->modules->where('code', $module)->first();
