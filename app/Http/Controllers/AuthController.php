@@ -13,10 +13,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\NewUserNotification;
 use App\Traits\DispatchEmails;
+use App\Traits\ControllerTrait;
 
-class AuthController extends BaseController
+class AuthController extends Controller
 {
-    use DispatchEmails;
+    use DispatchEmails, ControllerTrait;
     /* User Login Form */
     public function loginForm()
     {
