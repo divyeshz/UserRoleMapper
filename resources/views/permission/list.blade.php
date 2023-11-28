@@ -16,7 +16,7 @@
         </nav>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
             @if (auth()->user()->hasModulePermission('permission', 'add'))
-                <a href="{{ route('permission.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+                <a href="{{ route('perm.addForm') }}" type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                     <i class="btn-icon-prepend" data-feather="plus"></i>
                     Add Permission
                 </a>
@@ -79,7 +79,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('permission.list') }}",
+                    url: "{{ route('perm.list') }}",
                     data: {
                         filterName: 'pl'
                     },
@@ -117,7 +117,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     dataType: 'json',
-                    url: "{{ route('permission.status') }}",
+                    url: "{{ route('perm.status') }}",
                     success: function(response) {
                         if (response.status == "200") {
                             toastr.success('' + response.message + '');
@@ -175,7 +175,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('permission.list') }}",
+                        url: "{{ route('perm.list') }}",
                         data: {
                             filterName: filterName
                         },

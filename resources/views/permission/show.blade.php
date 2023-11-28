@@ -91,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="{{ route('permission.list') }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('perm.list') }}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
         </div>

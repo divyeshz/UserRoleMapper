@@ -29,10 +29,10 @@
                 <div class="card-body">
 
                     @if (isset($Permission) && $Permission != null)
-                        <form action="{{ route('permission.update', $Permission->id) }}" id="editPermissionForm"
+                        <form action="{{ route('perm.update', $Permission->id) }}" id="editPermissionForm"
                             method="post">
                         @else
-                            <form class="" action="{{ route('permission.store') }}" id="addPermissionForm"
+                            <form class="" action="{{ route('perm.store') }}" id="addPermissionForm"
                                 method="post">
                     @endif
 
@@ -232,7 +232,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary me-2">Save</button>
-                    <a href="{{ route('permission.list') }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('perm.list') }}" class="btn btn-secondary">Cancel</a>
                     </form>
 
                 </div>

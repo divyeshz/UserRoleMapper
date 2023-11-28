@@ -19,12 +19,22 @@
                         <div class="submenu">
                             <ul class="submenu-item">
                                 @foreach ($modules as $module)
+                                    @php
+                                        $isActive = '';
+                                    @endphp
+                                    @if (Request::is(strtolower($module->code) . '/list') || Request::is(strtolower($module->code) . '/create') || Request::is(strtolower($module->code) . '/edit/*') || Request::is(strtolower($module->code) . '/show/*'))
+                                        @php
+                                            $isActive = 'active';
+                                        @endphp
+                                    @endif
+
                                     @if ($module->parentModule->id === $uniqueModule->id)
                                         @if (Auth::user()->type === 'admin')
-                                            <li class="nav-item"><a class="nav-link"
+                                            <li class="nav-item {{ $isActive }}">
+                                                <a class="nav-link"
                                                     href="@if ($module->code == 'user') {{ route('user.list') }}
                                             @elseif ($module->code == 'role') {{ route('role.list') }}
-                                            @elseif ($module->code == 'perm') {{ route('permission.list') }}
+                                            @elseif ($module->code == 'perm') {{ route('perm.list') }}
                                             @elseif ($module->code == 'module') {{ route('module.list') }}
                                             @elseif ($module->code == 'demo') {{ route('demo.list') }}
                                             @else {{ route('comingSoon') }} @endif ">{{ $module->name }}</a>
@@ -32,7 +42,7 @@
                                         @elseif (Auth::user()->type != 'admin' &&
                                                 auth()->user()->hasAccess(strtolower($module->code), ''))
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="@if ($module->code == 'user') {{ route('user.list') }} @elseif ($module->code == 'role') {{ route('role.list') }} @elseif ($module->code == 'perm') {{ route('permission.list') }}@elseif ($module->code == 'module') {{ route('module.list') }} @elseif ($module->code == 'demo') {{ route('demo.list') }}@else {{ route('comingSoon') }} @endif">{{ $module->name }}</a>
+                                                    href="@if ($module->code == 'user') {{ route('user.list') }} @elseif ($module->code == 'role') {{ route('role.list') }} @elseif ($module->code == 'perm') {{ route('perm.list') }}@elseif ($module->code == 'module') {{ route('module.list') }} @elseif ($module->code == 'demo') {{ route('demo.list') }}@else {{ route('comingSoon') }} @endif">{{ $module->name }}</a>
                                             </li>
                                         @endif
                                     @endif
@@ -44,7 +54,7 @@
                     <li class="nav-item">
                         <a href="@if ($uniqueModule->code == 'user') {{ route('user.list') }}
                             @elseif ($uniqueModule->code == 'role') {{ route('role.list') }}
-                            @elseif ($uniqueModule->code == 'permission') {{ route('permission.list') }}
+                            @elseif ($uniqueModule->code == 'perm') {{ route('perm.list') }}
                             @elseif ($uniqueModule->code == 'module') {{ route('module.list') }}
                             @elseif ($uniqueModule->code == 'demo') {{ route('demo.list') }}
                             @else {{ route('comingSoon') }} @endif "

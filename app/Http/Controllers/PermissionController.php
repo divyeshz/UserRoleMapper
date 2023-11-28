@@ -31,7 +31,7 @@ class PermissionController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == true ? 'checked' : '';
-                        $switchBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
+                        $switchBtn = $this->hasModulePermission('perm', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
                         <input name="is_active" data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . '">
@@ -39,14 +39,14 @@ class PermissionController extends Controller
                         return $activeBtn;
                     })
                     ->addColumn('action', function ($row) {
-                        $viewRoute = route('permission.show', $row->id);
-                        $viewBtn = $this->hasModulePermission('permission', 'view') != true ? 'd-none' : '';
+                        $viewRoute = route('perm.show', $row->id);
+                        $viewBtn = $this->hasModulePermission('perm', 'view') != true ? 'd-none' : '';
 
-                        $editRoute = route('permission.editForm', $row->id);
-                        $editBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
+                        $editRoute = route('perm.editForm', $row->id);
+                        $editBtn = $this->hasModulePermission('perm', 'edit') != true ? 'd-none' : '';
 
-                        $deleteRoute = route('permission.destroy', $row->id);
-                        $deleteBtn = $this->hasModulePermission('permission', 'delete') != true ? 'd-none' : '';
+                        $deleteRoute = route('perm.destroy', $row->id);
+                        $deleteBtn = $this->hasModulePermission('perm', 'delete') != true ? 'd-none' : '';
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form" method="POST">
                         ' . csrf_field() . '
@@ -69,7 +69,7 @@ class PermissionController extends Controller
                     })
                     ->addColumn('status', function ($row) {
                         $checked = $row->is_active == true ? 'checked' : '';
-                        $switchBtn = $this->hasModulePermission('permission', 'edit') != true ? 'd-none' : '';
+                        $switchBtn = $this->hasModulePermission('perm', 'edit') != true ? 'd-none' : '';
 
                         $activeBtn = '<div class="form-check form-switch">
                         <input name="is_active" disabled data-id="' . $row->id . '" type="checkbox" ' . $checked . ' class="form-check-input switch_is_active ' . $switchBtn . '">
@@ -77,9 +77,9 @@ class PermissionController extends Controller
                         return $activeBtn;
                     })
                     ->addColumn('action', function ($row) {
-                        $restoreRoute = route('permission.restore', $row->id);
-                        $deleteRoute = route('permission.delete', $row->id);
-                        $deleteBtn = $this->hasModulePermission('permission', 'delete') != true ? 'd-none' : '';
+                        $restoreRoute = route('perm.restore', $row->id);
+                        $deleteRoute = route('perm.delete', $row->id);
+                        $deleteBtn = $this->hasModulePermission('perm', 'delete') != true ? 'd-none' : '';
 
                         $actionBtn = '<form action="' . $deleteRoute . '" class="delete-form ' . $deleteBtn . '" method="POST">
                             ' . csrf_field() . '
@@ -155,7 +155,7 @@ class PermissionController extends Controller
                 $module->permissions()->attach($permission, $pivotData);
             }
         }
-        return redirect()->route('permission.list')->with('success', 'Created SuccessFully!!!');
+        return redirect()->route('perm.list')->with('success', 'Created SuccessFully!!!');
     }
 
     /**
@@ -262,7 +262,7 @@ class PermissionController extends Controller
         }
 
         $permission->modules()->sync($syncData);
-        return redirect()->route('permission.list')->with('success', 'Updated SuccessFully!!!');
+        return redirect()->route('perm.list')->with('success', 'Updated SuccessFully!!!');
     }
 
     /**
@@ -274,9 +274,9 @@ class PermissionController extends Controller
         if ($permission) {
             $permission->delete();
             $permission->modules()->update(['permission_module.deleted_at' => now(), 'permission_module.is_deleted' => true, 'permission_module.deleted_by' => Auth::id()]);
-            return redirect()->route('permission.list')->with('success', 'Soft Deleted SuccessFully!!!');
+            return redirect()->route('perm.list')->with('success', 'Soft Deleted SuccessFully!!!');
         } else {
-            return redirect()->route('permission.list')->with('error', 'Soft Deleted Failed!!!');
+            return redirect()->route('perm.list')->with('error', 'Soft Deleted Failed!!!');
         }
     }
 
@@ -286,9 +286,9 @@ class PermissionController extends Controller
         $delete = Permission::withTrashed()->findOrFail($id);
         if ($delete) {
             $delete->forceDelete();
-            return redirect()->route('permission.list')->with('success', 'Deleted SuccessFully!!!');
+            return redirect()->route('perm.list')->with('success', 'Deleted SuccessFully!!!');
         } else {
-            return redirect()->route('permission.list')->with('error', 'Deleted failed!!!');
+            return redirect()->route('perm.list')->with('error', 'Deleted failed!!!');
         }
     }
 
@@ -300,9 +300,9 @@ class PermissionController extends Controller
         if ($restoredPermission) {
             $restoredPermission->modules()->update(['permission_module.deleted_at' => null, 'permission_module.is_deleted' => false, 'permission_module.deleted_by' => null]);
             $restoredPermission->restore();
-            return redirect()->route('permission.list')->with('success', 'Restore SuccessFully!!!');
+            return redirect()->route('perm.list')->with('success', 'Restore SuccessFully!!!');
         } else {
-            return redirect()->route('permission.list')->with('error', 'Restore failed!!!');
+            return redirect()->route('perm.list')->with('error', 'Restore failed!!!');
         }
     }
 

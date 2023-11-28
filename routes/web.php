@@ -77,17 +77,17 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
     });
 
     // Permission Routes Group
-    Route::controller(PermissionController::class)->prefix('permission')->group(function () {
-        Route::get('list', 'index')->name('permission.list')->middleware('access.control:perm,view');
-        Route::get('create', 'create')->name('permission.addForm')->middleware('access.control:perm,add');
-        Route::post('store', 'store')->name('permission.store')->middleware('access.control:perm,add');
-        Route::get('show/{id}', 'show')->name('permission.show')->middleware('access.control:perm,view');
-        Route::get('edit/{id}', 'edit')->name('permission.editForm')->middleware('access.control:perm,edit');
-        Route::post('update/{id}', 'update')->name('permission.update')->middleware('access.control:perm,edit');
-        Route::post('destroy/{id}', 'destroy')->name('permission.destroy')->middleware('access.control:perm,delete');
-        Route::post('delete/{id}', 'delete')->name('permission.delete')->middleware('access.control:perm,delete');
-        Route::get('restore/{id}', 'restore')->name('permission.restore')->middleware('access.control:perm,restore');
-        Route::post('status', 'status')->name('permission.status')->middleware('access.control:perm,status');
+    Route::controller(PermissionController::class)->prefix('perm')->group(function () {
+        Route::get('list', 'index')->name('perm.list')->middleware('access.control:perm,view');
+        Route::get('create', 'create')->name('perm.addForm')->middleware('access.control:perm,add');
+        Route::post('store', 'store')->name('perm.store')->middleware('access.control:perm,add');
+        Route::get('show/{id}', 'show')->name('perm.show')->middleware('access.control:perm,view');
+        Route::get('edit/{id}', 'edit')->name('perm.editForm')->middleware('access.control:perm,edit');
+        Route::post('update/{id}', 'update')->name('perm.update')->middleware('access.control:perm,edit');
+        Route::post('destroy/{id}', 'destroy')->name('perm.destroy')->middleware('access.control:perm,delete');
+        Route::post('delete/{id}', 'delete')->name('perm.delete')->middleware('access.control:perm,delete');
+        Route::get('restore/{id}', 'restore')->name('perm.restore')->middleware('access.control:perm,restore');
+        Route::post('status', 'status')->name('perm.status')->middleware('access.control:perm,status');
     });
 
     // Module Routes Group
