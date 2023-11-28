@@ -39,6 +39,8 @@ Route::controller(AuthController::class)->group(function () {
         Route::post('changePassword', 'changePassword')->name('changePassword');
         Route::get('changePassword', 'changePasswordForm')->name('changePasswordForm');
         Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('comingSoon', 'comingSoon')->name('comingSoon');
+        Route::get('forbidden', 'forbidden')->name('forbidden');
     });
 });
 
@@ -116,15 +118,4 @@ Route::group(['middleware' => ['auth', 'forceLogout']], function () {
         Route::post('delete/{id}', 'delete')->name('demo.delete')->middleware('access.control:demo,delete');
         Route::get('restore/{id}', 'restore')->name('demo.restore')->middleware('access.control:demo,restore');
     });
-
-    // forbidden Route
-    Route::get('forbidden', function () {
-        return view('pages.forbidden');
-    })->name('forbidden');
-
-    // coming soon Route
-    Route::get('comingSoon', function () {
-        return view('pages.comingSoon');
-    })->name('comingSoon');
-
 });

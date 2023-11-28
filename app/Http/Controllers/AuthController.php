@@ -264,6 +264,22 @@ class AuthController extends Controller
     {
         $modules = $this->modules();
         $uniqueModules = $this->uniqueModules();
-        return view('pages.dashboard', compact('modules','uniqueModules'));
+        return view('pages.dashboard', compact('modules', 'uniqueModules'));
+    }
+
+    /* coming soon */
+    public function comingSoon()
+    {
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('pages.comingSoon', compact('modules', 'uniqueModules'));
+    }
+
+    /* forbidden Route */
+    public function forbidden()
+    {
+        $modules = $this->modules();
+        $uniqueModules = $this->uniqueModules();
+        return view('pages.forbidden', compact('modules', 'uniqueModules'));
     }
 }
