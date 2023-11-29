@@ -167,6 +167,7 @@ class AuthController extends Controller
     {
         $prt_data = PasswordResetToken::where('token', $token)->first();
 
+        // This code block is checking if the password reset token is valid or expired.
         if (!$prt_data || Carbon::now()->subminutes(10) > $prt_data->created_at) {
             return redirect()->route('forgotPasswordForm')->with('error', 'Invalid password reset link or link is expired.');
         } else {
@@ -181,6 +182,7 @@ class AuthController extends Controller
         $email = $prt_data->email;
         $user = User::where('email', $email)->first();
 
+        // This code block is responsible for resetting the user's password.
         if (!$prt_data || Carbon::now()->subminutes(10) > $prt_data->created_at) {
             return redirect()->back()->with('error', 'Invalid password reset link or link expired.');
         } else {
@@ -222,6 +224,7 @@ class AuthController extends Controller
 
         $user = User::where('email', Auth::user()->email)->first();
 
+        // This code block is responsible for changing the user's password.
         if ($user && Hash::check($request->old_password, $user->password)) {
             $newPassword = Hash::make($request->new_password);
             $user->password = $newPassword;
@@ -275,7 +278,7 @@ class AuthController extends Controller
         return view('pages.comingSoon', compact('modules', 'uniqueModules'));
     }
 
-    /* forbidden Route */
+    /* forbidden */
     public function forbidden()
     {
         $modules = $this->modules();
